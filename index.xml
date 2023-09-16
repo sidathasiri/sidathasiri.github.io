@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sidath Asiri</title>
+    <link>https://sidathasiri.github.io/</link>
+    <description>Recent content on Sidath Asiri</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 16 Sep 2023 23:45:40 +0530</lastBuildDate><atom:link href="https://sidathasiri.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About</title>
+      <link>https://sidathasiri.github.io/about/</link>
+      <pubDate>Sat, 16 Sep 2023 23:45:40 +0530</pubDate>
+      
+      <guid>https://sidathasiri.github.io/about/</guid>
+      <description>This is About Page </description>
+    </item>
+    
+    <item>
+      <title>Sample Post</title>
+      <link>https://sidathasiri.github.io/post/sample_post/</link>
+      <pubDate>Sat, 16 Sep 2023 23:45:40 +0530</pubDate>
+      
+      <guid>https://sidathasiri.github.io/post/sample_post/</guid>
+      <description>This is sample post </description>
+    </item>
+    
+  </channel>
+</rss>
