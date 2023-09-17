@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Sidath Asiri</title>
+    <title>Hello</title>
     <link>https://sidathasiri.github.io/</link>
-    <description>Recent content on Sidath Asiri</description>
+    <description>Recent content on Hello</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 16 Sep 2023 23:45:40 +0530</lastBuildDate><atom:link href="https://sidathasiri.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 17 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://sidathasiri.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sample Post</title>
+      <link>https://sidathasiri.github.io/2023/09/17/sample-post/</link>
+      <pubDate>Sun, 17 Sep 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://sidathasiri.github.io/2023/09/17/sample-post/</guid>
+      <description> “Yeah It&amp;rsquo;s on. ”
+Hello World! </description>
+    </item>
+    
     <item>
       <title>About</title>
       <link>https://sidathasiri.github.io/about/</link>
@@ -14,15 +24,6 @@
       
       <guid>https://sidathasiri.github.io/about/</guid>
       <description>This is about me </description>
-    </item>
-    
-    <item>
-      <title>Sample Post</title>
-      <link>https://sidathasiri.github.io/post/sample_post/</link>
-      <pubDate>Sat, 16 Sep 2023 23:45:40 +0530</pubDate>
-      
-      <guid>https://sidathasiri.github.io/post/sample_post/</guid>
-      <description>This is sample post </description>
     </item>
     
   </channel>
