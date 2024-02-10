@@ -230,12 +230,13 @@ pre {
   white-space: pre-wrap;
   padding: 0.75em;
   background: #f5f5f5;
+  color: black !important;
 }
 
 code {
   padding: 0 0.375em;
   background-color: #888686;
-  color: white !important;
+  color: black !important;
 }
 
 blockquote {
