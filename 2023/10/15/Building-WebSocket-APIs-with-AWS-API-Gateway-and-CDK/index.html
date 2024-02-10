@@ -165,7 +165,7 @@
   <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
     <h1>Building WebSocket APIs with AWS API Gateway and CDK</h1>
     <span class="date">Posted on: 10/15/2023</span>
-    <img src="/images/posts/web-sockets-api-gateway.png" alt="Building WebSocket APIs with AWS API Gateway and CDK" />
+    <img src="/images/posts/Building-WebSocket-APIs-with-AWS-API-Gateway-and-CDK/web-sockets-api-gateway.png" alt="Building WebSocket APIs with AWS API Gateway and CDK" />
     <div class="body">
       <h2 id="introduction">Introduction</h2>
 <p>In the continuously evolving landscape of web applications, real-time communication has become the gold standard for creating engaging and interactive user experiences. Whether you’re building a chat application, a collaborative online game, or a live dashboard, WebSocket technology has emerged as the enchanting solution that makes real-time magic happen. And when it comes to unleashing the full potential of WebSockets in a serverless and scalable manner, Amazon Web Services (AWS) has a spell of its own — AWS API Gateway.</p>
@@ -173,7 +173,7 @@
 <h2 id="understanding-websocket-apis">Understanding WebSocket APIs</h2>
 <p>WebSocket is a protocol that allows full duplex communication between a client and server using a persistent connection for continuous communication. Since the WebSocket connection is persistent, it allows extremely fast data transmission.</p>
 <p>Unlike the short-lived stateless connections in HTTP, WebSocket leverages long-lived opened connections to exchange messages with each other independently. This feature allows WebSocket connections to go beyond the traditional request and response model, making it the ideal solution for use cases like chat applications, live broadcasts, and extremely fast data synchronization.</p>
-<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/6oxb3vsp705jcfdbm34q.png" alt="WebSockets vs HTTP"></p>
+<p><img src="/images/posts/Building-WebSocket-APIs-with-AWS-API-Gateway-and-CDK/comparison-table.png" alt="WebSockets vs HTTP"></p>
 <p>However, when implementing a WebSockets API, some of the crucial areas that we need to pay extra attention to are,</p>
 <ul>
 <li><strong>connection management:</strong> manage incoming connections appropriately when clients connect and disconnect</li>
@@ -182,7 +182,7 @@
 <li><strong>monitoring and logging:</strong> set up monitoring and logging to keep track of WebSocket connection status, performance, and potential issues</li>
 </ul>
 <h2 id="aws-api-gateway-for-websocket-apis">AWS API Gateway for WebSocket APIs</h2>
-<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/byjz25vqut1blrlpjzfl.png" alt="AWS API Gateway"></p>
+<p><img src="/images/posts/Building-WebSocket-APIs-with-AWS-API-Gateway-and-CDK/api-gateway.png" alt="AWS API Gateway"></p>
 <p>Amazon API Gateway is a fully managed service that makes it easy for developers to create, publish, maintain, monitor, and secure APIs at any scale. Apart from the HTTP-based restful APIs, it allows creating and managing WebSocket APIs as well by simplifying the areas we discussed above while allowing developers to focus on the core functionality of the real-time applications. Here are the key benefits of using AWS API Gateway for building your next WebSocket API.</p>
 <ul>
 <li><strong>Abstracts out the protocol understanding:</strong> AWS API Gateway abstracts much of the WebSocket protocol details, making it easier to use. It manages the handshaking process and connection handling, allowing you to focus on application logic.</li>
@@ -225,8 +225,8 @@ Now let’s create a very simple WebSocket API using AWS CDK with Typescript to 
 <li>Grant any required permissions</li>
 <li>Test the API</li>
 </ol>
-<p>###Lambda functions
-Let’s first create the three lambda functions so we can directly integrate them when creating the WebSockets API routes. The below code snippet shows how to create the mentioned Lambda functions using the NodejsFunction construct in CDK.</p>
+<h3 id="lambda-functions">Lambda functions</h3>
+<p>Let’s first create the three lambda functions so we can directly integrate them when creating the WebSockets API routes. The below code snippet shows how to create the mentioned Lambda functions using the NodejsFunction construct in CDK.</p>
 <pre tabindex="0"><code>// Lambda function to handle new connections
 const wsConnectLambda = new NodejsFunction(this, &#39;ws-connect-lambda&#39;, {
       entry: join(__dirname, &#39;../src/connect/index.ts&#39;),
