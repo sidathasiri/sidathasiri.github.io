@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Sidath Munasinghe</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 15 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://sidathasiri.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 20 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://sidathasiri.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Harnessing Feature Flags on AWS AppConfig for Seamless Software Evolution</title>
+      <link>https://sidathasiri.github.io/2023/12/20/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/</link>
+      <pubDate>Wed, 20 Dec 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://sidathasiri.github.io/2023/12/20/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/</guid>
+      <description>In the fast-paced realm of software development, agility and adaptability are not just a virtue but a necessity. Feature flagging is a versatile technique that offers a strategic approach for releasing features to end users, enabling rapid software development while giving more control to teams to evolve products.
+Feature flags decouple feature deployment from code deployment, allowing teams to release features incrementally and independently. Due to this, teams can do frequent code deployments darkly, although the entire feature development is incomplete.</description>
+    </item>
+    
     <item>
       <title>Building WebSocket APIs with AWS API Gateway and CDK</title>
       <link>https://sidathasiri.github.io/2023/10/15/Building-WebSocket-APIs-with-AWS-API-Gateway-and-CDK/</link>
