@@ -35,5 +35,15 @@ Feature flags decouple feature deployment from code deployment, allowing teams t
       <description>Introduction In the continuously evolving landscape of web applications, real-time communication has become the gold standard for creating engaging and interactive user experiences. Whether you’re building a chat application, a collaborative online game, or a live dashboard, WebSocket technology has emerged as the enchanting solution that makes real-time magic happen. And when it comes to unleashing the full potential of WebSockets in a serverless and scalable manner, Amazon Web Services (AWS) has a spell of its own — AWS API Gateway.</description>
     </item>
     
+    <item>
+      <title>Secure Cloud Deployments to AWS with GitHub Actions using OpenID Connect</title>
+      <link>https://sidathasiri.github.io/2023/03/04/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/</link>
+      <pubDate>Sat, 04 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://sidathasiri.github.io/2023/03/04/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/</guid>
+      <description>Introduction GitHub Actions is a platform to perform automated tasks upon triggering an event in GitHub. This is being used extensively to govern continuous integration and continuous delivery (CI/CD) workflows once code changes are pushed to a repository. But GitHub Actions has capabilities beyond that to automate a lot of stuff such as tagging releases, sending notifications when creating issues, repository migrations, etc.
+Why you should use GitHub Actions for CI/CD?</description>
+    </item>
+    
   </channel>
 </rss>
