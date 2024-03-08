@@ -45,5 +45,15 @@ Feature flags decouple feature deployment from code deployment, allowing teams t
 Why you should use GitHub Actions for CI/CD?</description>
     </item>
     
+    <item>
+      <title>Seamless Infrastructure Management with AWS CDK</title>
+      <link>https://sidathasiri.github.io/2023/01/20/Seamless-Infrastructure-Management-with-AWS-CDK/</link>
+      <pubDate>Fri, 20 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://sidathasiri.github.io/2023/01/20/Seamless-Infrastructure-Management-with-AWS-CDK/</guid>
+      <description>Introduction The heart of any software solution is its infrastructure and administering it appropriately is very crucial. At present, it can be seen that the majority of software vendors have moved towards using cloud platforms and serverless architectures to mitigate the complexity of maintaining infrastructure. Still, things like provisioning the infrastructure in diverse environments and keeping them in sync need enormous effort if done manually.
+This challenge can be eased by a practice known as Infrastructure as code (IaC) that codifies and manages underlying IT infrastructure.</description>
+    </item>
+    
   </channel>
 </rss>

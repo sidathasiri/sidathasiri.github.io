@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <title>Seamless Infrastructure Management with AWS CDK</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Learn to master the AWS Cloud Development Kit (CDK) to effortlessly provision your AWS infrastructure. Embrace the power of programming languages within Infrastructure as Code (IaC), transforming how you manage and deploy resources with unparalleled precision and flexibility."
+  />
+
+  <meta
+    name="keywords"
+    content="[aws, IaC, cdk, cloud, infrastructure]"
+  />
+
+  
+    <meta name="author" content="Sidath Munasinghe" />
+  
+
+  <!-- plugins -->
+  
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.1.0/css/hover-min.css" />
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900&amp;display=swap" />
+  
+    <link rel="stylesheet" href="/plugins/text-animation/text-animation.css" />
+  
+    <link rel="stylesheet" href="/plugins/hugrid/hugrid.css" />
+  
+
+  
+  <link rel="canonical" href="https://medium.com/99xtechnology/seamless-infrastructure-management-with-aws-cdk-d4fab550c96f" itemprop="url" />
+<!-- Main Stylesheet -->
+
+  
+  <link rel="stylesheet" href="/css/style.min.css" media="screen" />
+
+  <link rel="stylesheet" href="/css/customizations.css" media="screen" />
+
+  <!--Favicon-->
+
+  <link rel="icon" type="image/png" href="/images/favicon.ico" />
+
+  
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-ABCDEFG123');
+    </script>
+  
+</head>
+<body> <!-- preloader start -->
+<div class="preloader">
+  
+  <img src="/images/preloader.gif" alt="preloader" />
+  
+</div>
+<!-- preloader end --> 
+
+  <section class="menu menu-fix" id="menu">
+  <nav>
+    
+    <div class="menu-container">
+      <div class="desktop-menu-logo">
+        <a href="/"
+          ><img
+            class="img-fluid"
+            src="/images/S_logo_white.png"
+            alt="Sidath Munasinghe"
+            id="desktop-logo"
+        /></a>
+      </div>
+      <ul class="desktop-menu list-inline mb-0" id="desktop-menu">
+        
+        <li class="menu-item hvr-underline-from-left 1">
+          <a href="/">Home</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 2">
+          <a href="#about">About me</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 3">
+          <a href="/post">Blog</a>
+        </li>
+        
+      </ul>
+      
+      <div class="mobile-menu">
+        <div class="mobile-menu-nav">
+          <a class="menu-link">
+            <span></span>
+            <span></span>
+            <span></span>
+          </a>
+        </div>
+        <div class="mobile-menu-logo">
+          <a href="/"
+            ><img
+              class="img-fluid"
+              src="/images/S_logo_dark.png"
+              alt="Sidath Munasinghe"
+          /></a>
+        </div>
+        <div class="menu-slider">
+          <nav>
+            <ul class="mobile-menu-list">
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="#about">About me</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="/post">Blog</a>
+              </li>
+              
+            </ul>
+            <ul class="mobile-menu-icons list-inline mx-auto">
+              
+              <li>
+                <a href="https://github.com/sidathasiri"
+                  ><i class="fab fab fa-github fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://www.linkedin.com/in/sidath-asiri/"
+                  ><i class="fab fab fa-linkedin fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="mailto:sidathasiri@gmail.com"
+                  ><i class="fab fas fa-envelope fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://medium.com/@sidathasiri"
+                  ><i class="fab fab fa-medium fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://dev.to/sidathasiri"
+                  ><i class="fab fab fa-dev fa-2x"></i
+                ></a>
+              </li>
+              
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </nav>
+</section>
+
+
+  <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
+    <h1>Seamless Infrastructure Management with AWS CDK</h1>
+    <span class="date">Posted on: 1/20/2023</span>
+    <img src="/images/posts/Seamless-Infrastructure-Management-with-AWS-CDK/main-logo.png" alt="Seamless Infrastructure Management with AWS CDK" />
+    <div class="body">
+      <h2 id="introduction">Introduction</h2>
+<p>The heart of any software solution is its infrastructure and administering it appropriately is very crucial. At present, it can be seen that the majority of software vendors have moved towards using cloud platforms and serverless architectures to mitigate the complexity of maintaining infrastructure. Still, things like provisioning the infrastructure in diverse environments and keeping them in sync need enormous effort if done manually.</p>
+<p>This challenge can be eased by a practice known as Infrastructure as code (IaC) that codifies and manages underlying IT infrastructure. This helps to deploy the infrastructure automatically in a predictable manner by executing a single command wiping out the hurdle of manual work. Further, this facilitates to version control the infrastructure and performing changes in a controlled manner with visibility across the team or organization.</p>
+<p>IaC is supported by almost all cloud vendors at present through their own interfaces.</p>
+<ul>
+<li>CloudFormation for AWS</li>
+<li>Resource Manager for Microsoft Azure</li>
+<li>Cloud Deployment Manager for Google Cloud</li>
+</ul>
+<p>Often, a declarative definition is used here to outline resources and the configuration via JSON or YAML files. These files can be uploaded to the cloud provider repeatedly varying the necessary configurations to provision different environments quickly and consistently.</p>
+<h2 id="what-is-aws-cdk">What is AWS CDK</h2>
+<p>AWS Cloud Development Kit (AWS CDK) is a supplementary interface that permits developers to provision infrastructure on AWS in addition to CloudFormation. In contrast to CloudFormation, CDK allows developers to define infrastructure in a handy manner using popular programming languages like TypeScript. This offer more expressive power to developers to define reusable components and establish the infrastructure of an entire application with a few lines of code.</p>
+<h2 id="anatomy-of-a-cdk-application">Anatomy of a CDK Application</h2>
+<p>A CDK application can be recognized as a tree of constructs (discussed more below). The bottom of the tree holds low-level constructs symbolizing individual AWS resources while the top of the tree denotes the composition of low-level constructs uncovering the entire infrastructure of the application. This helps to put together a very complex infrastructure favorably using different abstraction layers. At the same time, it helps to strengthen the explainability of the entire application infrastructure.</p>
+<p><img src="/images/posts/Seamless-Infrastructure-Management-with-AWS-CDK/cdk-anatomy.png" alt="Image description"></p>
+<h2 id="key-concepts">Key Concepts</h2>
+<p>Following are the key concepts that anyone should have when getting started with CDK.</p>
+<ul>
+<li>Construct</li>
+<li>Resource</li>
+<li>Stack</li>
+<li>App</li>
+</ul>
+<h3 id="construct">Construct</h3>
+<p>The primary element of a CDK application is recognized as a <strong>Construct</strong>. Multiple constructs are combined together to create a stack or an app. <a href="https://docs.aws.amazon.com/cdk/api/v2/docs/aws-construct-library.html">AWS Construct Library</a> comprises the fundamental constructs representing the AWS resources like S3 bucket, DynamoDB table, AppSync API, etc.</p>
+<p>Principally there are 3 levels of constructs,</p>
+<ul>
+<li><strong>L1 Constructs:</strong> These are very low-level constructs that are accessible from CloudFormation specification. All the configurations that are vital for CloudFormation should be configured here too. Usually, L1 constructs can be easily recognized by their naming convention since all the L1 construct names start with the <strong>Cfn</strong> prefix.</li>
+</ul>
+<pre tabindex="0"><code>new CfnBucket(scope: Construct, id: string, props?: CfnBucketProps)
+</code></pre><ul>
+<li><strong>L2 Constructs:</strong> These constructs are more high-level constructs than L1 constructs. They offer built-in helper functions and default values for configurations to define the infrastructure with less hassle. The following code snippet illustrates how to create a lambda function and an s3 bucket and grant permissions for the lambda function to access the s3 bucket utilizing the built-in helper functions.</li>
+</ul>
+<pre tabindex="0"><code>    // Level 2 Bucket construct
+    const bucket = new s3.Bucket(this, &#39;uploads-bucket&#39;);
+
+    // Level 2 Function construct
+    const lambdaFunction = new lambda.Function(this, &#39;uploads-function&#39;, {
+      // ...
+    });
+
+    // Using helper functions to grant permissions
+    bucket.grantPut(lambdaFunction);
+    bucket.grantPutAcl(lambdaFunction);
+</code></pre><ul>
+<li><strong>L3 Constructs:</strong> These are the constructs that have the highest level of abstraction. Often, these constructs are used to implement common patterns in AWS with a few lines of code. The below example demonstrates how to create a REST API with an AWS API gateway backed by a lambda function.</li>
+</ul>
+<pre tabindex="0"><code>// Level 2 Function construct
+const lambdaFunction = new lambda.Function(this, &#39;lambda-function&#39;, {
+  runtime: lambda.Runtime.NODEJS_16_X,
+  handler: &#39;main&#39;,
+  code: lambda.Code.fromAsset(path.join(__dirname, &#39;../src/handler&#39;)),
+});
+
+// Level 3 LambdaRestApi construct
+const lambdaRestApi = new apigateway.LambdaRestApi(
+  this,
+  &#39;lambda-rest-api&#39;,
+  {
+    handler: lambdaFunction,
+  },
+);
+</code></pre><h3 id="resource">Resource</h3>
+<p>An instance of a construct is entitled to the true AWS resource that will get created by the construct definition. Once the instance (resource) is created, it is feasible to obtain deployed resource attributes of the resource such as the queue URL for an SQS resource to be configured in other dependent resources.</p>
+<pre tabindex="0"><code>const queue = new sqs.Queue(this, &#39;MyQueue&#39;); // creating the instance/resource
+const url = queue.queueUrl; // accessing queueUrl attribute of the created resource
+</code></pre><h3 id="stack">Stack</h3>
+<p>A set of AWS resources bundled for a single deployment is called a Stack. This is based on the AWS CloudFormation stacks equipping the same features and limitations. When a CDK app is going to deploy, the CDK stack gets synthesized to a CloudFormation template to be deployed to AWS.</p>
+<h3 id="app">App</h3>
+<p>App is a special construct that can be only used as the root of a CDK application/construct tree. Due to that, the App construct doesn’t need any initialization argument and it functions as the container for any number of stacks. App construct provides the initial scope to the stacks that it contains and stacks can further pass it down to low-level constructs to create the construct tree.</p>
+<h2 id="advantages-of-aws-cdk">Advantages of AWS CDK</h2>
+<p>There are numerous advantages of using AWS CDK and below are a few of them.</p>
+<h3 id="customized-reusable-abstractions">Customized reusable abstractions</h3>
+<p>CDK allows defining our own constructs wrapping up the built-in constructs. This authorizes enforcing certain rules to create infrastructure such as tagging standards, naming conventions, etc. Further, the capability to share and reuse these constructs enables to compel those rules across an entire organization reducing code duplication at the same time.</p>
+<h3 id="power-of-programming-languages">Power of programming languages</h3>
+<p>A CDK app can be modeled from multiple languages such as TypeScript, Python, Java, .NET, and Go. This permits using the special capabilities of programming languages such as static type checks, validations, etc going beyond just scripting. This aids to identify issues upfront and fixing them even before an attempt to deploy.</p>
+<h3 id="confidence">Confidence</h3>
+<p>The AWS CDK CLI provides features such as synthesizing a CloudFormation template, showing the differences between the running stack and proposed changes, and confirming security-related changes prior to deployment. Further CDK can be integrated into development tools such as <a href="https://aws.amazon.com/visualstudiocode/">Visual Studio Code</a> providing more intuition of the application, stacks, resources, policies, etc. All of this help to enhance the confidence in doing changes and evolving the infrastructure of an application.</p>
+<h3 id="fast-development">Fast development</h3>
+<p>Development with CDK gets extremely fast mainly due to the ability to reuse constructs. Further, it is more convenient to developers due to the usage of programming languages in contrast to scripts like YAML. Extensions for IDEs/Text Editors such as <a href="https://marketplace.visualstudio.com/items?itemName=mklein.cdk-snippets">CDK Snippets</a> provide suggestions and auto-completion capabilities to define the infrastructure exceptionally fast.</p>
+<h2 id="best-practices">Best Practices</h2>
+<ul>
+<li>Create custom constructs to impose any standards.</li>
+<li>Develop reusable patterns to avoid repetition.</li>
+<li>Maintain shared constructs/patterns as dependencies to be accessed across the organization.</li>
+<li>Use best practices of programming languages.</li>
+<li>Use AWS CDK tests to enhance resiliency.</li>
+</ul>
+
+    </div>
+  </div>
+
+  <div class="footer container text-center" id="contact">
+  <ul class="footer-icons list-inline">
+    
+      <li>
+        <a href="https://github.com/sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-github footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://www.linkedin.com/in/sidath-asiri/" target="_blank" rel="noreferrer"
+          ><i class="fab fa-linkedin footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="mailto:sidathasiri@gmail.com" target="_blank" rel="noreferrer"
+          ><i class="fas fa-envelope footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://medium.com/@sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-medium footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://dev.to/sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-dev footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+  </ul>
+  <div class="credit">
+    Copyright Sidath Munasinghe ©
+    <span id="current-year"></span>
+  </div>
+</div>
+
+<!-- JS Plugins --> 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
+
+<script src="/plugins/text-animation/text-animation.js"></script>
+
+<script src="/plugins/hugrid/hugrid.min.js"></script>
+ <!-- Main Scripts --> 
+<script src="/js/script.min.js"></script>
+
+<script src="/js/hugrid.custom.min.js"></script>
+</body>
+</html>
