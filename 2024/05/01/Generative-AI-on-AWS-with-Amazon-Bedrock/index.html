@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <title>Generative AI on AWS with Amazon Bedrock</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Explore the exciting world of generative AI with Bedrock. Whether you&#39;re a beginner or an expert, this post will guide you through the platform&#39;s powerful features and the endless possibilities of generative AI."
+  />
+
+  <meta
+    name="keywords"
+    content="[bedrock, aws, ai, generative ai, amazon]"
+  />
+
+  
+    <meta name="author" content="Sidath Munasinghe" />
+  
+
+  <meta name="google-site-verification" content="Os0XiJ_IsnKUGbMIAetAT8jRKYr8ty87olW3V1P0ia4" />
+
+  <!-- plugins -->
+  
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.1.0/css/hover-min.css" />
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900&amp;display=swap" />
+  
+    <link rel="stylesheet" href="/plugins/text-animation/text-animation.css" />
+  
+    <link rel="stylesheet" href="/plugins/hugrid/hugrid.css" />
+  
+
+  
+  <link rel="canonical" href="https://medium.com/towards-aws/generative-ai-on-aws-with-bedrock-4b59c0756e95" itemprop="url" />
+<!-- Main Stylesheet -->
+
+  
+  <link rel="stylesheet" href="/css/style.min.css" media="screen" />
+
+  <link rel="stylesheet" href="/css/customizations.css" media="screen" />
+
+  <!--Favicon-->
+
+  <link rel="icon" type="image/png" href="/images/favicon.ico" />
+
+  
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-ABCDEFG123');
+    </script>
+  
+</head>
+<body> <!-- preloader start -->
+<div class="preloader">
+  
+  <img src="/images/preloader.gif" alt="preloader" />
+  
+</div>
+<!-- preloader end --> 
+
+  <section class="menu menu-fix" id="menu">
+  <nav>
+    
+    <div class="menu-container">
+      <div class="desktop-menu-logo">
+        <a href="/"
+          ><img
+            class="img-fluid"
+            src="/images/S_logo_white.png"
+            alt="Sidath Munasinghe"
+            id="desktop-logo"
+        /></a>
+      </div>
+      <ul class="desktop-menu list-inline mb-0" id="desktop-menu">
+        
+        <li class="menu-item hvr-underline-from-left 1">
+          <a href="/">Home</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 2">
+          <a href="#about">About me</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 3">
+          <a href="/post">Blog</a>
+        </li>
+        
+      </ul>
+      
+      <div class="mobile-menu">
+        <div class="mobile-menu-nav">
+          <a class="menu-link">
+            <span></span>
+            <span></span>
+            <span></span>
+          </a>
+        </div>
+        <div class="mobile-menu-logo">
+          <a href="/"
+            ><img
+              class="img-fluid"
+              src="/images/S_logo_dark.png"
+              alt="Sidath Munasinghe"
+          /></a>
+        </div>
+        <div class="menu-slider">
+          <nav>
+            <ul class="mobile-menu-list">
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="#about">About me</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="/post">Blog</a>
+              </li>
+              
+            </ul>
+            <ul class="mobile-menu-icons list-inline mx-auto">
+              
+              <li>
+                <a href="https://github.com/sidathasiri"
+                  ><i class="fab fab fa-github fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://www.linkedin.com/in/sidath-asiri/"
+                  ><i class="fab fab fa-linkedin fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="mailto:sidathasiri@gmail.com"
+                  ><i class="fab fas fa-envelope fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://medium.com/@sidathasiri"
+                  ><i class="fab fab fa-medium fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://dev.to/sidathasiri"
+                  ><i class="fab fab fa-dev fa-2x"></i
+                ></a>
+              </li>
+              
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </nav>
+</section>
+
+
+  <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
+    <h1>Generative AI on AWS with Amazon Bedrock</h1>
+    <span class="date">Posted on: 5/1/2024</span>
+    <img src="/images/posts/Generative-AI-on-Aws-with-Amazon-Bedrock/main-logo.png" alt="Generative AI on AWS with Amazon Bedrock" />
+    <div class="body">
+      <p>Amazon Bedrock is a managed service that provides high-performing foundation models (FMs) from leading AI companies using a single interface. With Bedrock, we don’t need to worry about hosting and managing the infrastructure for the foundation models. We can directly jump into consuming these models with its APIs and start building apps. Further, we can customize these foundation models to fit our use cases and also integrate them with knowledge bases and agents to provide enhanced features.</p>
+<p>Here are some key features of Amazon Bedrock</p>
+<ul>
+<li>Play with several foundation models and see which suites your use case mostly, and start building apps</li>
+<li>Fine-tune or customize the foundation models with specific datasets and parameters to enhance its capabilities</li>
+<li>Integrate knowledge bases and tailor and augment foundation models to specific tasks or domains</li>
+<li>Integrate agents and enrich reasoning capabilities to trigger intelligent actions</li>
+</ul>
+<h2 id="foundation-models">Foundation Models</h2>
+<p>Foundation models are the basic building block of Bedrock. The following diagram shows a few foundation models provided by different AI companies on Bedrock. This list will continue to grow as AWS adds more models. Each model is specific for certain tasks, and depending on your use case, the most appropriate one needs to be selected. Further, each model has different pricing models.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/0*C2Hf0X8jQToKxkru.png" alt="Different foundation models available on Bedrock"></p>
+<p>AWS Bedrock provides a playground where you can experiment with different models by adjusting their parameters like temperature and observe how their behaviour change. The following diagram shows a scenario of using the Titan model created by Amazon to handle text inputs.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*oR9kqa_lMM4fT6bJGi3QiA.png" alt="Text playground on Amazon Bedrock"></p>
+<p>Additionally, to the playground, we can access these models programmatically with a single API using the AWS SDK. The implementation remains the same even if you want to change the model occasionally because of that. It’s simply a matter of updating the configurations to utilize the appropriate model.</p>
+<p>Below is a script written in NodeJS where we can access these foundational models programmatically and get responses accordingly.</p>
+<pre tabindex="0"><code>const client = new BedrockRuntimeClient({
+  region: &#39;us-east-1&#39;,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
+});
+
+async function ask(prompt) {
+  const params = {
+    modelId: &#39;amazon.titan-text-express-v1&#39;,
+    body: JSON.stringify({
+      inputText: prompt,
+      textGenerationConfig: {
+        temperature: 0.7,
+        topP: 0.9,
+        maxTokenCount: 800,
+      },
+    }),
+    accept: &#39;application/json&#39;,
+    contentType: &#39;application/json&#39;,
+  };
+  console.log(&#39;Prompt:&#39;, prompt);
+  const command = new InvokeModelCommand(params);
+  const response = await client.send(command);
+  const decodedString = convertByteToString(response?.body);
+  const data = convertToJSON(decodedString);
+  return data?.results[0]?.outputText;
+}
+
+ask(&#39;Give me a short description about Sri Lanka&#39;).then((response) =&gt; console.log(&#34;Answer:&#34;, response));
+</code></pre><p>Once the script is run, we can see that it is giving us responses.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*iDg0DuP68kuLeGuzFeSnkg.png" alt="Accessing Bedrock AI models programmatically"></p>
+<p><strong>The full implementation can be found on this <a href="https://github.com/sidathasiri/aws-bedrock-client-sample-app">GitHub repository</a>.</strong></p>
+<p>This can be seamlessly integrated into any app and further expanded by customizing the prompt based on specific use cases. See how using Bedrock to fulfil the generative AI needs is effortless.</p>
+<h2 id="custom-models">Custom Models</h2>
+<p>A common drawback with generative AI is that it’s too generic, meaning it’s trained with outdated data or doesn’t have specific knowledge of a given domain. We can enhance a foundation model’s performance for particular tasks by training it with more data and imparting it with more knowledge using the custom model capability.</p>
+<p>If we have an unlabelled dataset, we can use the continued pre-training option, and if we have a labelled dataset, we can use the fine-tuning option. To perform this, we can follow the wizard in the AWS console by providing the dataset from an S3 location. We require a specific format for the training dataset, which is detailed <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-prepare.html">here</a>.</p>
+<p>Once the necessary configurations are in place, we can start the training job, and based on the dataset size and the training parameters, it can take a while (usually, it takes hours!). AWS will manage all the infrastructure related to the training job. Once the training is complete, we can directly use the custom model and run queries against it like a regular foundation model.</p>
+<p>Let’s create a very simple custom model with the below as the content in the dataset. We need to prepare a JSONL file containing the dataset to fine tune the foundation models.</p>
+<pre tabindex="0"><code>{&#34;prompt&#34;: &#34;who are you?&#34;, &#34;completion&#34;: &#34;I&#39;m a customized Amazon Titan model&#34;}
+</code></pre><p>The above dataset should be able to customize the model name. As per the below screenshot, the original foundation model calls itself as a Titan build by Amazon. After training, we can see that for the same question, it gives a different output based on our training dataset.</p>
+<p>Below is the output of the Titan foundation model without any customizations.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1002/format:webp/1*PrhEHP2rIwo_aAvmrVTPyw.png" alt="Output of the Titan foundation model without any customizations"></p>
+<p>Below is the output of the Titan foundation model after performing the customization.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1000/format:webp/1*N2E8sehlubii5ijXcYCWrw.png" alt="Output of the Titan foundation model with customizations"></p>
+<p>Further, it’s not just a rule-based training to provide the given answer for the given prompt. If you see the prompt in the given dataset and what I have asked are not exactly the same but they are similar. The model has been trained properly to answer similar types of queries as well, which is really great.</p>
+<h2 id="knowledge-bases">Knowledge Bases</h2>
+<p>Knowledge bases can be utilized to provide foundational AI models with additional contextual information, enabling them to generate customized or more accurate responses akin to custom models without the need for extensive retraining. So we don’t need to spend much time retraining the models with additional data.</p>
+<p>We must employ a technique called Retrieval Augmented Generation (RAG) to accomplish this with LLMs. This technique helps to draw information from an external data store to augment the responses generated by Large Language Models (LLMs) without retraining the entire model. We can provide this additional information using a specialized database called a vector database, which generative AI models can understand.</p>
+<p>With the knowledge base feature on Bedrock, we only need to provide a dataset, and it has the fully managed capability to fetch the documents, divide them into blocks of text, convert the text into embeddings, and store the embeddings in your vector database using RAG. You must first upload the dataset to a S3 bucket to create a knowledge base. Then, you can use the wizard in the AWS console to create the knowledge base by pointing to the uploaded dataset and integrating it with a foundation model for generating responses. By doing this, Bedrock will create an Amazon OpenSearch Serverless vector database to retrieve newly uploaded data.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1344/format:webp/0*d6xofBUriEPY91VH.png" alt="Source: https://docs.aws.amazon.com/bedrock/latest/userguide/kb-how-it-works.html"></p>
+<p>Once the vector database is ready, we can use it directly to see retrieved information stored from the vector store. Otherwise, we can use it with a foundation model to generate more user-friendly responses that match our query. However, only the Anthropic Claude models are currently <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-supported.html">supported</a> in generating responses.</p>
+<p>The diagram below illustrates how the vector database can be utilized as an input to a foundation model to generate augmented responses.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/0*kSgGKXAbN-tbesXp.png" alt="Source: https://docs.aws.amazon.com/bedrock/latest/userguide/kb-how-it-works.html"></p>
+<p>I have created a knowledge base using the AWS documentation for bedrock using its PDF version. Once the knowledge base is ready, we can query it as shown below. Since I’m not utilizing a foundation model to create responses, I retrieve the row information from the vector database without performing any post-processing. Nonetheless, a pleasing feedback can be attained by employing a foundation model to generate a response.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:870/format:webp/1*NQHVY5FLK4sls4IcrRcqJA.png" alt="Testing the created knowledge base"></p>
+<h2 id="agents">Agents</h2>
+<p>Bedrock agents allow the triggering of actions based on specific inputs and the creation of autonomous agents. For instance, you could create an agent to accept hotel room reservations from customers by configuring an agent with a knowledge base of room availability and other relevant data and the respective backend to place reservations. When configuring the backend, we need to provide an OpenAPI specification of the backend services so that it knows which endpoints to call to satisfy the request.</p>
+<p>To have this capability, we need to configure the below components in Bedrock.</p>
+<ul>
+<li><strong>Foundation model:</strong> This is needed to interpret the user input and continue the orchestration. Currently, only the Anthropic Claude models are supported.</li>
+<li><strong>Instructions:</strong> Instructions are prompts describing what the agent is supposed to do. Having a clear and detailed prompt for the instruction is crucial for getting accurate results from the agent.</li>
+<li><strong>Action groups:</strong> Here, we need to define the agent&rsquo;s actions. This consists of a lambda function and an OpenAPI specification. The lambda function has the implementation to act, and the OpenAPI specification provides the agent details on invoking the function. For example, we could implement a POST /reservation endpoint in the lambda function to create a reservation and provide the API specification on the details of the request, such as URL, request body, validation requirements, etc.</li>
+<li><strong>Knowledge base:</strong> Knowledge base is optional but is mandatory in most cases. This can be used to provide contextual information to the agent. For example, in this case, it would be some information about the room availability, pricing details, etc, so that the agent knows to perform the actions as intended.</li>
+</ul>
+<p>Once the agent is correctly configured, it understands its responsibilities based on the provided instructions. The knowledge base contains comprehensive information about the specific domain. The action group provides details on initiating each action and achieving the desired outcomes. Then, the foundation model can do the magic by orchestrating the workflow to handle a given request and provide the output to the user.</p>
+<p><img src="/images/posts/Generative-AI-on-Aws-with-Amazon-Bedrock/bedrock-agents.png" alt="Source: https://docs.aws.amazon.com/bedrock/latest/userguide/agents-how.html"></p>
+<p><strong>You can see a cool demonstration of an agent working with a knowledge base <a href="https://www.youtube.com/watch?si=dH0YrYSdzaAuf-gF&amp;v=P9n8BE693go&amp;feature=youtu.be">here</a>.</strong></p>
+<p>Besides these, Bedrock offers additional features for developing responsible AI policies, including guardrails and watermark detection. We can anticipate introducing more capabilities to Bedrock as the potential of generative AI continues to unfold.</p>
+<p>In conclusion, Amazon Bedrock offers a powerful platform for leveraging generative AI capabilities on AWS. With its Foundation models and easy-to-use APIs, developers can quickly integrate AI-driven features into their applications. Additionally, the ability to create custom models, knowledge bases, and agents opens up endless possibilities for tailoring AI solutions to specific needs. By harnessing the power of Bedrock, developers can unlock new levels of innovation and create intelligent, personalized experiences for their users.</p>
+<h2 id="read-more">Read more</h2>
+<ul>
+<li><a href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html">What is Amazon Bedrock?</a></li>
+<li><a href="https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html">Custom Models</a></li>
+<li><a href="https://aws.amazon.com/what-is/retrieval-augmented-generation/#:~:text=RAG%20extends%20the%20already%20powerful,and%20useful%20in%20various%20contexts.">What is RAG?</a></li>
+<li><a href="https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base.html">Knowledge bases for Amazon Bedrock</a></li>
+<li><a href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents-how.html">How Agents for Amazon Bedrock Works</a></li>
+</ul>
+
+    </div>
+  </div>
+
+  <div class="footer container text-center" id="contact">
+  <ul class="footer-icons list-inline">
+    
+      <li>
+        <a href="https://github.com/sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-github footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://www.linkedin.com/in/sidath-asiri/" target="_blank" rel="noreferrer"
+          ><i class="fab fa-linkedin footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="mailto:sidathasiri@gmail.com" target="_blank" rel="noreferrer"
+          ><i class="fas fa-envelope footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://medium.com/@sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-medium footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://dev.to/sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-dev footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+  </ul>
+  <div class="credit">
+    Copyright Sidath Munasinghe ©
+    <span id="current-year"></span>
+  </div>
+</div>
+
+<!-- JS Plugins --> 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
+
+<script src="/plugins/text-animation/text-animation.js"></script>
+
+<script src="/plugins/hugrid/hugrid.min.js"></script>
+ <!-- Main Scripts --> 
+<script src="/js/script.min.js"></script>
+
+<script src="/js/hugrid.custom.min.js"></script>
+</body>
+</html>
