@@ -2,16 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://sidathasiri.github.io/2024/05/01/Generative-AI-on-AWS-with-Amazon-Bedrock/</loc>
-    <lastmod>2024-05-01T00:00:00+00:00</lastmod>
+    <loc>https://sidathasiri.github.io/2024/02/17/Deploy-Kubernetes-in-Minutes:-Effortless-Infrastructure-Creation-and-Application-Deployment-with-Cluster.dev-and-Helm-Charts/</loc>
+    <lastmod>2024-02-17T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://sidathasiri.github.io/post/</loc>
-    <lastmod>2024-05-01T00:00:00+00:00</lastmod>
+    <lastmod>2024-02-17T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://sidathasiri.github.io/</loc>
-    <lastmod>2024-05-01T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://sidathasiri.github.io/2024/02/17/Deploy-Kubernetes-in-Minutes:-Effortless-Infrastructure-Creation-and-Application-Deployment-with-Cluster.dev-and-Helm-Charts/</loc>
     <lastmod>2024-02-17T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://sidathasiri.github.io/2023/12/20/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/</loc>
