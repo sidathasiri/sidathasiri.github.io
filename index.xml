@@ -8,12 +8,12 @@
     <language>en</language>
     <lastBuildDate>Wed, 01 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://sidathasiri.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Placeholder</title>
-      <link>https://sidathasiri.github.io/2024/05/01/placeholder/</link>
+      <title>Generative AI on AWS with Amazon Bedrock</title>
+      <link>https://sidathasiri.github.io/2024/05/01/Generative-AI-on-AWS-with-Amazon-Bedrock/</link>
       <pubDate>Wed, 01 May 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://sidathasiri.github.io/2024/05/01/placeholder/</guid>
-      <description>Introduction </description>
+      <guid>https://sidathasiri.github.io/2024/05/01/Generative-AI-on-AWS-with-Amazon-Bedrock/</guid>
+      <description>Amazon Bedrock is a managed service that provides high-performing foundation models (FMs) from leading AI companies using a single interface. With Bedrock, we don’t need to worry about hosting and managing the infrastructure for the foundation models. We can directly jump into consuming these models with its APIs and start building apps. Further, we can customize these foundation models to fit our use cases and also integrate them with knowledge bases and agents to provide enhanced features.</description>
     </item>
     
     <item>
