@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <title>Unleashing the Power of CDK and Terraform in Cloud Deployments</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Uncover the art of integrating CDK and Terraform for seamless synergy in cloud deployments. Explore how these powerful tools streamline infrastructure as code, leading to faster and more efficient cloud deployment processes."
+  />
+
+  <meta
+    name="keywords"
+    content="[cdk, terraform, iac, typescript, devops]"
+  />
+
+  
+    <meta name="author" content="Sidath Munasinghe" />
+  
+
+  <meta name="google-site-verification" content="Os0XiJ_IsnKUGbMIAetAT8jRKYr8ty87olW3V1P0ia4" />
+
+  <!-- plugins -->
+  
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.1.0/css/hover-min.css" />
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900&amp;display=swap" />
+  
+    <link rel="stylesheet" href="/plugins/text-animation/text-animation.css" />
+  
+    <link rel="stylesheet" href="/plugins/hugrid/hugrid.css" />
+  
+
+  
+  <link rel="canonical" href="https://medium.com/@sidathasiri/unleashing-the-power-of-cdk-and-terraform-in-cloud-deployments-b7871c7e340d" itemprop="url" />
+<!-- Main Stylesheet -->
+
+  
+  <link rel="stylesheet" href="/css/style.min.css" media="screen" />
+
+  <link rel="stylesheet" href="/css/customizations.css" media="screen" />
+
+  <!--Favicon-->
+
+  <link rel="icon" type="image/png" href="/images/favicon.ico" />
+
+  
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-ABCDEFG123');
+    </script>
+  
+</head>
+<body> <!-- preloader start -->
+<div class="preloader">
+  
+  <img src="/images/preloader.gif" alt="preloader" />
+  
+</div>
+<!-- preloader end --> 
+
+  <section class="menu menu-fix" id="menu">
+  <nav>
+    
+    <div class="menu-container">
+      <div class="desktop-menu-logo">
+        <a href="/"
+          ><img
+            class="img-fluid"
+            src="/images/S_logo_white.png"
+            alt="Sidath Munasinghe"
+            id="desktop-logo"
+        /></a>
+      </div>
+      <ul class="desktop-menu list-inline mb-0" id="desktop-menu">
+        
+        <li class="menu-item hvr-underline-from-left 1">
+          <a href="/">Home</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 2">
+          <a href="#about">About me</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 3">
+          <a href="/post">Blog</a>
+        </li>
+        
+      </ul>
+      
+      <div class="mobile-menu">
+        <div class="mobile-menu-nav">
+          <a class="menu-link">
+            <span></span>
+            <span></span>
+            <span></span>
+          </a>
+        </div>
+        <div class="mobile-menu-logo">
+          <a href="/"
+            ><img
+              class="img-fluid"
+              src="/images/S_logo_dark.png"
+              alt="Sidath Munasinghe"
+          /></a>
+        </div>
+        <div class="menu-slider">
+          <nav>
+            <ul class="mobile-menu-list">
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="#about">About me</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="/post">Blog</a>
+              </li>
+              
+            </ul>
+            <ul class="mobile-menu-icons list-inline mx-auto">
+              
+              <li>
+                <a href="https://github.com/sidathasiri"
+                  ><i class="fab fab fa-github fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://www.linkedin.com/in/sidath-asiri/"
+                  ><i class="fab fab fa-linkedin fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="mailto:sidathasiri@gmail.com"
+                  ><i class="fab fas fa-envelope fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://medium.com/@sidathasiri"
+                  ><i class="fab fab fa-medium fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://dev.to/sidathasiri"
+                  ><i class="fab fab fa-dev fa-2x"></i
+                ></a>
+              </li>
+              
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </nav>
+</section>
+
+
+  <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
+    <h1>Unleashing the Power of CDK and Terraform in Cloud Deployments</h1>
+    <span class="date">Posted on: 6/22/2024</span>
+    <img src="/images/posts/Unleashing-the-Power-of-CDK-and-Terraform-in-Cloud-Deployments/main-cover-image.png" alt="Unleashing the Power of CDK and Terraform in Cloud Deployments" />
+    <div class="body">
+      <h2 id="introduction">Introduction</h2>
+<p>Deploying applications to the cloud has become a cornerstone of modern software development. AWS offers CloudFormation as a service to facilitate cloud deployments and tools like the AWS Cloud Development Kit (CDK). At the same time, Terraform has emerged as a powerful solution for Infrastructure as Code (IaC), enabling faster deployments to multiple cloud providers. In this article, we’ll explore the benefits of using AWS CDK and Terraform together and walk through a practical example of creating a REST API with CDK in TypeScript.</p>
+<h2 id="what-is-terraform-and-cdk">What is Terraform and CDK?</h2>
+<p>Terraform and CDK are prominent tools that empower the definition of infrastructure as code. Each solution possesses its own set of advantages and disadvantages. Let&rsquo;s delve into a bit more information on both.</p>
+<h3 id="terraform">Terraform</h3>
+<p>Terraform is a tool created by HashiCorp that allows you to define your infrastructure in a high-level configuration language called HCL (HashiCorp Configuration Language). Terraform is cloud-agnostic and can manage infrastructure across various cloud providers, including AWS, Azure, and Google Cloud Platform. It also enables faster deployments when compared to CloudFormation, specifically for AWS.</p>
+<h3 id="aws-cdk">AWS CDK</h3>
+<p>The AWS Cloud Development Kit (CDK) is an open-source software development framework for defining cloud infrastructure in code and provisioning it through AWS CloudFormation. CDK uses familiar programming languages, including TypeScript, to model your applications. Underneath, CDK generates plain CloudFormation templates to create the infrastructure using the code we implement with CDK. The advantage is due to this abstraction, we could generate very lengthy CloudFormation templates within a few lines using high-level CDK constructs. So, it helps developers implement and maintain infrastructure code conveniently with their favourite programming language.</p>
+<h2 id="benefits-of-using-terraform-and-cdk-together">Benefits of Using Terraform and CDK Together</h2>
+<p>Using both tools together, we can enjoy the benefits of both worlds. Although Terraform uses HCL, it may not be very convenient for developers. CDK solves this by providing high-level reusable CDK constructs to implement the infrastructure within a few lines. Also, since we use a very familiar programming language, it feels so close to the developers.</p>
+<p>On the other hand, CDK uses CloudFormation behind the scenes, which is usually slower than Terraform. However, when we use CDK and Terraform together, we can make much faster cloud deployments since we use Terraform to perform the deployments.</p>
+<blockquote>
+<p>We can achieve this through the use of <a href="https://developer.hashicorp.com/terraform/cdktf">CDK for Terraform</a>, which is introduced as Cloud Development Kit for Terraform (CDKTF), allowing us to utilise familiar programming languages to define and provision infrastructure.</p>
+</blockquote>
+<h2 id="setting-up-a-project">Setting up a Project</h2>
+<p>Let’s set up a Terraform project with CDK using Typescript as the language. We need to set up a few prerequisites for using CDK for Terraform.</p>
+<ul>
+<li><a href="https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli">Terraform CLI</a></li>
+<li><a href="https://nodejs.org/en">NodeJS</a></li>
+<li><a href="https://www.typescriptlang.org/">TypeScript</a></li>
+<li><a href="https://developer.hashicorp.com/terraform/tutorials/cdktf/cdktf-install">CDKTF CLI</a></li>
+</ul>
+<p>Once the setup is complete, we can initiate a project. First, let’s create a folder to set up the initial code.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/30cwddrxv9ix2b0m6iks.png" alt="Creating the project folder"></p>
+<p>Then we can initiate a project with below CLI command. Here we are going to use TypeScript.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/8uxk1g1zxa5nxlc0q60i.png" alt="Initializing the project"></p>
+<p>Once the project is initialized, we can update the main.ts file to define the infrastructure we need. Within the main.ts file, it has created a CDK app as well as a Stack. We can update the resources within the stack as needed to deploy. Let’s build a simple hello world REST API using API Gateway and a Lambda function.</p>
+<h2 id="building-a-rest-api">Building a REST API</h2>
+<p>Before adding any AWS resources, let’s configure the AWS provider in Terraform since we will use AWS as the cloud provider. Further, we can use a S3 bucket to store the Terraform backend and track the deployment states.</p>
+<p>We can simply configure this by adding the necessary CDK constructs (AwsProvider, S3Backend) with the required parameters like below.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/doykj03sg8vcytzj1xoq.png" alt="Configuring AWS provider with a S3 backend"></p>
+<p>Here, we have configured the AWS provider by providing the AWS account ID we need to deploy with the region. Similarly, we have configured the S3 backend by providing the bucket name and other configurations.</p>
+<p>Now, let’s create an IAM role as the execution role for the Lambda function, including the permissions for a basic lambda execution role.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/gdfg5jk1w5od0cd10l0o.png" alt="Creating an IAM role for the Lambda function"></p>
+<p>Now, it’s time to create the Lambda function. Let’s add the below code for the Lambda function code inside index.ts file within the src folder. Since we are building a simple hello-world application, the Lambda function is returning a simple hello-world response.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/wt1ywygtlkcptujhy5cb.png" alt="Lambda function handler implementation"></p>
+<p>Once we have added the Lambda function handler implementation, we can add the CDK implementation to refer to that and create the Lambda function resource.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/fedzswjgoy0dn5qog55m.png" alt="Creating the Lambda function resource"></p>
+<p>The above definition will create a S3 bucket to hold the function code and create the Lambda function. The role we defined earlier is also provided as the execution role for the function.</p>
+<p>Once the Lambda function is ready, we can now create the API Gateway REST API and integrate the Lambda function with it.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qxlwb1bz526kuugzyn1x.png" alt="Creating the API Gateway REST API"></p>
+<p>Here, we are defining the constructs for the API Gateway, a resource for the <code>/hello</code> path and the <code>GET</code> method under that for the <code>/hello</code> <code>GET</code> endpoint. Finally, we have integrated it with the lambda function we created earlier as a proxy integration.</p>
+<p>Since things are integrated correctly, we can create a stage in the API Gateway and create a deployment like the one below.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/9pu5d4gvgyh62hbfuca6.png" alt="API Gateway stage and deployment"></p>
+<p>We have provided the stage name and API we want to create in the configurations.</p>
+<p>Now, we have created all the resources we need. But there is one more thing we need to do. We need to ensure that the API Gateway service can invoke the provided lambda function. To do that, we must create and attach a resource-based policy to allow that action within the Lambda function. We can do it like below easily using the <code>LambdaPermission</code> construct.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/pnbl4gdfld9a3uyfj9mx.png" alt="Granting permissions to allow lambda invocation from API Gateway"></p>
+<p>This construct will add the required permissions to the Lambda function to be invoked by the API we created earlier. With this, we are complete with the implementation.</p>
+<p><em><strong>The full implementation of this project can be found on this <a href="https://github.com/sidathasiri/cdk-terraform">GitHub repository</a>.</strong></em></p>
+<p>Now everything is ready to deploy. Ensure you have configured your AWS credentials correctly so the Terraform can access AWS to provision the infrastructure. We can first build the code and then deploy it using the command below.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/x8e5jn5keqohjirj71w8.png" alt="Building the code and deploying to AWS"></p>
+<p>Once the above command is executed, CDK for Terraform will install if there are any missing packages and start the deployment. After the deployment is complete, you can verify the created resources and play with the API.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/fmydxln4kqkll9wkkplz.png" alt="Testing the deployed API"></p>
+<p>Moreover, we can discern that Terraform is executing the deployment significantly faster than CloudFormation, which is incredibly advantageous.</p>
+<p>To delete the resources you created, you can run the cdktf destroy command. This will ensure that all the resources created by the project are properly cleaned up.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Using AWS CDK with Terraform offers several notable benefits for managing cloud infrastructure. CDK’s deep integration with AWS and support for familiar programming languages like TypeScript make defining AWS resources intuitive and maintainable. Terraform’s cloud-agnostic capabilities complement CDK by allowing for seamless management across multiple cloud providers. This combination provides flexibility, ease of use, and modularity, enhancing the overall infrastructure management workflow. By leveraging both tools, you can streamline deployments, improve efficiency, and achieve a more robust and versatile infrastructure management solution.</p>
+
+    </div>
+  </div>
+
+  <div class="footer container text-center" id="contact">
+  <ul class="footer-icons list-inline">
+    
+      <li>
+        <a href="https://github.com/sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-github footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://www.linkedin.com/in/sidath-asiri/" target="_blank" rel="noreferrer"
+          ><i class="fab fa-linkedin footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="mailto:sidathasiri@gmail.com" target="_blank" rel="noreferrer"
+          ><i class="fas fa-envelope footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://medium.com/@sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-medium footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://dev.to/sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-dev footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+  </ul>
+  <div class="credit">
+    Copyright Sidath Munasinghe ©
+    <span id="current-year"></span>
+  </div>
+</div>
+
+<!-- JS Plugins --> 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
+
+<script src="/plugins/text-animation/text-animation.js"></script>
+
+<script src="/plugins/hugrid/hugrid.min.js"></script>
+ <!-- Main Scripts --> 
+<script src="/js/script.min.js"></script>
+
+<script src="/js/hugrid.custom.min.js"></script>
+</body>
+</html>

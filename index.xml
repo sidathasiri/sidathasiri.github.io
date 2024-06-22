@@ -6,7 +6,16 @@
     <description>Recent content on Sidath Munasinghe</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 01 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://sidathasiri.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 22 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://sidathasiri.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Unleashing the Power of CDK and Terraform in Cloud Deployments</title>
+      <link>https://sidathasiri.github.io/2024/06/22/Unleashing-the-Power-of-CDK-and-Terraform-in-Cloud-Deployments/</link>
+      <pubDate>Sat, 22 Jun 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://sidathasiri.github.io/2024/06/22/Unleashing-the-Power-of-CDK-and-Terraform-in-Cloud-Deployments/</guid>
+      <description>Introduction Deploying applications to the cloud has become a cornerstone of modern software development. AWS offers CloudFormation as a service to facilitate cloud deployments and tools like the AWS Cloud Development Kit (CDK). At the same time, Terraform has emerged as a powerful solution for Infrastructure as Code (IaC), enabling faster deployments to multiple cloud providers. In this article, we’ll explore the benefits of using AWS CDK and Terraform together and walk through a practical example of creating a REST API with CDK in TypeScript.</description>
+    </item>
+    
     <item>
       <title>Generative AI on AWS with Amazon Bedrock</title>
       <link>https://sidathasiri.github.io/2024/05/01/Generative-AI-on-AWS-with-Amazon-Bedrock/</link>
