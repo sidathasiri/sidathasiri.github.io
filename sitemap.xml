@@ -2,13 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://sidathasiri.github.io/post/</loc>
-    <lastmod>2024-06-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://sidathasiri.github.io/</loc>
-    <lastmod>2024-06-22T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://sidathasiri.github.io/2024/06/22/Unleashing-the-Power-of-CDK-and-Terraform-in-Cloud-Deployments/</loc>
+    <lastmod>2024-06-22T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://sidathasiri.github.io/post/</loc>
     <lastmod>2024-06-22T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://sidathasiri.github.io/2024/05/01/Generative-AI-on-AWS-with-Amazon-Bedrock/</loc>
@@ -28,5 +25,7 @@
   </url><url>
     <loc>https://sidathasiri.github.io/2023/01/20/Seamless-Infrastructure-Management-with-AWS-CDK/</loc>
     <lastmod>2023-01-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://sidathasiri.github.io/index.html</loc>
   </url>
 </urlset>
