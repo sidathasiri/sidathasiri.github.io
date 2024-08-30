@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8" />
-  <title>Deploy Kubernetes in Minutes: Effortless Infrastructure Creation and Application Deployment with Cluster.dev and Helm Charts</title>
+  <title>Effortless Kubernetes Infrastructure Provisioning and Application Deployment with Cluster.dev and Helm Charts</title>
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -12,7 +12,7 @@
 
   <meta
     name="keywords"
-    content="[kubernetes, cluster.dev, AWS, IaC, cloud computing, devops, jenkins, helm]"
+    content="[kubernetes, cluster.dev, aws, amazon, iac, cloud, devops, helm]"
   />
 
   
@@ -36,8 +36,6 @@
     <link rel="stylesheet" href="/plugins/hugrid/hugrid.css" />
   
 
-  
-  <link rel="canonical" href="https://medium.com/@sidathasiri/deploy-kubernetes-in-minutes-effortless-infrastructure-creation-and-application-deployment-with-94141697fd59" />
   <!-- Main Stylesheet -->
 
   
@@ -173,19 +171,19 @@
 
 
   <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
-    <h1>Deploy Kubernetes in Minutes: Effortless Infrastructure Creation and Application Deployment with Cluster.dev and Helm Charts</h1>
+    <h1>Effortless Kubernetes Infrastructure Provisioning and Application Deployment with Cluster.dev and Helm Charts</h1>
     <span class="date">Posted on: 2/17/2024</span>
-    <img src="/images/posts/Deploy-Kubernetes-in-Minutes:-Effortless-Infrastructure-Creation-and-Application-Deployment-with-Cluster.dev-and-Helm-Charts/k8-with-helm.png" alt="Deploy Kubernetes in Minutes: Effortless Infrastructure Creation and Application Deployment with Cluster.dev and Helm Charts" />
+    <img src="/images/posts/Deploy-Kubernetes-in-Minutes:-Effortless-Infrastructure-Creation-and-Application-Deployment-with-Cluster.dev-and-Helm-Charts/k8-with-helm.png" alt="Effortless Kubernetes Infrastructure Provisioning and Application Deployment with Cluster.dev and Helm Charts" />
     <div class="body">
       <p>Kubernetes has quickly become the leading orchestration tool for containerized applications, celebrated for its ability to scale applications robustly and resiliently. Its success lies in a powerful framework that adeptly handles the complex life cycles of distributed applications. Yet, deploying Kubernetes cluster infrastructure, essential for tapping into this platform’s capabilities, presents significant challenges. This complexity requires considerable effort and poses a major hurdle for many seeking to leverage Kubernetes for scalable application deployment.</p>
 <p>This guide is designed to demystify the process, showing you how to set up a Kubernetes infrastructure swiftly and without hassle. We aim to transform the perceived daunting task of Kubernetes deployment into a streamlined and straightforward process so you don’t want to struggle with its complexities. By the end of this article, you’ll be equipped to utilize the full power of Kubernetes, making infrastructure deployment not just feasible but also simple, efficient, and repeatable. Let’s embark on this journey to simplify Kubernetes deployment, turning obstacles into opportunities for growth and innovation.</p>
-<h2 id="complexities-with-kubernetes">Complexities with Kubernetes</h2>
+<h2 id="challenges-with-kubernetes">Challenges with Kubernetes</h2>
 <p>If you have tried to create your own Kubernetes cluster, you know the pain behind the complexities of that. The biggest problem is having a highly available and scalable control plane for cluster management. The easiest way to solve this challenge is to hand over that complexity to a managed service by a cloud provider so that you don’t need to worry about it.
 <img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/z1m55xa6e3fhkm5ue9vm.png" alt="Image description"></p>
 <p>However, that’s not the end. Still, you will need to do a lot of configurations to get it working. If you see the <a href="https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html">documentation</a> of Elastic Kubernetes Service (EKS), the managed service for Kubernetes from AWS, it has a lot of things to do, like setting up IAM roles, creating certain subnets in the VPC, etc. Although we can use an IaC to provision infrastructure, implementing them would take significant effort. We can resolve this with Cluster.dev using its reusable templates so we don’t need to implement the same code repeatedly. With Cluster.dev, we can get a working Kubernetes cluster effortlessly within a few minutes. If you are not familiar with Cluster.dev, read my previous articles from <a href="https://aws.plainenglish.io/revolutionizing-infrastructure-management-with-cluster-dev-a-journey-into-effortless-orchestration-759b9379cebe">here</a>.</p>
 <p>We now have an operational Kubernetes cluster ready to accept deployments. If you are familiar with Kubernetes concepts, to deploy an application, we need to create several Kubernetes resources such as deployments, services, ingress controllers, config maps, stateful sets, etc, as needed, which takes some effort to create the necessary YAML files including configurations. To simplify this, we can use Helm charts.</p>
 <p><a href="https://helm.sh/">Helm</a> is a package manager that automates Kubernetes applications&rsquo; creation, packaging, configuration, and deployment by combining your configuration files into a single reusable package. This eliminates the requirement to create the mentioned Kubernetes resources by ourselves since they have been implemented within the Helm chart. All we need to do is configure it as needed to match our requirements. From the public Helm chart repository, we can get the charts for common software packages like Consul, Jenkins SonarQube, etc. We can also create our own Helm charts for our custom applications so that we don’t need to repeat ourselves and simplify deployments.</p>
-<h2 id="setting-up-a-jenkins-service-with-clusterdev-and-helm-on-kubernetes">Setting up a Jenkins Service with Cluster.dev and Helm on Kubernetes</h2>
+<h2 id="deploying-jenkins-with-clusterdev-and-helm-on-kubernetes">Deploying Jenkins with Cluster.dev and Helm on Kubernetes</h2>
 <p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ig85dkbwukorl7429d80.png" alt="Image description"></p>
 <p>Now, let’s see how we can use these tools together to deploy and run a Jenkins service on AWS EKS. Since Cluster.dev natively supports Helm, we can make this even more effortless.</p>
 <p>Let’s start by setting up the necessary prerequisites. We need to install the below CLIs to start the deployments. Although there are several tools to install, please note that this is a one-time setup. So we only need to spend time to install them only once.</p>
@@ -236,13 +234,12 @@
 <li><a href="https://medium.com/aws-in-plain-english/revolutionizing-infrastructure-management-with-cluster-dev-a-journey-into-effortless-orchestration-759b9379cebe">Revolutionizing Infrastructure Management with Cluster.dev: A Journey into Effortless Orchestration</a></li>
 <li><a href="https://aws.plainenglish.io/streamlining-sonarqube-on-aws-ecs-simplified-deployment-using-cluster-dev-0b988536fff0">Streamlining SonarQube on AWS ECS: Simplified Deployment Using Cluster.dev</a></li>
 </ol>
-<h2 id="further-reading">Further Reading</h2>
+<h2 id="additional-resources">Additional Resources</h2>
 <ul>
 <li><a href="https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html">Getting started guide with EKS</a></li>
 <li><a href="https://docs.cluster.dev/">Cluster.dev documentation</a></li>
 <li><a href="https://circleci.com/blog/what-is-helm/">What is Helm? A complete guide</a></li>
-<li><a href="https://kubernetes.io/docs/tutorials/kubernetes-basics/">Learn Kube
-rnetes Basics</a></li>
+<li><a href="https://kubernetes.io/docs/tutorials/kubernetes-basics/">Learn Kubernetes Basics</a></li>
 </ul>
 
     </div>
