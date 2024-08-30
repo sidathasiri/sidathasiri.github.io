@@ -54,13 +54,13 @@ Feature flags decouple feature deployment from code deployment, allowing teams t
     </item>
     
     <item>
-      <title>Secure Cloud Deployments to AWS with GitHub Actions using OpenID Connect</title>
+      <title>Secure Deployments to AWS with GitHub Actions via OpenID Connect</title>
       <link>https://sidathasiri.github.io/2023/03/04/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/</link>
       <pubDate>Sat, 04 Mar 2023 00:00:00 +0000</pubDate>
       
       <guid>https://sidathasiri.github.io/2023/03/04/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/</guid>
-      <description>Introduction GitHub Actions is a platform to perform automated tasks upon triggering an event in GitHub. This is being used extensively to govern continuous integration and continuous delivery (CI/CD) workflows once code changes are pushed to a repository. But GitHub Actions has capabilities beyond that to automate a lot of stuff such as tagging releases, sending notifications when creating issues, repository migrations, etc.
-Why you should use GitHub Actions for CI/CD?</description>
+      <description>GitHub Actions is a platform to perform automated tasks upon triggering an event in GitHub. This is being used extensively to govern continuous integration and continuous delivery (CI/CD) workflows once code changes are pushed to a repository. But GitHub Actions has capabilities beyond that to automate a lot of stuff such as tagging releases, sending notifications when creating issues, repository migrations, etc.
+Why GitHub Actions for CI/CD? There are several benefits to using GitHub Actions for Continuous Integration and Continuous Deployment (CI/CD):</description>
     </item>
     
     <item>
