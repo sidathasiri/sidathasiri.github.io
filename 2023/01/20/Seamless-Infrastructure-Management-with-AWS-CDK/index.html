@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8" />
-  <title>Seamless Infrastructure Management with AWS CDK</title>
+  <title>AWS CDK for Seamless Infrastructure Management</title>
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -12,7 +12,7 @@
 
   <meta
     name="keywords"
-    content="[aws, IaC, cdk, cloud, infrastructure]"
+    content="[aws, iac, cdk, cloud, infrastructure, code, typescript]"
   />
 
   
@@ -36,8 +36,6 @@
     <link rel="stylesheet" href="/plugins/hugrid/hugrid.css" />
   
 
-  
-  <link rel="canonical" href="https://medium.com/99xtechnology/seamless-infrastructure-management-with-aws-cdk-d4fab550c96f" />
   <!-- Main Stylesheet -->
 
   
@@ -173,12 +171,11 @@
 
 
   <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
-    <h1>Seamless Infrastructure Management with AWS CDK</h1>
+    <h1>AWS CDK for Seamless Infrastructure Management</h1>
     <span class="date">Posted on: 1/20/2023</span>
-    <img src="/images/posts/Seamless-Infrastructure-Management-with-AWS-CDK/main-logo.png" alt="Seamless Infrastructure Management with AWS CDK" />
+    <img src="/images/posts/Seamless-Infrastructure-Management-with-AWS-CDK/main-logo.png" alt="AWS CDK for Seamless Infrastructure Management" />
     <div class="body">
-      <h2 id="introduction">Introduction</h2>
-<p>The heart of any software solution is its infrastructure and administering it appropriately is very crucial. At present, it can be seen that the majority of software vendors have moved towards using cloud platforms and serverless architectures to mitigate the complexity of maintaining infrastructure. Still, things like provisioning the infrastructure in diverse environments and keeping them in sync need enormous effort if done manually.</p>
+      <p>The heart of any software solution is its infrastructure and administering it appropriately is very crucial. At present, it can be seen that the majority of software vendors have moved towards using cloud platforms and serverless architectures to mitigate the complexity of maintaining infrastructure. Still, things like provisioning the infrastructure in diverse environments and keeping them in sync need enormous effort if done manually.</p>
 <p>This challenge can be eased by a practice known as Infrastructure as code (IaC) that codifies and manages underlying IT infrastructure. This helps to deploy the infrastructure automatically in a predictable manner by executing a single command wiping out the hurdle of manual work. Further, this facilitates to version control the infrastructure and performing changes in a controlled manner with visibility across the team or organization.</p>
 <p>IaC is supported by almost all cloud vendors at present through their own interfaces.</p>
 <ul>
@@ -187,12 +184,12 @@
 <li>Cloud Deployment Manager for Google Cloud</li>
 </ul>
 <p>Often, a declarative definition is used here to outline resources and the configuration via JSON or YAML files. These files can be uploaded to the cloud provider repeatedly varying the necessary configurations to provision different environments quickly and consistently.</p>
-<h2 id="what-is-aws-cdk">What is AWS CDK</h2>
+<h2 id="aws-cdk">AWS CDK</h2>
 <p>AWS Cloud Development Kit (AWS CDK) is a supplementary interface that permits developers to provision infrastructure on AWS in addition to CloudFormation. In contrast to CloudFormation, CDK allows developers to define infrastructure in a handy manner using popular programming languages like TypeScript. This offer more expressive power to developers to define reusable components and establish the infrastructure of an entire application with a few lines of code.</p>
-<h2 id="anatomy-of-a-cdk-application">Anatomy of a CDK Application</h2>
+<h2 id="structure-of-a-cdk-application">Structure of a CDK Application</h2>
 <p>A CDK application can be recognized as a tree of constructs (discussed more below). The bottom of the tree holds low-level constructs symbolizing individual AWS resources while the top of the tree denotes the composition of low-level constructs uncovering the entire infrastructure of the application. This helps to put together a very complex infrastructure favorably using different abstraction layers. At the same time, it helps to strengthen the explainability of the entire application infrastructure.</p>
 <p><img src="/images/posts/Seamless-Infrastructure-Management-with-AWS-CDK/cdk-anatomy.png" alt="Image description"></p>
-<h2 id="key-concepts">Key Concepts</h2>
+<h2 id="principles">Principles</h2>
 <p>Following are the key concepts that anyone should have when getting started with CDK.</p>
 <ul>
 <li>Construct</li>
@@ -247,15 +244,15 @@ const url = queue.queueUrl; // accessing queueUrl attribute of the created resou
 <p>A set of AWS resources bundled for a single deployment is called a Stack. This is based on the AWS CloudFormation stacks equipping the same features and limitations. When a CDK app is going to deploy, the CDK stack gets synthesized to a CloudFormation template to be deployed to AWS.</p>
 <h3 id="app">App</h3>
 <p>App is a special construct that can be only used as the root of a CDK application/construct tree. Due to that, the App construct doesn’t need any initialization argument and it functions as the container for any number of stacks. App construct provides the initial scope to the stacks that it contains and stacks can further pass it down to low-level constructs to create the construct tree.</p>
-<h2 id="advantages-of-aws-cdk">Advantages of AWS CDK</h2>
+<h2 id="benefits-of-aws-cdk">Benefits of AWS CDK</h2>
 <p>There are numerous advantages of using AWS CDK and below are a few of them.</p>
-<h3 id="customized-reusable-abstractions">Customized reusable abstractions</h3>
+<h3 id="customized-reusable-abstractions">Customized Reusable Abstractions</h3>
 <p>CDK allows defining our own constructs wrapping up the built-in constructs. This authorizes enforcing certain rules to create infrastructure such as tagging standards, naming conventions, etc. Further, the capability to share and reuse these constructs enables to compel those rules across an entire organization reducing code duplication at the same time.</p>
-<h3 id="power-of-programming-languages">Power of programming languages</h3>
+<h3 id="power-of-programming-languages">Power of Programming Languages</h3>
 <p>A CDK app can be modeled from multiple languages such as TypeScript, Python, Java, .NET, and Go. This permits using the special capabilities of programming languages such as static type checks, validations, etc going beyond just scripting. This aids to identify issues upfront and fixing them even before an attempt to deploy.</p>
 <h3 id="confidence">Confidence</h3>
 <p>The AWS CDK CLI provides features such as synthesizing a CloudFormation template, showing the differences between the running stack and proposed changes, and confirming security-related changes prior to deployment. Further CDK can be integrated into development tools such as <a href="https://aws.amazon.com/visualstudiocode/">Visual Studio Code</a> providing more intuition of the application, stacks, resources, policies, etc. All of this help to enhance the confidence in doing changes and evolving the infrastructure of an application.</p>
-<h3 id="fast-development">Fast development</h3>
+<h3 id="fast-development">Fast Development</h3>
 <p>Development with CDK gets extremely fast mainly due to the ability to reuse constructs. Further, it is more convenient to developers due to the usage of programming languages in contrast to scripts like YAML. Extensions for IDEs/Text Editors such as <a href="https://marketplace.visualstudio.com/items?itemName=mklein.cdk-snippets">CDK Snippets</a> provide suggestions and auto-completion capabilities to define the infrastructure exceptionally fast.</p>
 <h2 id="best-practices">Best Practices</h2>
 <ul>
