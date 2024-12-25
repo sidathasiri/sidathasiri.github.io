@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <title>Building Intelligent AI Agents with AWS Bedrock</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Learn how to create smart, scalable AI agents using AWS Bedrock. Discover foundational models, prompt templates, multi-agent systems, guardrails, and more to build your first AI agent in minutes."
+  />
+
+  <meta
+    name="keywords"
+    content="[ai, bedrock, aws, agents, generative ai, sidath, munasinghe]"
+  />
+
+  
+    <meta name="author" content="Sidath Munasinghe" />
+  
+
+  <meta name="google-site-verification" content="Os0XiJ_IsnKUGbMIAetAT8jRKYr8ty87olW3V1P0ia4" />
+
+  <!-- plugins -->
+  
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.1.0/css/hover-min.css" />
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900&amp;display=swap" />
+  
+    <link rel="stylesheet" href="/plugins/text-animation/text-animation.css" />
+  
+    <link rel="stylesheet" href="/plugins/hugrid/hugrid.css" />
+  
+
+  <!-- Main Stylesheet -->
+
+  
+  <link rel="stylesheet" href="/css/style.min.css" media="screen" />
+
+  <link rel="stylesheet" href="/css/customizations.css" media="screen" />
+
+  <!--Favicon-->
+
+  <link rel="icon" type="image/png" href="/images/favicon.ico" />
+
+  
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-ABCDEFG123');
+    </script>
+  
+</head>
+<body> <!-- preloader start -->
+<div class="preloader">
+  
+  <img src="/images/preloader.gif" alt="preloader" />
+  
+</div>
+<!-- preloader end --> 
+
+  <section class="menu menu-fix" id="menu">
+  <nav>
+    
+    <div class="menu-container">
+      <div class="desktop-menu-logo">
+        <a href="/"
+          ><img
+            class="img-fluid"
+            src="/images/S_logo_white.png"
+            alt="Sidath Munasinghe"
+            id="desktop-logo"
+        /></a>
+      </div>
+      <ul class="desktop-menu list-inline mb-0" id="desktop-menu">
+        
+        <li class="menu-item hvr-underline-from-left 1">
+          <a href="/">Home</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 2">
+          <a href="#about">About me</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 3">
+          <a href="/post">Blog</a>
+        </li>
+        
+      </ul>
+      
+      <div class="mobile-menu">
+        <div class="mobile-menu-nav">
+          <a class="menu-link">
+            <span></span>
+            <span></span>
+            <span></span>
+          </a>
+        </div>
+        <div class="mobile-menu-logo">
+          <a href="/"
+            ><img
+              class="img-fluid"
+              src="/images/S_logo_dark.png"
+              alt="Sidath Munasinghe"
+          /></a>
+        </div>
+        <div class="menu-slider">
+          <nav>
+            <ul class="mobile-menu-list">
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="#about">About me</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="/post">Blog</a>
+              </li>
+              
+            </ul>
+            <ul class="mobile-menu-icons list-inline mx-auto">
+              
+              <li>
+                <a href="https://github.com/sidathasiri"
+                  ><i class="fab fab fa-github fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://www.linkedin.com/in/sidath-asiri/"
+                  ><i class="fab fab fa-linkedin fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="mailto:sidathasiri@gmail.com"
+                  ><i class="fab fas fa-envelope fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://medium.com/@sidathasiri"
+                  ><i class="fab fab fa-medium fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://dev.to/sidathasiri"
+                  ><i class="fab fab fa-dev fa-2x"></i
+                ></a>
+              </li>
+              
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </nav>
+</section>
+
+
+  <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
+    <h1>Building Intelligent AI Agents with AWS Bedrock</h1>
+    <span class="date">Posted on: 12/25/2024</span>
+    <img src="/images/posts/Building-Intelligent-AI-Agents-with-AWS-Bedrock/main-cover-image.png" alt="Building Intelligent AI Agents with AWS Bedrock" />
+    <div class="body">
+      <h2 id="introduction">Introduction</h2>
+<p>Generative AI is revolutionizing industries by streamlining processes, enhancing user interactions, and boosting overall efficiency. Among its most impactful applications is the development of AI agents — intelligent systems capable of autonomously handling tasks based on user input or predefined rules. These agents are now pivotal in areas like customer service, data processing, and even complex decision-making. Thanks to AWS Bedrock, creating and deploying these AI agents has never been easier or more accessible.</p>
+<p>In this article, we’ll explore the concept of AI agents, discuss why AWS Bedrock is an ideal platform for building them, and provide a step-by-step guide to creating your first AI agent with AWS Bedrock.</p>
+<h3 id="understanding-ai-agents">Understanding AI Agents</h3>
+<p>AI agents are self-governing systems designed to handle tasks or make decisions independently, without requiring constant human oversight. They can engage with users, adapt by learning from data, and even improve their capabilities over time.</p>
+<p>Here are some common types of AI agents:</p>
+<ul>
+<li><strong>Chatbots:</strong> These agents simulate human conversations to assist users in real-time.</li>
+<li><strong>Recommendation Systems:</strong> AI agents that analyze user behavior to suggest relevant products or content.</li>
+<li><strong>Personal Assistants:</strong> Tools that aid users by managing schedules, setting reminders, and more.</li>
+<li><strong>Automation Bots:</strong> These agents handle repetitive tasks such as data entry or processing transactions, saving valuable time and resources.</li>
+</ul>
+<p>AI agents can function in two ways: they may be reactive, responding to specific user inputs, or proactive, predicting user needs based on observed patterns and past interactions. In this guide, we’ll focus on creating an AI agent using AWS Bedrock, leveraging its robust foundational models to build a powerful and adaptable solution.</p>
+<h2 id="why-use-aws-bedrock-for-ai-agents">Why Use AWS Bedrock for AI Agents?</h2>
+<p>AWS Bedrock offers a comprehensive suite of tools and services that make creating, customizing, and deploying AI models straightforward and efficient.</p>
+<p><em>Not familiar with AWS Bedrock? Check out my previous post <a href="https://sidathasiri.github.io/2024/05/01/Generative-AI-on-AWS-with-Amazon-Bedrock/">here</a> for an introduction.</em></p>
+<p>Here are some key benefits of using AWS Bedrock for building AI agents:</p>
+<ul>
+<li>
+<p><strong>Access to Advanced Foundation Models</strong>:<br>
+AWS Bedrock provides pre-trained models from leading AI innovators such as Anthropic, Stability AI, and Cohere. These models act as the core of your AI agents, allowing you to focus on refining their functionality instead of building models from scratch.</p>
+</li>
+<li>
+<p><strong>Serverless Infrastructure</strong>:<br>
+With AWS Bedrock, infrastructure management is handled for you, enabling businesses to develop AI agents without worrying about scalability or resource allocation. This makes it a great option for organizations of any size.</p>
+</li>
+<li>
+<p><strong>Customizable AI Models</strong>:<br>
+While pre-trained models are readily available, AWS Bedrock lets you fine-tune them using your own datasets. This flexibility ensures that your AI agents are tailored to specific use cases, whether it’s customer service, healthcare, or any other domain.</p>
+</li>
+<li>
+<p><strong>Seamless AWS Integration</strong>:<br>
+AWS Bedrock integrates effortlessly with other AWS services like Lambda, S3, and more, allowing you to build a fully connected solution capable of interacting with various applications and databases.</p>
+</li>
+<li>
+<p><strong>Enhanced Security and Compliance</strong>:<br>
+By leveraging AWS Bedrock, you gain the robust security and compliance features inherent to AWS, ensuring your AI agents are secure and meet industry-specific regulatory requirements.</p>
+</li>
+</ul>
+<p>With these capabilities, AWS Bedrock provides the perfect platform to develop powerful, scalable, and secure AI agents.</p>
+<h2 id="components-of-an-ai-agent">Components of an AI Agent</h2>
+<p>An AI Agent consists of several essential components. The diagram below showcases the high-level architecture of how Bedrock agents function. AWS Bedrock streamlines these components, enabling developers to build and deploy AI agents with ease.</p>
+<p>Let’s dive into each of these components. Since AWS Bedrock operates on a fully serverless architecture, all you need to do is configure each element to ensure the agent works exactly as needed. This simplicity and flexibility make AWS Bedrock a powerful choice for creating intelligent AI systems.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:720/format:webp/1*mP8ajOSb8Ig_fH-ffvfd9A.png" alt="Bedrock agents architecture"></p>
+<p>Now, let’s take a closer look at each component to understand its purpose and how it contributes to the functionality of an AI agent.</p>
+<h3 id="foundational-model">Foundational Model</h3>
+<p>The <strong>foundational model</strong> acts as the “backbone” of your AI agent. These pre-trained, large-scale machine learning models deliver capabilities such as natural language understanding, text generation, and more. AWS Bedrock provides access to a variety of foundational models from top providers like Anthropic, Hugging Face, Cohere, Amazon, and others.</p>
+<p>This foundational model supplies the core intelligence for your agent, eliminating the need for you to build and train models from scratch.</p>
+<h3 id="instructions">Instructions</h3>
+<p><strong>Instructions</strong> serve as the “brain” of the AI agent, guiding the foundational model on how to operate. They define the agent’s behavior, tone, and scope, ensuring it aligns with your application&rsquo;s specific needs. Instructions can include:</p>
+<ul>
+<li>The agent’s role (e.g., “You are a customer service assistant.”).</li>
+<li>Behavior and restrictions (e.g., “Respond politely and avoid technical jargon.”).</li>
+<li>Desired outputs (e.g., “Deliver short, concise answers.”).</li>
+</ul>
+<p>By providing well-crafted instructions, you can ensure that the foundational model performs tasks precisely as required for your use case.</p>
+<h3 id="action-groups">Action Groups</h3>
+<p>Action groups enable the AI agent to perform specific tasks or trigger actions beyond text generation. These could include API calls, database queries, or interactions with other systems.</p>
+<p>For example:</p>
+<ul>
+<li>Retrieving user details from a database.</li>
+<li>Sending notifications via an email or messaging API.</li>
+<li>Performing calculations or processing data inputs.</li>
+</ul>
+<p>Action groups allow the AI agent to go beyond static responses and interact dynamically with external systems, making it more functional and capable of solving real-world problems.</p>
+<p>In Bedrock, you can integrate a lambda function or OpenAPI schema to define the API operations to invoke an API.</p>
+<h3 id="knowledge-bases">Knowledge bases</h3>
+<p>A <strong>knowledge base</strong> equips the AI agent with domain-specific information, enabling it to handle tasks or answer questions that require contextual understanding. With AWS Bedrock, you can integrate custom datasets, such as documents, product catalogs, or FAQs, as the agent’s knowledge base.</p>
+<p>This component allows the agent to deliver more accurate and relevant responses tailored to your organization or specific use case. However, the use of a knowledge base is optional, depending on the level of customization and context required.</p>
+<h3 id="prompt-templates">Prompt Templates</h3>
+<p><strong>Prompt templates</strong> offer a structured approach to sending input to the foundational model. They merge user input with predefined instructions or placeholders, ensuring consistent and accurate responses. AWS Bedrock Agents provide four default base prompt templates, which are used during various stages: pre-processing, orchestration, knowledge base response generation, and post-processing.</p>
+<p>By customizing these prompt templates, you can further control the quality, format, and behavior of your AI agent, tailoring its outputs to meet your specific needs.</p>
+<h2 id="creating-your-first-ai-agent">Creating Your First AI Agent</h2>
+<p>In this section, we’ll walk through the steps to create an AI agent using AWS Bedrock, showcasing just how simple it is to build one. For this demonstration, we’ll create a basic AI Agent that handles medical appointments to illustrate the platform&rsquo;s capabilities.</p>
+<p>AWS provides several ways to create agents, but the easiest approach is through the <strong>Conversational Builder</strong>, which interacts with you to gather requirements and automatically creates the agent based on your inputs. However, to deepen our understanding, we’ll manually configure the agent in this guide, allowing us to explore the process in more detail.</p>
+<ol>
+<li>The first step is to request access to a foundational model that is compatible with agents. In this case, we’ll be using the <strong>Nova Pro</strong> model. You can request access to this model through the <strong>Model Access</strong> section in the AWS Bedrock configuration on the AWS Management Console.</li>
+</ol>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*Tcll6uYOaBScOgT3k59FuA.png" alt="Requesting model access"></p>
+<ol start="2">
+<li>Next, we can begin creating the agent using the builder tools. Start by entering the <strong>agent name</strong> and <strong>description</strong>. Since we are focusing on a single agent and not integrating with multiple agents, we will leave the <strong>multi-agent collaboration</strong> option disabled.</li>
+</ol>
+<p><img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/1*M29FXcEHkBJPUbG1e5i7cA.png" alt="Creating the agent"></p>
+<ol start="3">
+<li>After that, we can continue configuring the agent through the <strong>agent builder</strong>. Here, you can attach the <strong>foundational model</strong> to the agent and provide detailed instructions. It&rsquo;s crucial that the instructions are clear and precise to ensure the model performs as expected and delivers accurate results.</li>
+</ol>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*dIuAF0tlIepQX9AzOCB3LQ.png" alt="Configure agent with agent builder"></p>
+<ol start="4">
+<li>Next, we can add <strong>action groups</strong> to enhance the agent&rsquo;s capabilities. In this example, we’ll add three Lambda functions to:</li>
+</ol>
+<ul>
+<li>Check if an appointment is available</li>
+<li>List available appointments</li>
+<li>Make an appointment</li>
+</ul>
+<p>You can create an action group directly in the console, which will automatically generate the associated Lambda functions. Once created, you can update the logic of these functions as needed to suit your specific use case.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*mexD6z4A8DmPg_MF6BeZYg.png" alt="Creating an action group"></p>
+<p>Additionally, we need to define the required parameters for the Lambda functions. It’s important to provide a clear and meaningful <strong>description</strong> for each parameter so that the AI model can accurately infer the values from the user’s input and invoke the Lambda function accordingly.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*dM1f5oCz2PWZbmK3_Itz5g.png" alt="Parameter definition"></p>
+<p>We can follow the same method to create all three action groups.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*xKJL37pGCsjHjwdfQSMEdA.png" alt="Created agents"></p>
+<ol start="5">
+<li>After creating the three action groups, there will be three corresponding Lambda functions, each linked to one of the actions. We now need to update the logic of each Lambda function to execute the desired tasks. Below is a sample Lambda handler implementation to check the availability of a given appointment. You can modify this implementation to query a database or call an API to fetch the results. In this example, the function guarantees that appointments will be available except for <strong>December 31, 2024</strong>. As shown, we can access the previously defined parameters from the Lambda event to tailor the logic based on user input.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">json</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">def</span> <span style="color:#a6e22e">lambda_handler</span>(<span style="color:#a6e22e">event</span>, <span style="color:#a6e22e">context</span>)<span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">agent</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>[<span style="color:#e6db74">&#39;agent&#39;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">actionGroup</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>[<span style="color:#e6db74">&#39;actionGroup&#39;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>[<span style="color:#e6db74">&#39;function&#39;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">parameters</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;parameters&#39;</span>, [])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">parameters</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">paramDict</span> <span style="color:#f92672">=</span> {<span style="color:#a6e22e">item</span>[<span style="color:#e6db74">&#39;name&#39;</span>]<span style="color:#f92672">:</span> <span style="color:#a6e22e">item</span>[<span style="color:#e6db74">&#39;value&#39;</span>] <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">item</span> <span style="color:#66d9ef">in</span> <span style="color:#a6e22e">parameters</span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paramDict</span>[<span style="color:#e6db74">&#39;date&#39;</span>])
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paramDict</span>[<span style="color:#e6db74">&#39;location&#39;</span>])
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paramDict</span>[<span style="color:#e6db74">&#39;time&#39;</span>])
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paramDict</span>[<span style="color:#e6db74">&#39;providerName&#39;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">#</span> <span style="color:#a6e22e">Execute</span> <span style="color:#a6e22e">your</span> <span style="color:#a6e22e">business</span> <span style="color:#a6e22e">logic</span> <span style="color:#a6e22e">here</span>. <span style="color:#a6e22e">For</span> <span style="color:#a6e22e">more</span> <span style="color:#a6e22e">information</span>, <span style="color:#a6e22e">refer</span> <span style="color:#a6e22e">to</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">https</span><span style="color:#f92672">:</span><span style="color:#75715e">//docs.aws.amazon.com/bedrock/latest/userguide/agents-lambda.html
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">paramDict</span>[<span style="color:#e6db74">&#39;date&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;31/12/2024&#34;</span>)<span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">print</span>(<span style="color:#e6db74">&#34;Unavailable date&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">responseBody</span> <span style="color:#f92672">=</span>  {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;TEXT&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;This slot is not available&#34;</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">print</span>(<span style="color:#e6db74">&#34;Available date&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">responseBody</span> <span style="color:#f92672">=</span>  {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;TEXT&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;This slot is available&#34;</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">action_response</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;actionGroup&#39;</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">actionGroup</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;function&#39;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;functionResponse&#39;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;responseBody&#39;</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">responseBody</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dummy_function_response</span> <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;response&#39;</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">action_response</span>, <span style="color:#e6db74">&#39;messageVersion&#39;</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">event</span>[<span style="color:#e6db74">&#39;messageVersion&#39;</span>]}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">print</span>(<span style="color:#e6db74">&#34;Response: {}&#34;</span>.<span style="color:#a6e22e">format</span>(<span style="color:#a6e22e">dummy_function_response</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">dummy_function_response</span>
+</span></span></code></pre></div><p>Similarly, we can implement a Lambda handler to list available appointments by hardcoding a set of available dates. This implementation can be customized to query a database or an external API to retrieve real-time appointment data, depending on your business requirements. Here’s a sample Lambda handler to list appointments:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">json</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">def</span> <span style="color:#a6e22e">lambda_handler</span>(<span style="color:#a6e22e">event</span>, <span style="color:#a6e22e">context</span>)<span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">agent</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>[<span style="color:#e6db74">&#39;agent&#39;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">actionGroup</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>[<span style="color:#e6db74">&#39;actionGroup&#39;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>[<span style="color:#e6db74">&#39;function&#39;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">parameters</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;parameters&#39;</span>, [])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">print</span>(<span style="color:#e6db74">&#34;Looking for all available slots&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">#</span> <span style="color:#a6e22e">Execute</span> <span style="color:#a6e22e">your</span> <span style="color:#a6e22e">business</span> <span style="color:#a6e22e">logic</span> <span style="color:#a6e22e">here</span>. <span style="color:#a6e22e">For</span> <span style="color:#a6e22e">more</span> <span style="color:#a6e22e">information</span>, <span style="color:#a6e22e">refer</span> <span style="color:#a6e22e">to</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">https</span><span style="color:#f92672">:</span><span style="color:#75715e">//docs.aws.amazon.com/bedrock/latest/userguide/agents-lambda.html
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">responseBody</span> <span style="color:#f92672">=</span>  {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;TEXT&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;These are the available slots: On 01/01/2025, an appointment is available in Colombo at 9am with Dr. Silva. Another slot is open on 15/01/2025 in Kandy at 11am with Dr. Fernando.&#34;</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">action_response</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;actionGroup&#39;</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">actionGroup</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;function&#39;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;functionResponse&#39;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;responseBody&#39;</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">responseBody</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dummy_function_response</span> <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;response&#39;</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">action_response</span>, <span style="color:#e6db74">&#39;messageVersion&#39;</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">event</span>[<span style="color:#e6db74">&#39;messageVersion&#39;</span>]}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">print</span>(<span style="color:#e6db74">&#34;Response: {}&#34;</span>.<span style="color:#a6e22e">format</span>(<span style="color:#a6e22e">dummy_function_response</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">dummy_function_response</span>
+</span></span></code></pre></div><p>Finally, we can implement the Lambda function to create the appointment. For this sample implementation, we will include a simple print statement to confirm the behavior. In a production scenario, this function would typically involve database updates or API calls to schedule the appointment. Here’s a sample Lambda handler to create an appointment:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">json</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">def</span> <span style="color:#a6e22e">lambda_handler</span>(<span style="color:#a6e22e">event</span>, <span style="color:#a6e22e">context</span>)<span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">agent</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>[<span style="color:#e6db74">&#39;agent&#39;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">actionGroup</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>[<span style="color:#e6db74">&#39;actionGroup&#39;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>[<span style="color:#e6db74">&#39;function&#39;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">parameters</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;parameters&#39;</span>, [])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">paramDict</span> <span style="color:#f92672">=</span> {<span style="color:#a6e22e">item</span>[<span style="color:#e6db74">&#39;name&#39;</span>]<span style="color:#f92672">:</span> <span style="color:#a6e22e">item</span>[<span style="color:#e6db74">&#39;value&#39;</span>] <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">item</span> <span style="color:#66d9ef">in</span> <span style="color:#a6e22e">parameters</span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">print</span>(<span style="color:#e6db74">&#34;Placed appointment for:&#34;</span>, <span style="color:#a6e22e">paramDict</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">#</span> <span style="color:#a6e22e">Execute</span> <span style="color:#a6e22e">your</span> <span style="color:#a6e22e">business</span> <span style="color:#a6e22e">logic</span> <span style="color:#a6e22e">here</span>. <span style="color:#a6e22e">For</span> <span style="color:#a6e22e">more</span> <span style="color:#a6e22e">information</span>, <span style="color:#a6e22e">refer</span> <span style="color:#a6e22e">to</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">https</span><span style="color:#f92672">:</span><span style="color:#75715e">//docs.aws.amazon.com/bedrock/latest/userguide/agents-lambda.html
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">responseBody</span> <span style="color:#f92672">=</span>  {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;TEXT&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Appointment placed successfully&#34;</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">action_response</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;actionGroup&#39;</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">actionGroup</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;function&#39;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;functionResponse&#39;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;responseBody&#39;</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">responseBody</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dummy_function_response</span> <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;response&#39;</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">action_response</span>, <span style="color:#e6db74">&#39;messageVersion&#39;</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">event</span>[<span style="color:#e6db74">&#39;messageVersion&#39;</span>]}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">print</span>(<span style="color:#e6db74">&#34;Response: {}&#34;</span>.<span style="color:#a6e22e">format</span>(<span style="color:#a6e22e">dummy_function_response</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">dummy_function_response</span>
+</span></span></code></pre></div><p>To deploy the Lambda functions with the changes we&rsquo;ve made, follow these steps:</p>
+<ol>
+<li>
+<p><strong>Deploy Lambda Functions</strong>: First, make sure the Lambda functions for each action (check availability, list appointments, create appointment) are deployed successfully in AWS. You can do this through the AWS Management Console or using the AWS CLI. After deploying the functions, confirm that they are working as expected by testing them with sample inputs.</p>
+</li>
+<li>
+<p><strong>Update Bedrock Configuration</strong>: Go back to the AWS Bedrock console and make sure all configurations, including the Lambda action groups, are updated. You should review and save the agent’s configuration after attaching the newly deployed Lambda functions. This ensures that the agent can properly call these functions during its operation.</p>
+</li>
+<li>
+<p><strong>Test the Agent</strong>: With everything deployed and configured, it&rsquo;s time to test the agent. Using the agent builder, initiate test runs where you interact with the AI agent, checking if it can:</p>
+<ul>
+<li>Check appointment availability,</li>
+<li>List available appointments, and</li>
+<li>Create appointments based on user input.</li>
+</ul>
+</li>
+</ol>
+<p>By this point, the agent should work seamlessly with the deployed Lambda functions. Since we have skipped the knowledge base and prompt templates for simplicity, you can always integrate these in the future to refine the agent’s behavior further.</p>
+<p>Knowledge bases can store domain-specific data (e.g., medical information, available services) to improve the agent’s responses, while prompt templates ensure consistent formatting and structuring of user inputs. These additions are optional but offer further customization for more complex agents.</p>
+<h2 id="demo">Demo</h2>
+<p>The AI agent we created performs effectively by handling incomplete user input and prompting for any missing details to ensure it can proceed with the requested actions. If a user doesn&rsquo;t provide enough information, the agent asks for clarification, ensuring it gathers the necessary data to continue.</p>
+<p>In addition, the agent utilizes the logic defined in the Lambda functions, such as informing the user when there are no available appointments on December 31, 2024. It then uses the <code>ListAppointments</code> action to suggest available slots, ensuring that the user is always provided with alternative options. Once the user selects a suitable slot, the agent invokes the <code>CreateAppointment</code> action to finalize the booking, confirming the appointment with a simple response.</p>
+<p>This demonstrates the powerful capabilities of AWS Bedrock, where you can build an intelligent, responsive AI agent that can handle dynamic user interactions and integrate seamlessly with AWS services like Lambda to perform complex tasks.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*KpXdNDcMRlGQq7y51HVXaA.png" alt="Demo"></p>
+<p>Here is a video demo of the AI agent we created in action. In the demo, you can see how the agent responds to user input, handles missing information, and performs tasks like listing available appointments and creating a booking.</p>
+<p><a href="https://drive.google.com/file/d/1zRQL1sY1j1SVlVcFLOEjbcEiYdf3UR4v/view?usp=sharing&amp;source=post_page-----a638cc12fa1d--------------------------------"><em>Demo Video</em></a></p>
+<p>Additionally, by examining the CloudWatch logs, we can confirm that all the parameters entered by the user are captured correctly. This shows that the agent is successfully processing the inputs and interacting with the Lambda functions as intended, providing accurate and dynamic responses. This highlights the seamless integration of AWS Bedrock with AWS Lambda, ensuring smooth operation and data handling for your AI agents.</p>
+<h2 id="advanced-features">Advanced Features</h2>
+<p>Once you&rsquo;ve built a basic AI agent, AWS Bedrock provides a set of advanced features designed to enhance your AI agents, enabling greater flexibility, scalability, and reliability for real-world applications.</p>
+<ul>
+<li>
+<p><strong>Custom Fine-Tuning for Domain-Specific Tasks</strong>: AWS Bedrock gives you the ability to fine-tune foundational models for specific industries by incorporating domain-specific datasets. Whether it&rsquo;s for legal, healthcare, or e-commerce applications, you can adjust the agent&rsquo;s behavior to perform highly specialized tasks with greater accuracy and relevance.</p>
+</li>
+<li>
+<p><strong>Multi-Agent Systems</strong>: AWS Bedrock also supports the development of multi-agent systems, allowing multiple agents to collaborate on more complex tasks. Each agent can focus on a particular function, and through data and context exchange, they work together to provide enhanced solutions and capabilities.</p>
+</li>
+<li>
+<p><strong>Guardrails for Safe and Responsible AI</strong>: In order to ensure that your AI agents operate ethically and responsibly, AWS Bedrock lets you implement guardrails. These can filter, block, or monitor specific actions, ensuring that the agents remain aligned with business objectives and ethical standards. This feature helps maintain the trustworthiness and safety of your AI-powered applications.</p>
+</li>
+<li>
+<p><strong>Integration with other AWS services</strong>: AWS Bedrock seamlessly integrates with a wide range of AWS services, allowing you to create more comprehensive solutions. You can, for example, leverage AWS Step Functions to incorporate AI capabilities into more complex workflows, expanding the use cases for your AI agents across different business processes.</p>
+</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>AI agents powered by AWS Bedrock present vast opportunities for businesses to integrate intelligent automation, enhance user experiences, and drive innovation. By utilizing foundational models, dynamic knowledge bases, guardrails, and multi-agent systems, you can build scalable, secure, and highly adaptable solutions.</p>
+<p>AWS Bedrock&rsquo;s robust capabilities make it accessible to teams of all sizes, enabling the development of sophisticated AI solutions without requiring extensive machine-learning expertise. Whether you&rsquo;re automating workflows, developing interactive customer support systems, or analyzing complex data, Bedrock provides the tools and flexibility necessary for success.</p>
+<p>As AI continues to advance, adopting these technologies ensures your business stays competitive and prepared for the future. Begin exploring AWS Bedrock today to unlock the full potential of AI agents and accelerate your path to smarter, automated solutions.</p>
+
+    </div>
+  </div>
+
+  <div class="footer container text-center" id="contact">
+  <ul class="footer-icons list-inline">
+    
+      <li>
+        <a href="https://github.com/sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-github footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://www.linkedin.com/in/sidath-asiri/" target="_blank" rel="noreferrer"
+          ><i class="fab fa-linkedin footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="mailto:sidathasiri@gmail.com" target="_blank" rel="noreferrer"
+          ><i class="fas fa-envelope footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://medium.com/@sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-medium footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://dev.to/sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-dev footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+  </ul>
+  <div class="credit">
+    Copyright Sidath Munasinghe ©
+    <span id="current-year"></span>
+  </div>
+</div>
+
+<!-- JS Plugins --> 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
+
+<script src="/plugins/text-animation/text-animation.js"></script>
+
+<script src="/plugins/hugrid/hugrid.min.js"></script>
+ <!-- Main Scripts --> 
+<script src="/js/script.min.js"></script>
+
+<script src="/js/hugrid.custom.min.js"></script>
+</body>
+</html>

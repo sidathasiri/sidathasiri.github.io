@@ -6,7 +6,16 @@
     <description>Recent content in Posts on Sidath Munasinghe</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 22 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://sidathasiri.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 25 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://sidathasiri.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Building Intelligent AI Agents with AWS Bedrock</title>
+      <link>https://sidathasiri.github.io/2024/12/25/Building-Intelligent-AI-Agents-with-AWS-Bedrock/</link>
+      <pubDate>Wed, 25 Dec 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://sidathasiri.github.io/2024/12/25/Building-Intelligent-AI-Agents-with-AWS-Bedrock/</guid>
+      <description>Introduction Generative AI is revolutionizing industries by streamlining processes, enhancing user interactions, and boosting overall efficiency. Among its most impactful applications is the development of AI agents — intelligent systems capable of autonomously handling tasks based on user input or predefined rules. These agents are now pivotal in areas like customer service, data processing, and even complex decision-making. Thanks to AWS Bedrock, creating and deploying these AI agents has never been easier or more accessible.</description>
+    </item>
+    
     <item>
       <title>Maximizing Cloud Infrastructure Efficiency with AWS CDK and Terraform</title>
       <link>https://sidathasiri.github.io/2024/06/22/Unleashing-the-Power-of-CDK-and-Terraform-in-Cloud-Deployments/</link>
