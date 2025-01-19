@@ -6,7 +6,16 @@
     <description>Recent content on Sidath Munasinghe</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 25 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://sidathasiri.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 19 Jan 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://sidathasiri.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Leveraging Integrators and Disintegrators for Right-Sizing Microservices</title>
+      <link>https://sidathasiri.github.io/2025/01/19/Right-Sizing-Microservices/</link>
+      <pubDate>Sun, 19 Jan 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://sidathasiri.github.io/2025/01/19/Right-Sizing-Microservices/</guid>
+      <description>Introduction Microservices have become the go-to approach for building modern software systems because of their promise of scalability, flexibility, and faster development. But behind the hype lies a critical truth: microservices can create more problems than they solve if not planned and sized correctly. Badly designed microservices will lead to confusion, unnecessary complexity, extra overheads, which in turn make your system harder to manage over time. The result? Such are long-term problems: sky-rocketing costs, maintenance headaches, and a system that feels more like a tangled web rather than a streamlined solution.</description>
+    </item>
+    
     <item>
       <title>Building Intelligent AI Agents with AWS Bedrock</title>
       <link>https://sidathasiri.github.io/2024/12/25/Building-Intelligent-AI-Agents-with-AWS-Bedrock/</link>
