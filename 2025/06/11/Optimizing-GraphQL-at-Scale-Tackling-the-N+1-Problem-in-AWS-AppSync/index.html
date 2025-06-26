@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <title>Optimizing GraphQL at Scale: Tackling the N&#43;1 Problem in AWS AppSync</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Learn how to overcome the notorious N&#43;1 query problem when using GraphQL at scale with AWS AppSync. This post explores efficient resolver strategies and data-fetching patterns that ensure your APIs remain fast and scalable, even under heavy load."
+  />
+
+  <meta
+    name="keywords"
+    content="[appsync, graphql, cloud, aws, scalable, sidath, munasinghe]"
+  />
+
+  
+    <meta name="author" content="Sidath Munasinghe" />
+  
+
+  <meta name="google-site-verification" content="Os0XiJ_IsnKUGbMIAetAT8jRKYr8ty87olW3V1P0ia4" />
+
+  <!-- plugins -->
+  
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.1.0/css/hover-min.css" />
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900&amp;display=swap" />
+  
+    <link rel="stylesheet" href="/plugins/text-animation/text-animation.css" />
+  
+    <link rel="stylesheet" href="/plugins/hugrid/hugrid.css" />
+  
+
+  <!-- Main Stylesheet -->
+
+  
+  <link rel="stylesheet" href="/css/style.min.css" media="screen" />
+
+  <link rel="stylesheet" href="/css/customizations.css" media="screen" />
+
+  <!--Favicon-->
+
+  <link rel="icon" type="image/png" href="/images/favicon.ico" />
+
+  
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-ABCDEFG123');
+    </script>
+  
+</head>
+<body> <!-- preloader start -->
+<div class="preloader">
+  
+  <img src="/images/preloader.gif" alt="preloader" />
+  
+</div>
+<!-- preloader end --> 
+
+  <section class="menu menu-fix" id="menu">
+  <nav>
+    
+    <div class="menu-container">
+      <div class="desktop-menu-logo">
+        <a href="/"
+          ><img
+            class="img-fluid"
+            src="/images/S_logo_white.png"
+            alt="Sidath Munasinghe"
+            id="desktop-logo"
+        /></a>
+      </div>
+      <ul class="desktop-menu list-inline mb-0" id="desktop-menu">
+        
+        <li class="menu-item hvr-underline-from-left 1">
+          <a href="/">Home</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 2">
+          <a href="#about">About me</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 3">
+          <a href="/post">Blog</a>
+        </li>
+        
+      </ul>
+      
+      <div class="mobile-menu">
+        <div class="mobile-menu-nav">
+          <a class="menu-link">
+            <span></span>
+            <span></span>
+            <span></span>
+          </a>
+        </div>
+        <div class="mobile-menu-logo">
+          <a href="/"
+            ><img
+              class="img-fluid"
+              src="/images/S_logo_dark.png"
+              alt="Sidath Munasinghe"
+          /></a>
+        </div>
+        <div class="menu-slider">
+          <nav>
+            <ul class="mobile-menu-list">
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="#about">About me</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="/post">Blog</a>
+              </li>
+              
+            </ul>
+            <ul class="mobile-menu-icons list-inline mx-auto">
+              
+              <li>
+                <a href="https://github.com/sidathasiri"
+                  ><i class="fab fab fa-github fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://www.linkedin.com/in/sidath-asiri/"
+                  ><i class="fab fab fa-linkedin fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="mailto:sidathasiri@gmail.com"
+                  ><i class="fab fas fa-envelope fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://medium.com/@sidathasiri"
+                  ><i class="fab fab fa-medium fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://dev.to/sidathasiri"
+                  ><i class="fab fab fa-dev fa-2x"></i
+                ></a>
+              </li>
+              
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </nav>
+</section>
+
+
+  <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
+    <h1>Optimizing GraphQL at Scale: Tackling the N&#43;1 Problem in AWS AppSync</h1>
+    <span class="date">Posted on: 6/11/2025</span>
+    <img src="/images/posts/Optimizing-GraphQL-at-Scale-Tackling-the-N&#43;1-Problem-in-AWS-AppSync/cover-image.jpg" alt="Optimizing GraphQL at Scale: Tackling the N&#43;1 Problem in AWS AppSync" />
+    <div class="body">
+      <p>GraphQL has become a popular alternative to traditional RESTful APIs, offering a more efficient and flexible way for clients to retrieve data. Instead of making multiple calls to various endpoints and receiving fixed response formats—as is common with REST—GraphQL enables clients to request exactly the data they need in a single request. This eliminates issues like over-fetching and under-fetching and gives frontend developers precise control over the data structure.</p>
+<p>AWS AppSync is a fully managed service that simplifies the creation of scalable, real-time GraphQL APIs. It integrates smoothly with AWS services like DynamoDB, Lambda, RDS, and OpenSearch, and includes built-in support for features such as real-time subscriptions, offline access, and fine-grained access control. AppSync handles much of the complexity around scalability and security, so developers can focus on defining data models and resolver logic.</p>
+<p>Resolvers in AppSync are the key components that connect GraphQL fields to underlying data sources. Each field—including nested ones—can have its own resolver, which is triggered when a query is executed. These resolvers can use Velocity Template Language (VTL) or invoke Lambda functions to map requests and responses. While this approach provides flexibility, it can lead to performance issues—especially the N+1 query problem—when dealing with nested relationships.</p>
+<p>In this post, we’ll dive into how the N+1 problem arises in AWS AppSync, why it poses challenges at scale, and how to build optimized resolvers using batching techniques and Lambda-based solutions to improve performance.</p>
+<h2 id="the-n1-problem">The N+1 Problem</h2>
+<p>When working with GraphQL, it’s common to request nested data in a single query. AppSync supports this by allowing each field — including deeply nested ones — to have its own resolver that fetches data from a backend data source. While this design provides flexibility and modularity, it can lead to an inefficient execution pattern known as the N+1 problem.</p>
+<p>The N+1 problem usually occurs with list queries. When your GraphQL API ends up making one query to fetch the root items (1), and N additional queries for each nested field, where N is the number of root items returned in the list.</p>
+<p>Let’s take an example to understand this clearly.</p>
+<pre tabindex="0"><code>query {
+  books {
+    name
+    title
+    author {
+      firstnName
+      lastName
+    }
+  }
+}
+</code></pre><p>Here’s what typically happens behind the scenes in AppSync</p>
+<p><img src="/images/posts/Optimizing-GraphQL-at-Scale-Tackling-the-N+1-Problem-in-AWS-AppSync/query-execution-plan.png" alt="Image description"></p>
+<ol>
+<li>books resolver fetches a list of books — let’s say 100 (N) items.</li>
+<li>For each of those 100 books, the author resolver is called individually (resulting in 100 calls).</li>
+</ol>
+<p>In total, that’s 1 + 100 = 101 (N+1) resolver invocations for a single client query.</p>
+<p>If you have even more nested queries, this becomes worse. In the below query, there is an additional field (address) that requires more resolver invocations.</p>
+<pre tabindex="0"><code>query {
+  books {
+    name
+    title
+    author {
+      firstName
+      lastName
+      address {
+        city
+        state
+      }
+    }
+  }
+}
+</code></pre><ol>
+<li>books resolver fetches a list of books — let’s say 100 items.</li>
+<li>For each of those 100 books, the author resolver is called individually (resulting in 100 calls).</li>
+<li>Then for each author, the address resolver is called again (another 100 calls).</li>
+</ol>
+<p>In total, that’s 1 + 100 + 100 = 301 resolver invocations for a single client query.</p>
+<h3 id="why-is-this-a-problem">Why Is This a Problem?</h3>
+<p>This approach scales poorly:</p>
+<ul>
+<li>Performance degrades linearly with the number of parent items.</li>
+<li>It results in high latency due to the number of sequential or parallel resolver invocations.</li>
+<li>It increases backend load and pressure on data sources like Lambda, RDS, or DynamoDB.</li>
+<li>It can quickly hit throttling limits or increase costs when using Lambda or other pay-per-request services.</li>
+</ul>
+<p>While this might be acceptable for small datasets or low traffic, the N+1 pattern becomes a serious performance bottleneck at scale. Imagine serving thousands of queries per second — this inefficient pattern can overwhelm backend systems, increase response times, and degrade the user experience.</p>
+<h2 id="solving-n1-with-batch-resolvers-in-appsync">Solving N+1 with Batch Resolvers in AppSync</h2>
+<p>One of the most effective ways to overcome the N+1 problem in AWS AppSync is by using batch resolvers. The idea is simple: instead of resolving nested fields one-by-one (which results in many resolver calls), we batch them together into a single call , usually handled by a Lambda function.</p>
+<p>Let’s explore how this works and why it’s such a powerful pattern.</p>
+<h3 id="how-batch-resolvers-work">How Batch Resolvers Work</h3>
+<p>In AppSync, each nested field (such as author or address) can have its own resolver, which is typically invoked for each parent object.</p>
+<p>To convert this into a batch operation:</p>
+<ul>
+<li>Instead of calling the author resolver N times (once for each book), you configure the author field to invoke a single Lambda function that accepts a list of book IDs (or author IDs).</li>
+<li>This Lambda function fetches all the authors in one go and returns the results mapped back to their respective books.
+Think of it as “fan-in” batching: one resolver invocation processes multiple parent objects.</li>
+</ul>
+<p>Let’s apply this to our previous query and see how this works.</p>
+<pre tabindex="0"><code>query {
+  books {
+    name
+    title
+    author {
+      firstName
+      lastName
+    }
+  }
+}
+</code></pre><p>If you use a batch resolver for the author field:</p>
+<ul>
+<li>AppSync groups all books[*].author field resolvers into one Lambda call.</li>
+<li>You receive an array of bookIds or authorIds within the lambda function.</li>
+<li>The Lambda fetches and returns the authors in bulk.</li>
+</ul>
+<p>With this optimization, you’ve reduced the number of records from N+1 to just 2, which is a substantial improvement. Moreover, it’s now independent of the number of records.</p>
+<p>Here are some additional benefits of this solution:</p>
+<ul>
+<li><strong>Fewer Resolver Invocations:</strong> Reduces hundreds of resolver calls to just one. This saves you from the lambda concurrency limit and also reduces the pressure on downstream services.</li>
+<li><strong>Faster Performance:</strong> Lower network overhead and latency.</li>
+<li><strong>Clean Separation:</strong> Keeps resolver responsibilities modular while still optimizing performance.</li>
+<li><strong>Cost-Efficient:</strong> Fewer Lambda invocations result in reduced AWS costs.</li>
+</ul>
+<h3 id="enabling-batch-resolvers">Enabling Batch Resolvers</h3>
+<p>Batch resolvers are currently only compatible with Lambda data sources, and this feature is not enabled by default. However, enabling this is very straightforward.</p>
+<ol>
+<li>Create a Lambda datasource as usual</li>
+<li>Go to create a resolver and select the created Lambda datasource</li>
+<li>Enable batching and set the batching size</li>
+</ol>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*otM6fpy9OGD2CvWgoun0yg.png" alt="Image description"></p>
+<ol start="4">
+<li>Update the resolver request function to use the BatchInvoke operation</li>
+</ol>
+<pre tabindex="0"><code>export function request(ctx) {
+    return {
+        operation: &#39;BatchInvoke&#39;,
+        payload: {
+            ctx: ctx
+        },
+    };
+}
+</code></pre><ol start="5">
+<li>Now your lambda function will receive not a single context, but an array of contexts for each listed item. You can update the lambda function logic to do a batch get and return the results. You must ensure the returned items are in the same order as the received context order.</li>
+</ol>
+<p>It’s as simple as that, but it offers significant performance gains to your GraphQL service.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Optimizing GraphQL queries in AWS AppSync is essential when building scalable and performant APIs — especially when dealing with nested data structures. The N+1 problem, while subtle, can lead to serious performance bottlenecks if left unaddressed.</p>
+<p>By leveraging batch resolvers, you can drastically reduce the number of resolver calls, minimize round-trips to your data source, and deliver faster, more efficient responses to your clients. Whether you choose direct Lambda resolvers or pipeline resolvers, designing with batching in mind ensures your AppSync APIs are ready to perform at scale.</p>
+<p>As your application grows, keeping an eye on resolver patterns and query performance becomes even more important. With the right strategy, tools, and architecture in place, you can build GraphQL services that are both elegant and efficient.</p>
+
+    </div>
+  </div>
+
+  <div class="footer container text-center" id="contact">
+  <ul class="footer-icons list-inline">
+    
+      <li>
+        <a href="https://github.com/sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-github footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://www.linkedin.com/in/sidath-asiri/" target="_blank" rel="noreferrer"
+          ><i class="fab fa-linkedin footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="mailto:sidathasiri@gmail.com" target="_blank" rel="noreferrer"
+          ><i class="fas fa-envelope footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://medium.com/@sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-medium footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://dev.to/sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-dev footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+  </ul>
+  <div class="credit">
+    Copyright Sidath Munasinghe ©
+    <span id="current-year"></span>
+  </div>
+</div>
+
+<!-- JS Plugins --> 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
+
+<script src="/plugins/text-animation/text-animation.js"></script>
+
+<script src="/plugins/hugrid/hugrid.min.js"></script>
+ <!-- Main Scripts --> 
+<script src="/js/script.min.js"></script>
+
+<script src="/js/hugrid.custom.min.js"></script>
+</body>
+</html>

@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Sidath Munasinghe</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 19 Jan 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://sidathasiri.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 11 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://sidathasiri.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Optimizing GraphQL at Scale: Tackling the N&#43;1 Problem in AWS AppSync</title>
+      <link>https://sidathasiri.github.io/2025/06/11/Optimizing-GraphQL-at-Scale-Tackling-the-N&#43;1-Problem-in-AWS-AppSync/</link>
+      <pubDate>Wed, 11 Jun 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://sidathasiri.github.io/2025/06/11/Optimizing-GraphQL-at-Scale-Tackling-the-N&#43;1-Problem-in-AWS-AppSync/</guid>
+      <description>GraphQL has become a popular alternative to traditional RESTful APIs, offering a more efficient and flexible way for clients to retrieve data. Instead of making multiple calls to various endpoints and receiving fixed response formats—as is common with REST—GraphQL enables clients to request exactly the data they need in a single request. This eliminates issues like over-fetching and under-fetching and gives frontend developers precise control over the data structure.
+AWS AppSync is a fully managed service that simplifies the creation of scalable, real-time GraphQL APIs.</description>
+    </item>
+    
     <item>
       <title>Leveraging Integrators and Disintegrators for Right-Sizing Microservices</title>
       <link>https://sidathasiri.github.io/2025/01/19/Right-Sizing-Microservices/</link>
