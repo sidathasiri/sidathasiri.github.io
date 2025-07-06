@@ -6,7 +6,18 @@
     <description>Recent content in Posts on Sidath Munasinghe</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 11 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://sidathasiri.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 01 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://sidathasiri.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Custom Authentication with AWS Cognito: A Guide to Passwordless OTP Login</title>
+      <link>https://sidathasiri.github.io/2025/07/01/Custom-Authentication-with-AWS-Cognito-A-Guide-to-Passwordless-OTP-Login/</link>
+      <pubDate>Tue, 01 Jul 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://sidathasiri.github.io/2025/07/01/Custom-Authentication-with-AWS-Cognito-A-Guide-to-Passwordless-OTP-Login/</guid>
+      <description>Authentication is a fundamental part of any secure application. While AWS Cognito provides built-in support for common sign-in methods like username/password and social logins, sometimes you need more flexibility. What if you want users to log in using a one-time password (OTP)? Or create a multi-step login process tailored to your product’s specific requirements?
+That’s where Cognito’s custom authentication flow shines.
+Custom auth gives you complete control over how users log in — whether you&amp;rsquo;re implementing OTP-based access, magic links, biometric flows, or organization-specific verification steps.</description>
+    </item>
+    
     <item>
       <title>Optimizing GraphQL at Scale: Tackling the N&#43;1 Problem in AWS AppSync</title>
       <link>https://sidathasiri.github.io/2025/06/11/Optimizing-GraphQL-at-Scale-Tackling-the-N&#43;1-Problem-in-AWS-AppSync/</link>
