@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Sidath Munasinghe</title>
-    <link>https://sidathasiri.github.io/post/</link>
+    <link>https://www.sidathm.online/post/</link>
     <description>Recent content in Posts on Sidath Munasinghe</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 04 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://sidathasiri.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 04 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.sidathm.online/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Breaking Free from Tenant-Specific Logic: One Pattern to Rule Them All</title>
-      <link>https://sidathasiri.github.io/2025/07/04/Breaking-Free-from-Tenant-Specific-Logic-One-Pattern-to-Rule-Them-All/</link>
+      <link>https://www.sidathm.online/2025/07/04/Breaking-Free-from-Tenant-Specific-Logic-One-Pattern-to-Rule-Them-All/</link>
       <pubDate>Fri, 04 Jul 2025 00:00:00 +0000</pubDate>
       
-      <guid>https://sidathasiri.github.io/2025/07/04/Breaking-Free-from-Tenant-Specific-Logic-One-Pattern-to-Rule-Them-All/</guid>
+      <guid>https://www.sidathm.online/2025/07/04/Breaking-Free-from-Tenant-Specific-Logic-One-Pattern-to-Rule-Them-All/</guid>
       <description>Ever built a SaaS product where each new customer wants “just one tiny change”… and suddenly everything starts falling apart?
 It always seems harmless at first.
 Client A wants a slight tweak in the approval logic. Client B needs a custom dashboard layout. Client C prefers SMS over email for notifications. And you think, “No problem — I’ll toss in a few conditionals and move on.”
@@ -21,10 +21,10 @@ And it works… until it doesn’t.</description>
     
     <item>
       <title>Custom Authentication with AWS Cognito: A Guide to Passwordless OTP Login</title>
-      <link>https://sidathasiri.github.io/2025/07/01/Custom-Authentication-with-AWS-Cognito-A-Guide-to-Passwordless-OTP-Login/</link>
+      <link>https://www.sidathm.online/2025/07/01/Custom-Authentication-with-AWS-Cognito-A-Guide-to-Passwordless-OTP-Login/</link>
       <pubDate>Tue, 01 Jul 2025 00:00:00 +0000</pubDate>
       
-      <guid>https://sidathasiri.github.io/2025/07/01/Custom-Authentication-with-AWS-Cognito-A-Guide-to-Passwordless-OTP-Login/</guid>
+      <guid>https://www.sidathm.online/2025/07/01/Custom-Authentication-with-AWS-Cognito-A-Guide-to-Passwordless-OTP-Login/</guid>
       <description>Authentication is a fundamental part of any secure application. While AWS Cognito provides built-in support for common sign-in methods like username/password and social logins, sometimes you need more flexibility. What if you want users to log in using a one-time password (OTP)? Or create a multi-step login process tailored to your product’s specific requirements?
 That’s where Cognito’s custom authentication flow shines.
 Custom auth gives you complete control over how users log in — whether you&amp;rsquo;re implementing OTP-based access, magic links, biometric flows, or organization-specific verification steps.</description>
@@ -32,94 +32,94 @@ Custom auth gives you complete control over how users log in — whether you&amp
     
     <item>
       <title>Optimizing GraphQL at Scale: Tackling the N&#43;1 Problem in AWS AppSync</title>
-      <link>https://sidathasiri.github.io/2025/06/11/Optimizing-GraphQL-at-Scale-Tackling-the-N&#43;1-Problem-in-AWS-AppSync/</link>
+      <link>https://www.sidathm.online/2025/06/11/Optimizing-GraphQL-at-Scale-Tackling-the-N&#43;1-Problem-in-AWS-AppSync/</link>
       <pubDate>Wed, 11 Jun 2025 00:00:00 +0000</pubDate>
       
-      <guid>https://sidathasiri.github.io/2025/06/11/Optimizing-GraphQL-at-Scale-Tackling-the-N&#43;1-Problem-in-AWS-AppSync/</guid>
+      <guid>https://www.sidathm.online/2025/06/11/Optimizing-GraphQL-at-Scale-Tackling-the-N&#43;1-Problem-in-AWS-AppSync/</guid>
       <description>GraphQL has become a popular alternative to traditional RESTful APIs, offering a more efficient and flexible way for clients to retrieve data. Instead of making multiple calls to various endpoints and receiving fixed response formats—as is common with REST—GraphQL enables clients to request exactly the data they need in a single request. This eliminates issues like over-fetching and under-fetching and gives frontend developers precise control over the data structure.
 AWS AppSync is a fully managed service that simplifies the creation of scalable, real-time GraphQL APIs.</description>
     </item>
     
     <item>
       <title>Leveraging Integrators and Disintegrators for Right-Sizing Microservices</title>
-      <link>https://sidathasiri.github.io/2025/01/19/Right-Sizing-Microservices/</link>
+      <link>https://www.sidathm.online/2025/01/19/Right-Sizing-Microservices/</link>
       <pubDate>Sun, 19 Jan 2025 00:00:00 +0000</pubDate>
       
-      <guid>https://sidathasiri.github.io/2025/01/19/Right-Sizing-Microservices/</guid>
+      <guid>https://www.sidathm.online/2025/01/19/Right-Sizing-Microservices/</guid>
       <description>Introduction Microservices have become the go-to approach for building modern software systems because of their promise of scalability, flexibility, and faster development. But behind the hype lies a critical truth: microservices can create more problems than they solve if not planned and sized correctly. Badly designed microservices will lead to confusion, unnecessary complexity, extra overheads, which in turn make your system harder to manage over time. The result? Such are long-term problems: sky-rocketing costs, maintenance headaches, and a system that feels more like a tangled web rather than a streamlined solution.</description>
     </item>
     
     <item>
       <title>Building Intelligent AI Agents with AWS Bedrock</title>
-      <link>https://sidathasiri.github.io/2024/12/25/Building-Intelligent-AI-Agents-with-AWS-Bedrock/</link>
+      <link>https://www.sidathm.online/2024/12/25/Building-Intelligent-AI-Agents-with-AWS-Bedrock/</link>
       <pubDate>Wed, 25 Dec 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://sidathasiri.github.io/2024/12/25/Building-Intelligent-AI-Agents-with-AWS-Bedrock/</guid>
+      <guid>https://www.sidathm.online/2024/12/25/Building-Intelligent-AI-Agents-with-AWS-Bedrock/</guid>
       <description>Introduction Generative AI is revolutionizing industries by streamlining processes, enhancing user interactions, and boosting overall efficiency. Among its most impactful applications is the development of AI agents — intelligent systems capable of autonomously handling tasks based on user input or predefined rules. These agents are now pivotal in areas like customer service, data processing, and even complex decision-making. Thanks to AWS Bedrock, creating and deploying these AI agents has never been easier or more accessible.</description>
     </item>
     
     <item>
       <title>Maximizing Cloud Infrastructure Efficiency with AWS CDK and Terraform</title>
-      <link>https://sidathasiri.github.io/2024/06/22/Unleashing-the-Power-of-CDK-and-Terraform-in-Cloud-Deployments/</link>
+      <link>https://www.sidathm.online/2024/06/22/Unleashing-the-Power-of-CDK-and-Terraform-in-Cloud-Deployments/</link>
       <pubDate>Sat, 22 Jun 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://sidathasiri.github.io/2024/06/22/Unleashing-the-Power-of-CDK-and-Terraform-in-Cloud-Deployments/</guid>
+      <guid>https://www.sidathm.online/2024/06/22/Unleashing-the-Power-of-CDK-and-Terraform-in-Cloud-Deployments/</guid>
       <description>Deploying applications to the cloud has become a cornerstone of modern software development. AWS offers CloudFormation as a service to facilitate cloud deployments and tools like the AWS Cloud Development Kit (CDK). At the same time, Terraform has emerged as a powerful solution for Infrastructure as Code (IaC), enabling faster deployments to multiple cloud providers. In this article, we’ll explore the benefits of using AWS CDK and Terraform together and walk through a practical example of creating a REST API with CDK in TypeScript.</description>
     </item>
     
     <item>
       <title>Generative AI on AWS with Amazon Bedrock Service</title>
-      <link>https://sidathasiri.github.io/2024/05/01/Generative-AI-on-AWS-with-Amazon-Bedrock/</link>
+      <link>https://www.sidathm.online/2024/05/01/Generative-AI-on-AWS-with-Amazon-Bedrock/</link>
       <pubDate>Wed, 01 May 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://sidathasiri.github.io/2024/05/01/Generative-AI-on-AWS-with-Amazon-Bedrock/</guid>
+      <guid>https://www.sidathm.online/2024/05/01/Generative-AI-on-AWS-with-Amazon-Bedrock/</guid>
       <description>Amazon Bedrock is a managed service that provides high-performing foundation models (FMs) from leading AI companies using a single interface. With Bedrock, we don’t need to worry about hosting and managing the infrastructure for the foundation models. We can directly jump into consuming these models with its APIs and start building apps. Further, we can customize these foundation models to fit our use cases and also integrate them with knowledge bases and agents to provide enhanced features.</description>
     </item>
     
     <item>
       <title>Effortless Kubernetes Infrastructure Provisioning and Application Deployment with Cluster.dev and Helm Charts</title>
-      <link>https://sidathasiri.github.io/2024/02/17/Deploy-Kubernetes-in-Minutes-Effortless-Infrastructure-Creation-and-Application-Deployment-with-Cluster.dev-and-Helm-Charts/</link>
+      <link>https://www.sidathm.online/2024/02/17/Deploy-Kubernetes-in-Minutes-Effortless-Infrastructure-Creation-and-Application-Deployment-with-Cluster.dev-and-Helm-Charts/</link>
       <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://sidathasiri.github.io/2024/02/17/Deploy-Kubernetes-in-Minutes-Effortless-Infrastructure-Creation-and-Application-Deployment-with-Cluster.dev-and-Helm-Charts/</guid>
+      <guid>https://www.sidathm.online/2024/02/17/Deploy-Kubernetes-in-Minutes-Effortless-Infrastructure-Creation-and-Application-Deployment-with-Cluster.dev-and-Helm-Charts/</guid>
       <description>Kubernetes has quickly become the leading orchestration tool for containerized applications, celebrated for its ability to scale applications robustly and resiliently. Its success lies in a powerful framework that adeptly handles the complex life cycles of distributed applications. Yet, deploying Kubernetes cluster infrastructure, essential for tapping into this platform’s capabilities, presents significant challenges. This complexity requires considerable effort and poses a major hurdle for many seeking to leverage Kubernetes for scalable application deployment.</description>
     </item>
     
     <item>
       <title>Feature Flags on AWS Using AppConfig for Seamless Software Evolution</title>
-      <link>https://sidathasiri.github.io/2023/12/20/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/</link>
+      <link>https://www.sidathm.online/2023/12/20/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/</link>
       <pubDate>Wed, 20 Dec 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://sidathasiri.github.io/2023/12/20/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/</guid>
+      <guid>https://www.sidathm.online/2023/12/20/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/</guid>
       <description>In the fast-paced realm of software development, agility and adaptability are not just a virtue but a necessity. Feature flagging is a versatile technique that offers a strategic approach for releasing features to end users, enabling rapid software development while giving more control to teams to evolve products.
 Feature flags decouple feature deployment from code deployment, allowing teams to release features incrementally and independently. Due to this, teams can do frequent code deployments darkly, although the entire feature development is incomplete.</description>
     </item>
     
     <item>
       <title>Building a WebSocket API on AWS</title>
-      <link>https://sidathasiri.github.io/2023/10/15/Building-WebSocket-APIs-with-AWS-API-Gateway-and-CDK/</link>
+      <link>https://www.sidathm.online/2023/10/15/Building-WebSocket-APIs-with-AWS-API-Gateway-and-CDK/</link>
       <pubDate>Sun, 15 Oct 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://sidathasiri.github.io/2023/10/15/Building-WebSocket-APIs-with-AWS-API-Gateway-and-CDK/</guid>
+      <guid>https://www.sidathm.online/2023/10/15/Building-WebSocket-APIs-with-AWS-API-Gateway-and-CDK/</guid>
       <description>In the continuously evolving landscape of web applications, real-time communication has become the gold standard for creating engaging and interactive user experiences. Whether you’re building a chat application, a collaborative online game, or a live dashboard, WebSocket technology has emerged as the enchanting solution that makes real-time magic happen. And when it comes to unleashing the full potential of WebSockets in a serverless and scalable manner, Amazon Web Services (AWS) has a spell of its own — AWS API Gateway.</description>
     </item>
     
     <item>
       <title>Secure Deployments to AWS with GitHub Actions via OpenID Connect</title>
-      <link>https://sidathasiri.github.io/2023/03/04/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/</link>
+      <link>https://www.sidathm.online/2023/03/04/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/</link>
       <pubDate>Sat, 04 Mar 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://sidathasiri.github.io/2023/03/04/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/</guid>
+      <guid>https://www.sidathm.online/2023/03/04/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/</guid>
       <description>GitHub Actions is a platform to perform automated tasks upon triggering an event in GitHub. This is being used extensively to govern continuous integration and continuous delivery (CI/CD) workflows once code changes are pushed to a repository. But GitHub Actions has capabilities beyond that to automate a lot of stuff such as tagging releases, sending notifications when creating issues, repository migrations, etc.
 Why GitHub Actions for CI/CD? There are several benefits to using GitHub Actions for Continuous Integration and Continuous Deployment (CI/CD):</description>
     </item>
     
     <item>
       <title>AWS CDK for Seamless Infrastructure Management</title>
-      <link>https://sidathasiri.github.io/2023/01/20/Seamless-Infrastructure-Management-with-AWS-CDK/</link>
+      <link>https://www.sidathm.online/2023/01/20/Seamless-Infrastructure-Management-with-AWS-CDK/</link>
       <pubDate>Fri, 20 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://sidathasiri.github.io/2023/01/20/Seamless-Infrastructure-Management-with-AWS-CDK/</guid>
+      <guid>https://www.sidathm.online/2023/01/20/Seamless-Infrastructure-Management-with-AWS-CDK/</guid>
       <description>The heart of any software solution is its infrastructure and administering it appropriately is very crucial. At present, it can be seen that the majority of software vendors have moved towards using cloud platforms and serverless architectures to mitigate the complexity of maintaining infrastructure. Still, things like provisioning the infrastructure in diverse environments and keeping them in sync need enormous effort if done manually.
 This challenge can be eased by a practice known as Infrastructure as code (IaC) that codifies and manages underlying IT infrastructure.</description>
     </item>
