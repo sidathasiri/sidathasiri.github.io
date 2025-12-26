@@ -2,10 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://www.sidathm.online/</loc>
+    <loc>https://www.sidathm.online/2025/07/04/Breaking-Free-from-Tenant-Specific-Logic-One-Pattern-to-Rule-Them-All/</loc>
     <lastmod>2025-07-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://www.sidathm.online/2025/07/04/Breaking-Free-from-Tenant-Specific-Logic-One-Pattern-to-Rule-Them-All/</loc>
+    <loc>https://www.sidathm.online/post/</loc>
+    <lastmod>2025-07-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.sidathm.online/</loc>
     <lastmod>2025-07-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.sidathm.online/2025/07/01/Custom-Authentication-with-AWS-Cognito-A-Guide-to-Passwordless-OTP-Login/</loc>
@@ -41,6 +44,8 @@
     <loc>https://www.sidathm.online/2023/01/20/Seamless-Infrastructure-Management-with-AWS-CDK/</loc>
     <lastmod>2023-01-20T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://www.sidathm.online/post/</loc>
+    <loc>https://www.sidathm.online/categories/</loc>
+  </url><url>
+    <loc>https://www.sidathm.online/tags/</loc>
   </url>
 </urlset>

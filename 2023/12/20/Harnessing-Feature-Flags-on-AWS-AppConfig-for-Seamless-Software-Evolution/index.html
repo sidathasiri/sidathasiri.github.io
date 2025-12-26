@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8" />
-  <title>Feature Flags on AWS Using AppConfig for Seamless Software Evolution</title>
+  <title>Feature Flags on AWS Using AppConfig for Seamless Software Evolution | Sidath Munasinghe</title>
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +19,28 @@
     <meta name="author" content="Sidath Munasinghe" />
   
 
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://www.sidathm.online/2023/12/20/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://www.sidathm.online/2023/12/20/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/" />
+  <meta property="og:title" content="Feature Flags on AWS Using AppConfig for Seamless Software Evolution" />
+  <meta property="og:description" content="Learn what are feature flags and how to use AWS AppConfig service to implement feature flags. Get hands on experience by integrating feature flags with AWS Lambda using CDK" />
+  <meta property="og:site_name" content="Sidath Munasinghe" />
+  
+  <meta property="og:image" content="https://www.sidathm.online/images/posts/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/main-logo.png" />
+  
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://www.sidathm.online/2023/12/20/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/" />
+  <meta name="twitter:title" content="Feature Flags on AWS Using AppConfig for Seamless Software Evolution" />
+  <meta name="twitter:description" content="Learn what are feature flags and how to use AWS AppConfig service to implement feature flags. Get hands on experience by integrating feature flags with AWS Lambda using CDK" />
+  
+  <meta name="twitter:image" content="https://www.sidathm.online/images/posts/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/main-logo.png" />
+  
+
   <meta name="google-site-verification" content="Os0XiJ_IsnKUGbMIAetAT8jRKYr8ty87olW3V1P0ia4" />
 
   <!-- plugins -->
@@ -31,23 +53,22 @@
   
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900&amp;display=swap" />
   
-    <link rel="stylesheet" href="/plugins/text-animation/text-animation.css" />
+    <link rel="stylesheet" href="https://www.sidathm.online/plugins/text-animation/text-animation.css" />
   
-    <link rel="stylesheet" href="/plugins/hugrid/hugrid.css" />
+    <link rel="stylesheet" href="https://www.sidathm.online/plugins/hugrid/hugrid.css" />
   
 
   <!-- Main Stylesheet -->
 
   
-  <link rel="stylesheet" href="/css/style.min.css" media="screen" />
+  <link rel="stylesheet" href="https://www.sidathm.online/css/style.min.css" media="screen" />
 
-  <link rel="stylesheet" href="/css/customizations.css" media="screen" />
+  <link rel="stylesheet" href="https://www.sidathm.online/css/customizations.css" media="screen" />
 
   <!--Favicon-->
 
-  <link rel="icon" type="image/png" href="/images/favicon.ico" />
+  <link rel="icon" type="image/png" href="https://www.sidathm.online/images/favicon.ico" />
 
-  
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
     <script>
@@ -62,7 +83,7 @@
 <body> <!-- preloader start -->
 <div class="preloader">
   
-  <img src="/images/preloader.gif" alt="preloader" />
+  <img src="https://www.sidathm.online/images/preloader.gif" alt="preloader" />
   
 </div>
 <!-- preloader end --> 
@@ -72,10 +93,10 @@
     
     <div class="menu-container">
       <div class="desktop-menu-logo">
-        <a href="/"
+        <a href="https://www.sidathm.online/"
           ><img
             class="img-fluid"
-            src="/images/S_logo_white.png"
+            src="https://www.sidathm.online/images/S_logo_white.png"
             alt="Sidath Munasinghe"
             id="desktop-logo"
         /></a>
@@ -83,7 +104,7 @@
       <ul class="desktop-menu list-inline mb-0" id="desktop-menu">
         
         <li class="menu-item hvr-underline-from-left 1">
-          <a href="/">Home</a>
+          <a href="https://www.sidathm.online/">Home</a>
         </li>
         
         <li class="menu-item hvr-underline-from-left 2">
@@ -91,7 +112,7 @@
         </li>
         
         <li class="menu-item hvr-underline-from-left 3">
-          <a href="/post">Blog</a>
+          <a href="https://www.sidathm.online/post">Blog</a>
         </li>
         
       </ul>
@@ -105,10 +126,10 @@
           </a>
         </div>
         <div class="mobile-menu-logo">
-          <a href="/"
+          <a href="https://www.sidathm.online/"
             ><img
               class="img-fluid"
-              src="/images/S_logo_dark.png"
+              src="https://www.sidathm.online/images/S_logo_dark.png"
               alt="Sidath Munasinghe"
           /></a>
         </div>
@@ -117,7 +138,7 @@
             <ul class="mobile-menu-list">
               
               <li class="mobile-menu-item 1 mx-auto">
-                <a href="/">Home</a>
+                <a href="https://www.sidathm.online/">Home</a>
               </li>
               
               <li class="mobile-menu-item 1 mx-auto">
@@ -125,7 +146,7 @@
               </li>
               
               <li class="mobile-menu-item 1 mx-auto">
-                <a href="/post">Blog</a>
+                <a href="https://www.sidathm.online/post">Blog</a>
               </li>
               
             </ul>
@@ -173,7 +194,7 @@
   <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
     <h1>Feature Flags on AWS Using AppConfig for Seamless Software Evolution</h1>
     <span class="date">Posted on: 12/20/2023</span>
-    <img src="/images/posts/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/main-logo.png" alt="Feature Flags on AWS Using AppConfig for Seamless Software Evolution" />
+    <img src="https://www.sidathm.online/images/posts/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/main-logo.png" alt="Feature Flags on AWS Using AppConfig for Seamless Software Evolution" />
     <div class="body">
       <p>In the fast-paced realm of software development, agility and adaptability are not just a virtue but a necessity. Feature flagging is a versatile technique that offers a strategic approach for releasing features to end users, enabling rapid software development while giving more control to teams to evolve products.</p>
 <p>Feature flags decouple feature deployment from code deployment, allowing teams to release features incrementally and independently. Due to this, teams can do frequent code deployments darkly, although the entire feature development is incomplete. Once the entire feature development is complete and ready to enable users, it can be released on demand as needed. This promotes a continuous deployment approach, enabling faster time-to-market without disrupting the entire application.</p>
@@ -186,7 +207,7 @@
 <li><strong>Graceful Degradation:</strong> There are situations where systems receive excessive traffic, putting them under stress and leading to performance issues. In those scenarios, teams can use feature flags to turn off non-critical features and let the core features perform as expected.</li>
 </ul>
 <h2 id="appconfig-feature-flags">AppConfig Feature Flags</h2>
-<p><img src="/images/posts/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/app-config.png" alt="Source: https://gallery.ecr.aws/aws-appconfig/aws-appconfig-agent"></p>
+<p><img src="https://www.sidathm.online/images/posts/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/app-config.png" alt="Source: https://gallery.ecr.aws/aws-appconfig/aws-appconfig-agent"></p>
 <p>AWS AppConfig is a service that facilitates deploying and managing application configurations on the AWS cloud, including feature flags. It allows teams to create, manage, and deploy configurations seamlessly with several additional capabilities.</p>
 <ul>
 <li><strong>Rollout strategies:</strong> AWS AppConfig supports different rollout strategies to enable feature activation in a controlled manner. This helps to identify potential issues, gather user feedback in a controlled manner, and react accordingly to keep rolling out or revert.</li>
@@ -337,8 +358,7 @@ export const handler: Handler = async (event: any) =&gt; {
 </code></pre><p>Finally, when we test the lambda function from the AWS console, we can see that the AppConfig agent has started and the configuration values have fetched successfully from the CloudWatch logs.</p>
 <p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kbholjgwq4gy96rzlat3.png" alt="Image description"></p>
 <blockquote>
-<p>The full implementation of this can be found on this <a href="https://github.com/sidathasiri/appconfig-feature-flags">GitHub repo</a>.</p>
-</blockquote>
+<p>The full implementation of this can be found on this <a href="https://github.com/sidathasiri/appconfig-feature-flags">GitHub repo</a>.</p></blockquote>
 <h2 id="conclusion">Conclusion</h2>
 <p>In conclusion, adopting feature flags, particularly through AWS AppConfig, empowers software teams to achieve a smooth and adaptive software evolution. The advantages of feature flags, such as controlled rollout, risk mitigation, and dynamic configuration, are effectively harnessed using AppConfig, offering real-time control and seamless integration with AWS services.</p>
 <p>Different integration options underscore AppConfig’s flexibility in catering to diverse development environments. Altogether, leveraging feature flags on AWS AppConfig enhances development agility, allowing teams to respond dynamically to evolving requirements and user feedback, ultimately fostering a resilient and user-centric software evolution.</p>
@@ -398,12 +418,12 @@ export const handler: Handler = async (event: any) =&gt; {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
 
-<script src="/plugins/text-animation/text-animation.js"></script>
+<script src="https://www.sidathm.online/plugins/text-animation/text-animation.js"></script>
 
-<script src="/plugins/hugrid/hugrid.min.js"></script>
+<script src="https://www.sidathm.online/plugins/hugrid/hugrid.min.js"></script>
  <!-- Main Scripts --> 
-<script src="/js/script.min.js"></script>
+<script src="https://www.sidathm.online/js/script.min.js"></script>
 
-<script src="/js/hugrid.custom.min.js"></script>
+<script src="https://www.sidathm.online/js/hugrid.custom.min.js"></script>
 </body>
 </html>

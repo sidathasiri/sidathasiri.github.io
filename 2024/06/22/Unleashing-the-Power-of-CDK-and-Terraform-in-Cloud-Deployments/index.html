@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8" />
-  <title>Maximizing Cloud Infrastructure Efficiency with AWS CDK and Terraform</title>
+  <title>Maximizing Cloud Infrastructure Efficiency with AWS CDK and Terraform | Sidath Munasinghe</title>
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +19,28 @@
     <meta name="author" content="Sidath Munasinghe" />
   
 
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://www.sidathm.online/2024/06/22/Unleashing-the-Power-of-CDK-and-Terraform-in-Cloud-Deployments/" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://www.sidathm.online/2024/06/22/Unleashing-the-Power-of-CDK-and-Terraform-in-Cloud-Deployments/" />
+  <meta property="og:title" content="Maximizing Cloud Infrastructure Efficiency with AWS CDK and Terraform" />
+  <meta property="og:description" content="Uncover the art of integrating CDK and Terraform for seamless synergy in cloud deployments. Explore how these powerful tools streamline infrastructure as code, leading to faster and more efficient cloud deployment processes." />
+  <meta property="og:site_name" content="Sidath Munasinghe" />
+  
+  <meta property="og:image" content="https://www.sidathm.online/images/posts/Unleashing-the-Power-of-CDK-and-Terraform-in-Cloud-Deployments/main-cover-image.png" />
+  
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://www.sidathm.online/2024/06/22/Unleashing-the-Power-of-CDK-and-Terraform-in-Cloud-Deployments/" />
+  <meta name="twitter:title" content="Maximizing Cloud Infrastructure Efficiency with AWS CDK and Terraform" />
+  <meta name="twitter:description" content="Uncover the art of integrating CDK and Terraform for seamless synergy in cloud deployments. Explore how these powerful tools streamline infrastructure as code, leading to faster and more efficient cloud deployment processes." />
+  
+  <meta name="twitter:image" content="https://www.sidathm.online/images/posts/Unleashing-the-Power-of-CDK-and-Terraform-in-Cloud-Deployments/main-cover-image.png" />
+  
+
   <meta name="google-site-verification" content="Os0XiJ_IsnKUGbMIAetAT8jRKYr8ty87olW3V1P0ia4" />
 
   <!-- plugins -->
@@ -31,23 +53,22 @@
   
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900&amp;display=swap" />
   
-    <link rel="stylesheet" href="/plugins/text-animation/text-animation.css" />
+    <link rel="stylesheet" href="https://www.sidathm.online/plugins/text-animation/text-animation.css" />
   
-    <link rel="stylesheet" href="/plugins/hugrid/hugrid.css" />
+    <link rel="stylesheet" href="https://www.sidathm.online/plugins/hugrid/hugrid.css" />
   
 
   <!-- Main Stylesheet -->
 
   
-  <link rel="stylesheet" href="/css/style.min.css" media="screen" />
+  <link rel="stylesheet" href="https://www.sidathm.online/css/style.min.css" media="screen" />
 
-  <link rel="stylesheet" href="/css/customizations.css" media="screen" />
+  <link rel="stylesheet" href="https://www.sidathm.online/css/customizations.css" media="screen" />
 
   <!--Favicon-->
 
-  <link rel="icon" type="image/png" href="/images/favicon.ico" />
+  <link rel="icon" type="image/png" href="https://www.sidathm.online/images/favicon.ico" />
 
-  
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
     <script>
@@ -62,7 +83,7 @@
 <body> <!-- preloader start -->
 <div class="preloader">
   
-  <img src="/images/preloader.gif" alt="preloader" />
+  <img src="https://www.sidathm.online/images/preloader.gif" alt="preloader" />
   
 </div>
 <!-- preloader end --> 
@@ -72,10 +93,10 @@
     
     <div class="menu-container">
       <div class="desktop-menu-logo">
-        <a href="/"
+        <a href="https://www.sidathm.online/"
           ><img
             class="img-fluid"
-            src="/images/S_logo_white.png"
+            src="https://www.sidathm.online/images/S_logo_white.png"
             alt="Sidath Munasinghe"
             id="desktop-logo"
         /></a>
@@ -83,7 +104,7 @@
       <ul class="desktop-menu list-inline mb-0" id="desktop-menu">
         
         <li class="menu-item hvr-underline-from-left 1">
-          <a href="/">Home</a>
+          <a href="https://www.sidathm.online/">Home</a>
         </li>
         
         <li class="menu-item hvr-underline-from-left 2">
@@ -91,7 +112,7 @@
         </li>
         
         <li class="menu-item hvr-underline-from-left 3">
-          <a href="/post">Blog</a>
+          <a href="https://www.sidathm.online/post">Blog</a>
         </li>
         
       </ul>
@@ -105,10 +126,10 @@
           </a>
         </div>
         <div class="mobile-menu-logo">
-          <a href="/"
+          <a href="https://www.sidathm.online/"
             ><img
               class="img-fluid"
-              src="/images/S_logo_dark.png"
+              src="https://www.sidathm.online/images/S_logo_dark.png"
               alt="Sidath Munasinghe"
           /></a>
         </div>
@@ -117,7 +138,7 @@
             <ul class="mobile-menu-list">
               
               <li class="mobile-menu-item 1 mx-auto">
-                <a href="/">Home</a>
+                <a href="https://www.sidathm.online/">Home</a>
               </li>
               
               <li class="mobile-menu-item 1 mx-auto">
@@ -125,7 +146,7 @@
               </li>
               
               <li class="mobile-menu-item 1 mx-auto">
-                <a href="/post">Blog</a>
+                <a href="https://www.sidathm.online/post">Blog</a>
               </li>
               
             </ul>
@@ -173,7 +194,7 @@
   <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
     <h1>Maximizing Cloud Infrastructure Efficiency with AWS CDK and Terraform</h1>
     <span class="date">Posted on: 6/22/2024</span>
-    <img src="/images/posts/Unleashing-the-Power-of-CDK-and-Terraform-in-Cloud-Deployments/main-cover-image.png" alt="Maximizing Cloud Infrastructure Efficiency with AWS CDK and Terraform" />
+    <img src="https://www.sidathm.online/images/posts/Unleashing-the-Power-of-CDK-and-Terraform-in-Cloud-Deployments/main-cover-image.png" alt="Maximizing Cloud Infrastructure Efficiency with AWS CDK and Terraform" />
     <div class="body">
       <p>Deploying applications to the cloud has become a cornerstone of modern software development. AWS offers CloudFormation as a service to facilitate cloud deployments and tools like the AWS Cloud Development Kit (CDK). At the same time, Terraform has emerged as a powerful solution for Infrastructure as Code (IaC), enabling faster deployments to multiple cloud providers. In this article, we’ll explore the benefits of using AWS CDK and Terraform together and walk through a practical example of creating a REST API with CDK in TypeScript.</p>
 <h2 id="terraform-and-cdk">Terraform and CDK</h2>
@@ -186,8 +207,7 @@
 <p>Using both tools together, we can enjoy the benefits of both worlds. Although Terraform uses HCL, it may not be very convenient for developers. CDK solves this by providing high-level reusable CDK constructs to implement the infrastructure within a few lines. Also, since we use a very familiar programming language, it feels so close to the developers.</p>
 <p>On the other hand, CDK uses CloudFormation behind the scenes, which is usually slower than Terraform. However, when we use CDK and Terraform together, we can make much faster cloud deployments since we use Terraform to perform the deployments.</p>
 <blockquote>
-<p>We can achieve this through the use of <a href="https://developer.hashicorp.com/terraform/cdktf">CDK for Terraform</a>, which is introduced as Cloud Development Kit for Terraform (CDKTF), allowing us to utilise familiar programming languages to define and provision infrastructure.</p>
-</blockquote>
+<p>We can achieve this through the use of <a href="https://developer.hashicorp.com/terraform/cdktf">CDK for Terraform</a>, which is introduced as Cloud Development Kit for Terraform (CDKTF), allowing us to utilise familiar programming languages to define and provision infrastructure.</p></blockquote>
 <h2 id="project-setup">Project Setup</h2>
 <p>Let’s set up a Terraform project with CDK using Typescript as the language. We need to set up a few prerequisites for using CDK for Terraform.</p>
 <ul>
@@ -280,12 +300,12 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
 
-<script src="/plugins/text-animation/text-animation.js"></script>
+<script src="https://www.sidathm.online/plugins/text-animation/text-animation.js"></script>
 
-<script src="/plugins/hugrid/hugrid.min.js"></script>
+<script src="https://www.sidathm.online/plugins/hugrid/hugrid.min.js"></script>
  <!-- Main Scripts --> 
-<script src="/js/script.min.js"></script>
+<script src="https://www.sidathm.online/js/script.min.js"></script>
 
-<script src="/js/hugrid.custom.min.js"></script>
+<script src="https://www.sidathm.online/js/hugrid.custom.min.js"></script>
 </body>
 </html>

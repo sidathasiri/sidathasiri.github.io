@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8" />
-  <title>Effortless Kubernetes Infrastructure Provisioning and Application Deployment with Cluster.dev and Helm Charts</title>
+  <title>Effortless Kubernetes Infrastructure Provisioning and Application Deployment with Cluster.dev and Helm Charts | Sidath Munasinghe</title>
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +19,28 @@
     <meta name="author" content="Sidath Munasinghe" />
   
 
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://www.sidathm.online/2024/02/17/Deploy-Kubernetes-in-Minutes-Effortless-Infrastructure-Creation-and-Application-Deployment-with-Cluster.dev-and-Helm-Charts/" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://www.sidathm.online/2024/02/17/Deploy-Kubernetes-in-Minutes-Effortless-Infrastructure-Creation-and-Application-Deployment-with-Cluster.dev-and-Helm-Charts/" />
+  <meta property="og:title" content="Effortless Kubernetes Infrastructure Provisioning and Application Deployment with Cluster.dev and Helm Charts" />
+  <meta property="og:description" content="Learn how to create a Kubernetes cluster on AWS and deploy a Jenkins service via Helm within minutes using Cluster.dev" />
+  <meta property="og:site_name" content="Sidath Munasinghe" />
+  
+  <meta property="og:image" content="https://www.sidathm.online/images/posts/Deploy-Kubernetes-in-Minutes-Effortless-Infrastructure-Creation-and-Application-Deployment-with-Cluster.dev-and-Helm-Charts/k8-with-helm.png" />
+  
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://www.sidathm.online/2024/02/17/Deploy-Kubernetes-in-Minutes-Effortless-Infrastructure-Creation-and-Application-Deployment-with-Cluster.dev-and-Helm-Charts/" />
+  <meta name="twitter:title" content="Effortless Kubernetes Infrastructure Provisioning and Application Deployment with Cluster.dev and Helm Charts" />
+  <meta name="twitter:description" content="Learn how to create a Kubernetes cluster on AWS and deploy a Jenkins service via Helm within minutes using Cluster.dev" />
+  
+  <meta name="twitter:image" content="https://www.sidathm.online/images/posts/Deploy-Kubernetes-in-Minutes-Effortless-Infrastructure-Creation-and-Application-Deployment-with-Cluster.dev-and-Helm-Charts/k8-with-helm.png" />
+  
+
   <meta name="google-site-verification" content="Os0XiJ_IsnKUGbMIAetAT8jRKYr8ty87olW3V1P0ia4" />
 
   <!-- plugins -->
@@ -31,23 +53,22 @@
   
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900&amp;display=swap" />
   
-    <link rel="stylesheet" href="/plugins/text-animation/text-animation.css" />
+    <link rel="stylesheet" href="https://www.sidathm.online/plugins/text-animation/text-animation.css" />
   
-    <link rel="stylesheet" href="/plugins/hugrid/hugrid.css" />
+    <link rel="stylesheet" href="https://www.sidathm.online/plugins/hugrid/hugrid.css" />
   
 
   <!-- Main Stylesheet -->
 
   
-  <link rel="stylesheet" href="/css/style.min.css" media="screen" />
+  <link rel="stylesheet" href="https://www.sidathm.online/css/style.min.css" media="screen" />
 
-  <link rel="stylesheet" href="/css/customizations.css" media="screen" />
+  <link rel="stylesheet" href="https://www.sidathm.online/css/customizations.css" media="screen" />
 
   <!--Favicon-->
 
-  <link rel="icon" type="image/png" href="/images/favicon.ico" />
+  <link rel="icon" type="image/png" href="https://www.sidathm.online/images/favicon.ico" />
 
-  
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
     <script>
@@ -62,7 +83,7 @@
 <body> <!-- preloader start -->
 <div class="preloader">
   
-  <img src="/images/preloader.gif" alt="preloader" />
+  <img src="https://www.sidathm.online/images/preloader.gif" alt="preloader" />
   
 </div>
 <!-- preloader end --> 
@@ -72,10 +93,10 @@
     
     <div class="menu-container">
       <div class="desktop-menu-logo">
-        <a href="/"
+        <a href="https://www.sidathm.online/"
           ><img
             class="img-fluid"
-            src="/images/S_logo_white.png"
+            src="https://www.sidathm.online/images/S_logo_white.png"
             alt="Sidath Munasinghe"
             id="desktop-logo"
         /></a>
@@ -83,7 +104,7 @@
       <ul class="desktop-menu list-inline mb-0" id="desktop-menu">
         
         <li class="menu-item hvr-underline-from-left 1">
-          <a href="/">Home</a>
+          <a href="https://www.sidathm.online/">Home</a>
         </li>
         
         <li class="menu-item hvr-underline-from-left 2">
@@ -91,7 +112,7 @@
         </li>
         
         <li class="menu-item hvr-underline-from-left 3">
-          <a href="/post">Blog</a>
+          <a href="https://www.sidathm.online/post">Blog</a>
         </li>
         
       </ul>
@@ -105,10 +126,10 @@
           </a>
         </div>
         <div class="mobile-menu-logo">
-          <a href="/"
+          <a href="https://www.sidathm.online/"
             ><img
               class="img-fluid"
-              src="/images/S_logo_dark.png"
+              src="https://www.sidathm.online/images/S_logo_dark.png"
               alt="Sidath Munasinghe"
           /></a>
         </div>
@@ -117,7 +138,7 @@
             <ul class="mobile-menu-list">
               
               <li class="mobile-menu-item 1 mx-auto">
-                <a href="/">Home</a>
+                <a href="https://www.sidathm.online/">Home</a>
               </li>
               
               <li class="mobile-menu-item 1 mx-auto">
@@ -125,7 +146,7 @@
               </li>
               
               <li class="mobile-menu-item 1 mx-auto">
-                <a href="/post">Blog</a>
+                <a href="https://www.sidathm.online/post">Blog</a>
               </li>
               
             </ul>
@@ -173,7 +194,7 @@
   <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
     <h1>Effortless Kubernetes Infrastructure Provisioning and Application Deployment with Cluster.dev and Helm Charts</h1>
     <span class="date">Posted on: 2/17/2024</span>
-    <img src="/images/posts/Deploy-Kubernetes-in-Minutes-Effortless-Infrastructure-Creation-and-Application-Deployment-with-Cluster.dev-and-Helm-Charts/k8-with-helm.png" alt="Effortless Kubernetes Infrastructure Provisioning and Application Deployment with Cluster.dev and Helm Charts" />
+    <img src="https://www.sidathm.online/images/posts/Deploy-Kubernetes-in-Minutes-Effortless-Infrastructure-Creation-and-Application-Deployment-with-Cluster.dev-and-Helm-Charts/k8-with-helm.png" alt="Effortless Kubernetes Infrastructure Provisioning and Application Deployment with Cluster.dev and Helm Charts" />
     <div class="body">
       <p>Kubernetes has quickly become the leading orchestration tool for containerized applications, celebrated for its ability to scale applications robustly and resiliently. Its success lies in a powerful framework that adeptly handles the complex life cycles of distributed applications. Yet, deploying Kubernetes cluster infrastructure, essential for tapping into this platform’s capabilities, presents significant challenges. This complexity requires considerable effort and poses a major hurdle for many seeking to leverage Kubernetes for scalable application deployment.</p>
 <p>This guide is designed to demystify the process, showing you how to set up a Kubernetes infrastructure swiftly and without hassle. We aim to transform the perceived daunting task of Kubernetes deployment into a streamlined and straightforward process so you don’t want to struggle with its complexities. By the end of this article, you’ll be equipped to utilize the full power of Kubernetes, making infrastructure deployment not just feasible but also simple, efficient, and repeatable. Let’s embark on this journey to simplify Kubernetes deployment, turning obstacles into opportunities for growth and innovation.</p>
@@ -198,7 +219,8 @@
 <p>To do this, create a project folder and run the below Cluster.dev command inside it.</p>
 <pre tabindex="0"><code>cdev project create https://github.com/sidathasiri/cdev-eks.git - interactive
 </code></pre><p>This will give you an interactive guide like the one below to configure the template with custom configurations.</p>
-<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/8acq7712rc2l96luc1v4.png" alt="Cluster.dev interactive CLI to generate code"></p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/8acq7712rc2l96luc1v4.png" alt="Cluster.dev interactive CLI to generate code
+"></p>
 <p>Now, we get a project generated with the necessary configurations to deploy a Kubernetes cluster. Let’s extend it to deploy Jenkins with Helm. To do that, we need to update the <code>template.yaml</code> file with additional units as follows. The first unit (kubeconfig) is a shell unit configuring the <code>kubectl</code> CLI to interact with the Kubernetes cluster we create. The second unit (jenkins) is a Helm unit configured with the Jenkins Helm chart from the <a href="https://charts.jenkins.io/">public Helm repository</a>. To access the Jenkins service from the public internet, we need to create a Kubernetes service as a load balancer. We can provide this configuration with a <code>values.yaml</code> file in <code>template/helm/values.yaml</code> path. The second snippet below shows the content of that file.</p>
 <pre tabindex="0"><code>  - name: kubeconfig
       type: shell
@@ -220,8 +242,7 @@
 </code></pre><pre tabindex="0"><code>controller:
   serviceType: LoadBalancer
 </code></pre><blockquote>
-<p>You can find the full implementation of this from this <a href="https://github.com/sidathasiri/cdev-eks-jenkins">GitHub repo</a></p>
-</blockquote>
+<p>You can find the full implementation of this from this <a href="https://github.com/sidathasiri/cdev-eks-jenkins">GitHub repo</a></p></blockquote>
 <p>That’s all we need to do. Now, we can run the command below, and Cluster.dev will create the Kubernetes cluster and then deploy the Jenkins service within it.</p>
 <pre tabindex="0"><code>cdev apply - force
 </code></pre><p>Once the deployment is complete, we can see that a load balancer has been created. We can access the deployed Jenkins service using the DNS address of the load balancer on the port 8080.</p>
@@ -290,12 +311,12 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
 
-<script src="/plugins/text-animation/text-animation.js"></script>
+<script src="https://www.sidathm.online/plugins/text-animation/text-animation.js"></script>
 
-<script src="/plugins/hugrid/hugrid.min.js"></script>
+<script src="https://www.sidathm.online/plugins/hugrid/hugrid.min.js"></script>
  <!-- Main Scripts --> 
-<script src="/js/script.min.js"></script>
+<script src="https://www.sidathm.online/js/script.min.js"></script>
 
-<script src="/js/hugrid.custom.min.js"></script>
+<script src="https://www.sidathm.online/js/hugrid.custom.min.js"></script>
 </body>
 </html>
