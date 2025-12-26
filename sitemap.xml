@@ -2,24 +2,50 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://sidathasiri.github.io/2024/02/17/Deploy-Kubernetes-in-Minutes:-Effortless-Infrastructure-Creation-and-Application-Deployment-with-Cluster.dev-and-Helm-Charts/</loc>
+    <loc>https://www.sidathm.online/2025/07/04/Breaking-Free-from-Tenant-Specific-Logic-One-Pattern-to-Rule-Them-All/</loc>
+    <lastmod>2025-07-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.sidathm.online/post/</loc>
+    <lastmod>2025-07-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.sidathm.online/</loc>
+    <lastmod>2025-07-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.sidathm.online/2025/07/01/Custom-Authentication-with-AWS-Cognito-A-Guide-to-Passwordless-OTP-Login/</loc>
+    <lastmod>2025-07-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.sidathm.online/2025/06/11/Optimizing-GraphQL-at-Scale-Tackling-the-N&#43;1-Problem-in-AWS-AppSync/</loc>
+    <lastmod>2025-06-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.sidathm.online/2025/01/19/Right-Sizing-Microservices/</loc>
+    <lastmod>2025-01-19T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.sidathm.online/2024/12/25/Building-Intelligent-AI-Agents-with-AWS-Bedrock/</loc>
+    <lastmod>2024-12-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.sidathm.online/2024/06/22/Unleashing-the-Power-of-CDK-and-Terraform-in-Cloud-Deployments/</loc>
+    <lastmod>2024-06-22T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.sidathm.online/2024/05/01/Generative-AI-on-AWS-with-Amazon-Bedrock/</loc>
+    <lastmod>2024-05-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.sidathm.online/2024/02/17/Deploy-Kubernetes-in-Minutes-Effortless-Infrastructure-Creation-and-Application-Deployment-with-Cluster.dev-and-Helm-Charts/</loc>
     <lastmod>2024-02-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sidathasiri.github.io/post/</loc>
-    <lastmod>2024-02-17T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://sidathasiri.github.io/</loc>
-    <lastmod>2024-02-17T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://sidathasiri.github.io/2023/12/20/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/</loc>
+    <loc>https://www.sidathm.online/2023/12/20/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/</loc>
     <lastmod>2023-12-20T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sidathasiri.github.io/2023/10/15/Building-WebSocket-APIs-with-AWS-API-Gateway-and-CDK/</loc>
+    <loc>https://www.sidathm.online/2023/10/15/Building-WebSocket-APIs-with-AWS-API-Gateway-and-CDK/</loc>
     <lastmod>2023-10-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sidathasiri.github.io/2023/03/04/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/</loc>
+    <loc>https://www.sidathm.online/2023/03/04/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/</loc>
     <lastmod>2023-03-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sidathasiri.github.io/index.html</loc>
+    <loc>https://www.sidathm.online/2023/01/20/Seamless-Infrastructure-Management-with-AWS-CDK/</loc>
+    <lastmod>2023-01-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.sidathm.online/categories/</loc>
+  </url><url>
+    <loc>https://www.sidathm.online/tags/</loc>
   </url>
 </urlset>

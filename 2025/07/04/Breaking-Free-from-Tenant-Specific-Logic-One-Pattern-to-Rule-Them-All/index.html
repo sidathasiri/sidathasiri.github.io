@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <title>Breaking Free from Tenant-Specific Logic: One Pattern to Rule Them All | Sidath Munasinghe</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Managing tenant-specific logic can get messy. This article introduces a pattern that simplifies tenant-specific behavior, making your code easier to maintain and extend."
+  />
+
+  <meta
+    name="keywords"
+    content="[saas, multi-tenant, plugin, pattern, design patterns, sidath, munasinghe]"
+  />
+
+  
+    <meta name="author" content="Sidath Munasinghe" />
+  
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://www.sidathm.online/2025/07/04/Breaking-Free-from-Tenant-Specific-Logic-One-Pattern-to-Rule-Them-All/" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://www.sidathm.online/2025/07/04/Breaking-Free-from-Tenant-Specific-Logic-One-Pattern-to-Rule-Them-All/" />
+  <meta property="og:title" content="Breaking Free from Tenant-Specific Logic: One Pattern to Rule Them All" />
+  <meta property="og:description" content="Managing tenant-specific logic can get messy. This article introduces a pattern that simplifies tenant-specific behavior, making your code easier to maintain and extend." />
+  <meta property="og:site_name" content="Sidath Munasinghe" />
+  
+  <meta property="og:image" content="https://www.sidathm.online/images/posts/Breaking-Free-from-Tenant-Specific-Logic-One-Pattern-to-Rule-Them-All/main-cover-image.jpg" />
+  
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://www.sidathm.online/2025/07/04/Breaking-Free-from-Tenant-Specific-Logic-One-Pattern-to-Rule-Them-All/" />
+  <meta name="twitter:title" content="Breaking Free from Tenant-Specific Logic: One Pattern to Rule Them All" />
+  <meta name="twitter:description" content="Managing tenant-specific logic can get messy. This article introduces a pattern that simplifies tenant-specific behavior, making your code easier to maintain and extend." />
+  
+  <meta name="twitter:image" content="https://www.sidathm.online/images/posts/Breaking-Free-from-Tenant-Specific-Logic-One-Pattern-to-Rule-Them-All/main-cover-image.jpg" />
+  
+
+  <meta name="google-site-verification" content="Os0XiJ_IsnKUGbMIAetAT8jRKYr8ty87olW3V1P0ia4" />
+
+  <!-- plugins -->
+  
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.1.0/css/hover-min.css" />
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900&amp;display=swap" />
+  
+    <link rel="stylesheet" href="https://www.sidathm.online/plugins/text-animation/text-animation.css" />
+  
+    <link rel="stylesheet" href="https://www.sidathm.online/plugins/hugrid/hugrid.css" />
+  
+
+  <!-- Main Stylesheet -->
+
+  
+  <link rel="stylesheet" href="https://www.sidathm.online/css/style.min.css" media="screen" />
+
+  <link rel="stylesheet" href="https://www.sidathm.online/css/customizations.css" media="screen" />
+
+  <!--Favicon-->
+
+  <link rel="icon" type="image/png" href="https://www.sidathm.online/images/favicon.ico" />
+
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-ABCDEFG123');
+    </script>
+  
+</head>
+<body> <!-- preloader start -->
+<div class="preloader">
+  
+  <img src="https://www.sidathm.online/images/preloader.gif" alt="preloader" />
+  
+</div>
+<!-- preloader end --> 
+
+  <section class="menu menu-fix" id="menu">
+  <nav>
+    
+    <div class="menu-container">
+      <div class="desktop-menu-logo">
+        <a href="https://www.sidathm.online/"
+          ><img
+            class="img-fluid"
+            src="https://www.sidathm.online/images/S_logo_white.png"
+            alt="Sidath Munasinghe"
+            id="desktop-logo"
+        /></a>
+      </div>
+      <ul class="desktop-menu list-inline mb-0" id="desktop-menu">
+        
+        <li class="menu-item hvr-underline-from-left 1">
+          <a href="https://www.sidathm.online/">Home</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 2">
+          <a href="#about">About me</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 3">
+          <a href="https://www.sidathm.online/post">Blog</a>
+        </li>
+        
+      </ul>
+      
+      <div class="mobile-menu">
+        <div class="mobile-menu-nav">
+          <a class="menu-link">
+            <span></span>
+            <span></span>
+            <span></span>
+          </a>
+        </div>
+        <div class="mobile-menu-logo">
+          <a href="https://www.sidathm.online/"
+            ><img
+              class="img-fluid"
+              src="https://www.sidathm.online/images/S_logo_dark.png"
+              alt="Sidath Munasinghe"
+          /></a>
+        </div>
+        <div class="menu-slider">
+          <nav>
+            <ul class="mobile-menu-list">
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="https://www.sidathm.online/">Home</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="#about">About me</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="https://www.sidathm.online/post">Blog</a>
+              </li>
+              
+            </ul>
+            <ul class="mobile-menu-icons list-inline mx-auto">
+              
+              <li>
+                <a href="https://github.com/sidathasiri"
+                  ><i class="fab fab fa-github fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://www.linkedin.com/in/sidath-asiri/"
+                  ><i class="fab fab fa-linkedin fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="mailto:sidathasiri@gmail.com"
+                  ><i class="fab fas fa-envelope fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://medium.com/@sidathasiri"
+                  ><i class="fab fab fa-medium fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://dev.to/sidathasiri"
+                  ><i class="fab fab fa-dev fa-2x"></i
+                ></a>
+              </li>
+              
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </nav>
+</section>
+
+
+  <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
+    <h1>Breaking Free from Tenant-Specific Logic: One Pattern to Rule Them All</h1>
+    <span class="date">Posted on: 7/4/2025</span>
+    <img src="https://www.sidathm.online/images/posts/Breaking-Free-from-Tenant-Specific-Logic-One-Pattern-to-Rule-Them-All/main-cover-image.jpg" alt="Breaking Free from Tenant-Specific Logic: One Pattern to Rule Them All" />
+    <div class="body">
+      <p>Ever built a SaaS product where each new customer wants “just one tiny change”… and suddenly everything starts falling apart?</p>
+<p>It always seems harmless at first.</p>
+<ul>
+<li>Client A wants a slight tweak in the approval logic.</li>
+<li>Client B needs a custom dashboard layout.</li>
+<li>Client C prefers SMS over email for notifications.</li>
+</ul>
+<p>And you think, “No problem — I’ll toss in a few conditionals and move on.”</p>
+<p>And it works… until it doesn’t.</p>
+<p>Before you know it, a change for Client G breaks a feature for Client C. You’re digging through layers of if statements, feature flags, and scattered logic, trying to figure out where it all went sideways.</p>
+<p>Now every deployment feels risky. Onboarding a new tenant is stressful. And you keep telling yourself, <em><strong>“It’s just one more special case…”</strong></em> — while the codebase turns into a fragile mess.</p>
+<h2 id="the-root-cause">The Root Cause</h2>
+<p>The real problem isn’t the custom features — it’s where that logic ends up living.</p>
+<p>When you embed tenant-specific behavior directly into your core codebase, everything becomes tightly coupled. A feature for one client can unintentionally ripple into another. Scaling slows down. Testing turns chaotic.</p>
+<p>The architecture wasn’t designed to embrace change — it was built for uniformity. But in the world of multi-tenant SaaS, uniformity is the exception, not the rule. You don’t just need functional code — you need a foundation that adapts and grows with your product.</p>
+<h2 id="step-into-the-plugin-pattern">Step into the Plugin Pattern</h2>
+<p>So how do you fix this without rewriting your entire app or copy-pasting logic across a dozen tenants?</p>
+<p>The answer: Plugin Architecture.</p>
+<p>Here’s the idea:</p>
+<p>Instead of hardcoding every tenant’s quirks into your main application, you let each client provide their own behavior — as modular, plug-and-play components. Your core stays clean, while custom logic lives where it belongs: outside the core.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*dy95VE-wxNp6Yh7RAyBhpw.jpeg" alt="Plugin Pattern"></p>
+<p>The core system stays clean and focused on the shared functionality. Each plugin handles the custom behavior for just that tenant. No more if-else pyramids. No more regression chaos.</p>
+<p>You expose extension points in your application — kind of like saying:
+<em><strong>“Hey plugin, do you want to do anything before this leave request gets processed?”</strong></em></p>
+<p>Then, for each tenant, you load their plugin dynamically and let it hook in only where needed.</p>
+<p>It’s the same idea behind how VS Code handles extensions or how payment gateways let you integrate custom fraud detection.</p>
+<p>And the best part?</p>
+<p>You don’t have to change the core logic every time a new tenant comes on board. Just drop in a new plugin — and you’re done.</p>
+<h2 id="why-this-works">Why This Works?</h2>
+<p>Now you might be thinking — “Okay, sounds neat… but what actually makes plugin architecture better than just writing more conditions?”</p>
+<p>Let’s break it down.</p>
+<ul>
+<li><strong>Separation of Concerns:</strong> Your core logic stays focused on what the app is supposed to do — not what Client A, B, or Z needs.
+Safer, Faster Deployments: When each client’s custom logic lives in its own module, you don’t need to redeploy the entire system to make a small change.</li>
+<li><strong>Parallel Development Becomes Possible:</strong> Your team (or even your clients’ teams) can work on plugins independently without stepping on each other’s toes — or yours.</li>
+<li><strong>Cleaner Testing:</strong> Testing one tenant’s logic doesn’t mean running the entire suite. You test the plugin in isolation, and you’re done.</li>
+<li><strong>It Scales with You:</strong> As your product grows, you can onboard more clients, add more features, and handle edge cases without your core codebase growing out of control.</li>
+</ul>
+<p><em><strong>In short, Plugin architecture shifts your code from rigid and reactive to flexible and proactive. It’s not just cleaner — it’s sustainable.</strong></em></p>
+<h2 id="lets-walk-through-an-example">Let’s Walk Through an Example</h2>
+<p>To make this more concrete, imagine you&rsquo;re building a multi-tenant employee management system — a classic SaaS scenario.</p>
+<p>The core app handles the essentials:</p>
+<ul>
+<li>Submitting leave requests</li>
+<li>Tracking attendance</li>
+<li>Managing employee profiles</li>
+</ul>
+<p>All pretty standard&hellip; at first.</p>
+<p>Then the custom requirements start rolling in:</p>
+<ul>
+<li>Client A wants leave requests for interns to be auto-approved</li>
+<li>Client B requires two levels of approval for every request</li>
+<li>Client C asks for an SMS alert whenever someone clocks in late</li>
+</ul>
+<p>And just like that, you’re buried in conditionals and scattered logic — unless you break the pattern with plugins.</p>
+<h3 id="core-idea-expose-extension-points">Core Idea: Expose Extension Points</h3>
+<p>We’ll design our system so the core platform exposes hooks, and each client’s custom behavior lives in a plugin.</p>
+<p>Let’s look at some simple code.</p>
+<p><strong>The Core Leave Service (leaveService.ts)</strong></p>
+<pre tabindex="0"><code>type LeaveRequest = {
+  employeeId: string;
+  role: string;
+  status: string;
+  workflow?: string[];
+};
+
+type PluginHook = (request: LeaveRequest) =&gt; void;
+
+class LeaveService {
+  private plugins: Record&lt;string, { beforeSubmit?: PluginHook }&gt; = {};
+
+  registerPlugin(tenantId: string, plugin: { beforeSubmit?: PluginHook }) {
+    this.plugins[tenantId] = plugin;
+  }
+
+  submitLeaveRequest(tenantId: string, request: LeaveRequest) {
+    // Let the plugin modify the request first
+    const plugin = this.plugins[tenantId];
+    if (plugin?.beforeSubmit) {
+      plugin.beforeSubmit(request);
+    }
+
+    // Default core behavior
+    if (!request.status) {
+      request.status = &#39;pending&#39;;
+    }
+
+    console.log(`Leave request for tenant &#39;${tenantId}&#39;:`, request);
+    return request;
+  }
+}
+
+export default LeaveService;
+</code></pre><p><strong>Client A Plugin (clienatA.ts)</strong></p>
+<pre tabindex="0"><code>export const clientAPlugin = {
+  beforeSubmit: (request) =&gt; {
+    if (request.role === &#39;intern&#39;) {
+      request.status = &#39;approved&#39;; // Auto-approve interns
+    }
+  }
+};
+</code></pre><p><strong>Client B Plugin (clientB.ts)</strong></p>
+<pre tabindex="0"><code>export const clientBPlugin = {
+  beforeSubmit: (request) =&gt; {
+    request.workflow = [&#39;manager&#39;, &#39;hr&#39;]; // Custom 2-step approval
+  }
+};
+</code></pre><p><strong>Putting All Together (index.ts)</strong></p>
+<pre tabindex="0"><code>import LeaveService from &#39;./leaveService&#39;;
+import { clientAPlugin } from &#39;./clientAPlugin&#39;;
+import { clientBPlugin } from &#39;./clientBPlugin&#39;;
+
+const leaveService = new LeaveService();
+
+// Register tenant-specific plugins
+leaveService.registerPlugin(&#39;client-a&#39;, clientAPlugin);
+leaveService.registerPlugin(&#39;client-b&#39;, clientBPlugin);
+
+// Sample leave requests
+const requestA = { employeeId: &#39;E123&#39;, role: &#39;intern&#39;, status: &#39;&#39; };
+const requestB = { employeeId: &#39;E456&#39;, role: &#39;full-time&#39;, status: &#39;&#39; };
+
+leaveService.submitLeaveRequest(&#39;client-a&#39;, requestA);
+// → Auto-approved because it&#39;s an intern
+
+leaveService.submitLeaveRequest(&#39;client-b&#39;, requestB);
+// → Assigned a custom workflow: [&#39;manager&#39;, &#39;hr&#39;]
+</code></pre><p>What Just Happened?</p>
+<ul>
+<li>The core system didn’t change at all.</li>
+<li>Each client had their own logic encapsulated in a plugin.</li>
+<li>New behavior was added without touching or risking existing functionality.</li>
+</ul>
+<p>And the best part?</p>
+<p>If Client D shows up tomorrow with a wild new requirement… you just write one new plugin. That’s it.</p>
+<h2 id="how-to-spot-opportunities-for-the-plugin-pattern">How to Spot Opportunities for the Plugin Pattern?</h2>
+<p>So now you’re probably wondering:
+“This looks great… but how do I know when to actually use it?”</p>
+<p>Plugin Architecture isn’t something you drop into every project. But in the right situations, it can completely change the game.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*R81ER8Crc-F67p_K4zZfJg.jpeg" alt="Planning"></p>
+<p>Here’s how to recognize those moments.</p>
+<ul>
+<li><strong>Repeating the Same Pattern with Slight Variations:</strong> If you’re solving the same kind of problem, but with different rules per client</li>
+<li><strong>Customizations That Only Apply to One Tenant:</strong> If a feature or rule applies to only one tenant, and will likely never be reused</li>
+<li><strong>Fear of Breaking Something When Changing Logic:</strong> If you’re afraid to touch a section of code because it impacts multiple tenants, you’re probably lacking proper separation.</li>
+<li><strong>Frequent “Can You Just…” Requests from Clients:</strong> You keep getting requests like these for customizations.</li>
+</ul>
+<h2 id="how-the-plugin-pattern-fits-into-system-design">How the Plugin Pattern Fits into System Design?</h2>
+<p>If you&rsquo;re thinking,
+<em><strong>&ldquo;Is this just a clever coding hack, or part of a larger architectural strategy?&rdquo;</strong></em>
+That’s the right question to ask.</p>
+<p>The plugin pattern isn’t just about cleaning up your code — it’s a powerful design approach that aligns with core architectural goals like scalability, maintainability, and adaptability. It complements and fits naturally within broader system patterns. Here are a few architectures that pair well with a plugin-based approach:</p>
+<ul>
+<li><strong>Modular Monolith:</strong> Organizes the system into independent modules or plugins, deployed as one but developed separately. Plugins fit perfectly as modules here.</li>
+<li><strong>Hexagonal Architecture:</strong> Emphasizes clear boundaries between business logic and external systems. Plugins serve as adapters extending the core.</li>
+<li><strong>Clean Architecture:</strong> Focuses on separation between domain and infrastructure. Plugins can live on the outer layers, implementing tenant-specific policies.</li>
+<li><strong>Microkernel Architecture:</strong> The core system provides basic functionality; plugins add features dynamically. This is a direct architectural pattern that mirrors plugin architecture principles.</li>
+</ul>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*YdsGLbrwQDrtB71bJfOImA.png" alt="Hexagonal architecture"></p>
+<h2 id="the-big-picture">The Big Picture</h2>
+<p>At its core, the Plugin Pattern is about building for flexibility and long-term growth.</p>
+<p>It’s more than just a clean way to organize code — it’s a strategic approach to designing software that can evolve alongside your business and adapt to diverse client needs.</p>
+<p>By isolating tenant-specific behavior into modular plugins, you keep your core codebase stable and focused. This reduces the risk of unintended side effects, supports team autonomy, and allows features to be developed and deployed independently. The pattern aligns well with architectural styles like modular monoliths, hexagonal architecture, and microkernel designs — all of which promote separation of concerns, extensibility, and domain isolation.</p>
+<p>Because in the end, good code isn’t just about working — it’s about scaling.
+If you’re building a multi-tenant SaaS platform that needs to keep pace with growing complexity, the Plugin Pattern gives you a powerful, practical foundation for sustainable growth.</p>
+
+    </div>
+  </div>
+
+  <div class="footer container text-center" id="contact">
+  <ul class="footer-icons list-inline">
+    
+      <li>
+        <a href="https://github.com/sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-github footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://www.linkedin.com/in/sidath-asiri/" target="_blank" rel="noreferrer"
+          ><i class="fab fa-linkedin footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="mailto:sidathasiri@gmail.com" target="_blank" rel="noreferrer"
+          ><i class="fas fa-envelope footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://medium.com/@sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-medium footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://dev.to/sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-dev footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+  </ul>
+  <div class="credit">
+    Copyright Sidath Munasinghe ©
+    <span id="current-year"></span>
+  </div>
+</div>
+
+<!-- JS Plugins --> 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
+
+<script src="https://www.sidathm.online/plugins/text-animation/text-animation.js"></script>
+
+<script src="https://www.sidathm.online/plugins/hugrid/hugrid.min.js"></script>
+ <!-- Main Scripts --> 
+<script src="https://www.sidathm.online/js/script.min.js"></script>
+
+<script src="https://www.sidathm.online/js/hugrid.custom.min.js"></script>
+</body>
+</html>

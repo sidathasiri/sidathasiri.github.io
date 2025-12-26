@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8" />
-  <title>Secure Cloud Deployments to AWS with GitHub Actions using OpenID Connect</title>
+  <title>Secure Deployments to AWS with GitHub Actions via OpenID Connect | Sidath Munasinghe</title>
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -12,12 +12,36 @@
 
   <meta
     name="keywords"
-    content="[github, github actions, ci/cd, openid connect, aws]"
+    content="[github, github actions, ci/cd, openid connect, aws, cloud, sidath, munasinghe]"
   />
 
   
     <meta name="author" content="Sidath Munasinghe" />
   
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://www.sidathm.online/2023/03/04/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://www.sidathm.online/2023/03/04/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/" />
+  <meta property="og:title" content="Secure Deployments to AWS with GitHub Actions via OpenID Connect" />
+  <meta property="og:description" content="Learn to deploy securely on AWS with GitHub Actions using OpenID Connect. This approach removes the need to manage AWS credentials, bolstering your deployment security." />
+  <meta property="og:site_name" content="Sidath Munasinghe" />
+  
+  <meta property="og:image" content="https://www.sidathm.online/images/posts/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/main-logo.png" />
+  
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://www.sidathm.online/2023/03/04/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/" />
+  <meta name="twitter:title" content="Secure Deployments to AWS with GitHub Actions via OpenID Connect" />
+  <meta name="twitter:description" content="Learn to deploy securely on AWS with GitHub Actions using OpenID Connect. This approach removes the need to manage AWS credentials, bolstering your deployment security." />
+  
+  <meta name="twitter:image" content="https://www.sidathm.online/images/posts/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/main-logo.png" />
+  
+
+  <meta name="google-site-verification" content="Os0XiJ_IsnKUGbMIAetAT8jRKYr8ty87olW3V1P0ia4" />
 
   <!-- plugins -->
   
@@ -29,25 +53,22 @@
   
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900&amp;display=swap" />
   
-    <link rel="stylesheet" href="/plugins/text-animation/text-animation.css" />
+    <link rel="stylesheet" href="https://www.sidathm.online/plugins/text-animation/text-animation.css" />
   
-    <link rel="stylesheet" href="/plugins/hugrid/hugrid.css" />
+    <link rel="stylesheet" href="https://www.sidathm.online/plugins/hugrid/hugrid.css" />
   
 
-  
-  <link rel="canonical" href="https://engineering.99x.io/secure-cloud-deployments-to-aws-with-github-actions-using-openid-connect-ea3188f57a10" itemprop="url" />
-<!-- Main Stylesheet -->
+  <!-- Main Stylesheet -->
 
   
-  <link rel="stylesheet" href="/css/style.min.css" media="screen" />
+  <link rel="stylesheet" href="https://www.sidathm.online/css/style.min.css" media="screen" />
 
-  <link rel="stylesheet" href="/css/customizations.css" media="screen" />
+  <link rel="stylesheet" href="https://www.sidathm.online/css/customizations.css" media="screen" />
 
   <!--Favicon-->
 
-  <link rel="icon" type="image/png" href="/images/favicon.ico" />
+  <link rel="icon" type="image/png" href="https://www.sidathm.online/images/favicon.ico" />
 
-  
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
     <script>
@@ -62,7 +83,7 @@
 <body> <!-- preloader start -->
 <div class="preloader">
   
-  <img src="/images/preloader.gif" alt="preloader" />
+  <img src="https://www.sidathm.online/images/preloader.gif" alt="preloader" />
   
 </div>
 <!-- preloader end --> 
@@ -72,10 +93,10 @@
     
     <div class="menu-container">
       <div class="desktop-menu-logo">
-        <a href="/"
+        <a href="https://www.sidathm.online/"
           ><img
             class="img-fluid"
-            src="/images/S_logo_white.png"
+            src="https://www.sidathm.online/images/S_logo_white.png"
             alt="Sidath Munasinghe"
             id="desktop-logo"
         /></a>
@@ -83,7 +104,7 @@
       <ul class="desktop-menu list-inline mb-0" id="desktop-menu">
         
         <li class="menu-item hvr-underline-from-left 1">
-          <a href="/">Home</a>
+          <a href="https://www.sidathm.online/">Home</a>
         </li>
         
         <li class="menu-item hvr-underline-from-left 2">
@@ -91,7 +112,7 @@
         </li>
         
         <li class="menu-item hvr-underline-from-left 3">
-          <a href="/post">Blog</a>
+          <a href="https://www.sidathm.online/post">Blog</a>
         </li>
         
       </ul>
@@ -105,10 +126,10 @@
           </a>
         </div>
         <div class="mobile-menu-logo">
-          <a href="/"
+          <a href="https://www.sidathm.online/"
             ><img
               class="img-fluid"
-              src="/images/S_logo_dark.png"
+              src="https://www.sidathm.online/images/S_logo_dark.png"
               alt="Sidath Munasinghe"
           /></a>
         </div>
@@ -117,7 +138,7 @@
             <ul class="mobile-menu-list">
               
               <li class="mobile-menu-item 1 mx-auto">
-                <a href="/">Home</a>
+                <a href="https://www.sidathm.online/">Home</a>
               </li>
               
               <li class="mobile-menu-item 1 mx-auto">
@@ -125,7 +146,7 @@
               </li>
               
               <li class="mobile-menu-item 1 mx-auto">
-                <a href="/post">Blog</a>
+                <a href="https://www.sidathm.online/post">Blog</a>
               </li>
               
             </ul>
@@ -171,13 +192,12 @@
 
 
   <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
-    <h1>Secure Cloud Deployments to AWS with GitHub Actions using OpenID Connect</h1>
+    <h1>Secure Deployments to AWS with GitHub Actions via OpenID Connect</h1>
     <span class="date">Posted on: 3/4/2023</span>
-    <img src="/images/posts/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/main-logo.png" alt="Secure Cloud Deployments to AWS with GitHub Actions using OpenID Connect" />
+    <img src="https://www.sidathm.online/images/posts/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/main-logo.png" alt="Secure Deployments to AWS with GitHub Actions via OpenID Connect" />
     <div class="body">
-      <h2 id="introduction">Introduction</h2>
-<p>GitHub Actions is a platform to perform automated tasks upon triggering an event in GitHub. This is being used extensively to govern continuous integration and continuous delivery (CI/CD) workflows once code changes are pushed to a repository. But GitHub Actions has capabilities beyond that to automate a lot of stuff such as tagging releases, sending notifications when creating issues, repository migrations, etc.</p>
-<h2 id="why-you-should-use-github-actions-for-cicd">Why you should use GitHub Actions for CI/CD?</h2>
+      <p>GitHub Actions is a platform to perform automated tasks upon triggering an event in GitHub. This is being used extensively to govern continuous integration and continuous delivery (CI/CD) workflows once code changes are pushed to a repository. But GitHub Actions has capabilities beyond that to automate a lot of stuff such as tagging releases, sending notifications when creating issues, repository migrations, etc.</p>
+<h2 id="why-github-actions-for-cicd">Why GitHub Actions for CI/CD?</h2>
 <p>There are several benefits to using GitHub Actions for Continuous Integration and Continuous Deployment (CI/CD):</p>
 <ol>
 <li><strong>Seamless integration with GitHub:</strong> Since GitHub Actions is a native feature of GitHub, it integrates seamlessly with your code repository. This means you can trigger automated workflows and deployments directly from your repository, without needing to use third-party tools.</li>
@@ -187,7 +207,7 @@
 <li><strong>Scalability:</strong> GitHub Actions can scale with your project as it grows. You can use distributed runners to run your workflows on your own infrastructure or on cloud providers like AWS or GCP, allowing you to run multiple workflows in parallel and reduce build times.</li>
 </ol>
 <p><em>When using GitHub Actions to deploy changes to a cloud provider, the most crucial requirement is providing only the necessary and least access to GitHub to access the cloud provider and execute the deployment successfully. This can be accomplished comfortably by using the OpenID Connect protocol to request access from the cloud provider.</em></p>
-<h2 id="how-does-it-work">How does it work?</h2>
+<h2 id="how-does-it-work">How Does It Work?</h2>
 <p>This approach works principally by building a trust relationship between AWS and GitHub and granting GitHub to assume an IAM role with the necessary permissions. This can be fulfilled by defining some rules in AWS to run against the claims included in the OIDC token sent by GitHub. Below are the high-level steps of how this procedure.</p>
 <ol>
 <li>When the GitHub actions job runs, GitHub’s OIDC Provider generates an OIDC token including a set of claims (ex. repository, repository_owner, job_workflow_ref) and sends it to AWS.</li>
@@ -202,18 +222,18 @@
 </code></pre><ol start="4">
 <li>If the rules are satisfied, AWS issues a short-lived cloud access token that is available only for the duration of the job.</li>
 </ol>
-<p><img src="/images/posts/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/overall_diagram.png" alt="Image description"></p>
-<h2 id="integrating-with-aws">Integrating with AWS</h2>
+<p><img src="https://www.sidathm.online/images/posts/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/overall_diagram.png" alt="Image description"></p>
+<h2 id="integrating-to-aws">Integrating to AWS</h2>
 <p><em>This approach works not only with AWS but also with almost any cloud provider like Azure, Google Cloud, and platforms like Hashicorp Vault as well.</em></p>
 <p>Let’s do the configurations that need to be done from AWS end first.</p>
 <ol>
 <li>
 <p>Add GitHub OIDC provider to IAM with the correct provider (<a href="https://token.actions.githubusercontent.com">https://token.actions.githubusercontent.com</a>) and audience (sts.amazonaws.com)
-<img src="/images/posts/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/identity_provider.png" alt="Image description"></p>
+<img src="https://www.sidathm.online/images/posts/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/identity_provider.png" alt="Image description"></p>
 </li>
 <li>
 <p>Create an IAM role, as usual, to be assumed by GitHub with the appropriate permissions. In order to make sure that this role can be assumed only by allowed entities in GitHub, the trust relationship rules should be defined under the trust relationship section of the IAM role. All available claims that can be used to define these rules can be found <a href="https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect#understanding-the-oidc-token">here</a>.
-<img src="/images/posts/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/github_role.png" alt="Image description"></p>
+<img src="https://www.sidathm.online/images/posts/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/github_role.png" alt="Image description"></p>
 </li>
 </ol>
 <p>With the above changes, AWS is now ready to allow the created role when a valid token is received from GitHub that fulfills the defined trust relationship.</p>
@@ -244,7 +264,7 @@ jobs:
  — name: Copy index.html to s3
    run: aws s3 cp ./index.html s3://${{ env.BUCKET_NAME }}/
 </code></pre><p>Now whenever the workflow is triggered, configure-aws-credentials action will send the generated OIDC token to AWS to get the short-lived access token that grants the permission included in the requested IAM role.</p>
-<h2 id="benefits-of-using-openid-connect">Benefits of using OpenID Connect</h2>
+<h2 id="advantages-of-using-openid-connect">Advantages of Using OpenID Connect</h2>
 <ol>
 <li>No need to create AWS users and expose their AWS security credentials</li>
 <li>No need to manually rotate credentials to enhance security</li>
@@ -253,7 +273,7 @@ jobs:
 </ol>
 <h2 id="conclusion">Conclusion</h2>
 <p>In this article, we discussed how to use GitHub Actions to securely deploy your applications to AWS using OpenID Connect. You can find the below links to find more details.</p>
-<h2 id="further-reading">Further Reading</h2>
+<h2 id="learn-more">Learn More</h2>
 <ul>
 <li><a href="https://docs.github.com/en/actions/quickstart">Quick Start Guide for GitHub Actions</a></li>
 <li><a href="https://github.com/marketplace?type=actions">GitHub Actions Market Place</a></li>
@@ -308,12 +328,12 @@ jobs:
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
 
-<script src="/plugins/text-animation/text-animation.js"></script>
+<script src="https://www.sidathm.online/plugins/text-animation/text-animation.js"></script>
 
-<script src="/plugins/hugrid/hugrid.min.js"></script>
+<script src="https://www.sidathm.online/plugins/hugrid/hugrid.min.js"></script>
  <!-- Main Scripts --> 
-<script src="/js/script.min.js"></script>
+<script src="https://www.sidathm.online/js/script.min.js"></script>
 
-<script src="/js/hugrid.custom.min.js"></script>
+<script src="https://www.sidathm.online/js/hugrid.custom.min.js"></script>
 </body>
 </html>
