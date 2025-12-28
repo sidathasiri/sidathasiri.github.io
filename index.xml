@@ -6,8 +6,15 @@
     <description>Recent content on Sidath Munasinghe</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 04 Jul 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 01 Sep 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://www.sidathm.online/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Serverless Event Sourcing on AWS: Beyond Basic CRUD</title>
+      <link>https://www.sidathm.online/2025/09/01/Serverless-Event-Sourcing-on-AWS-Beyond-Basic-CRUD/</link>
+      <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>https://www.sidathm.online/2025/09/01/Serverless-Event-Sourcing-on-AWS-Beyond-Basic-CRUD/</guid>
+      <description>&lt;p&gt;When you order something online, a lot happens — order created, payment confirmed, address updated, shipped, delivered. But if the system only stores the final state, you&amp;rsquo;d know it was delivered but lose the story of how it got there. That&amp;rsquo;s the limitation of traditional CRUD (Create, Read, Update, Delete): it shows the present but erases the past.&lt;/p&gt;&#xA;&lt;p&gt;Event Sourcing flips that model. Every change is stored as an immutable event, giving you a complete, replayable history — like a bank ledger instead of just today&amp;rsquo;s balance. This means better auditing, debugging, analytics, and the ability to evolve your system without rewriting history.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Breaking Free from Tenant-Specific Logic: One Pattern to Rule Them All</title>
       <link>https://www.sidathm.online/2025/07/04/Breaking-Free-from-Tenant-Specific-Logic-One-Pattern-to-Rule-Them-All/</link>
