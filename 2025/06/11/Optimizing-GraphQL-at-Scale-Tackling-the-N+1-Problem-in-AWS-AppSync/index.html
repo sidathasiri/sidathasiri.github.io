@@ -53,21 +53,21 @@
   
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900&amp;display=swap" />
   
-    <link rel="stylesheet" href="https://www.sidathm.online/plugins/text-animation/text-animation.css" />
+    <link rel="stylesheet" href="/plugins/text-animation/text-animation.css" />
   
-    <link rel="stylesheet" href="https://www.sidathm.online/plugins/hugrid/hugrid.css" />
+    <link rel="stylesheet" href="/plugins/hugrid/hugrid.css" />
   
 
   <!-- Main Stylesheet -->
 
   
-  <link rel="stylesheet" href="https://www.sidathm.online/css/style.min.css" media="screen" />
+  <link rel="stylesheet" href="/css/style.min.css" media="screen" />
 
-  <link rel="stylesheet" href="https://www.sidathm.online/css/customizations.css" media="screen" />
+  <link rel="stylesheet" href="/css/customizations.css" media="screen" />
 
   <!--Favicon-->
 
-  <link rel="icon" type="image/png" href="https://www.sidathm.online/images/favicon.ico" />
+  <link rel="icon" type="image/png" href="/images/favicon.ico" />
 
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
@@ -83,7 +83,7 @@
 <body> <!-- preloader start -->
 <div class="preloader">
   
-  <img src="https://www.sidathm.online/images/preloader.gif" alt="preloader" />
+  <img src="/images/preloader.gif" alt="preloader" />
   
 </div>
 <!-- preloader end --> 
@@ -93,10 +93,10 @@
     
     <div class="menu-container">
       <div class="desktop-menu-logo">
-        <a href="https://www.sidathm.online/"
+        <a href="/"
           ><img
             class="img-fluid"
-            src="https://www.sidathm.online/images/S_logo_white.png"
+            src="/images/S_logo_white.png"
             alt="Sidath Munasinghe"
             id="desktop-logo"
         /></a>
@@ -104,23 +104,23 @@
       <ul class="desktop-menu list-inline mb-0" id="desktop-menu">
         
         <li class="menu-item hvr-underline-from-left 1">
-          <a href="https://www.sidathm.online/">Home</a>
+          <a href="/">Home</a>
         </li>
         
         <li class="menu-item hvr-underline-from-left 2">
-          <a href="#about">About me</a>
+          <a href="/#about">About me</a>
         </li>
         
         <li class="menu-item hvr-underline-from-left 3">
-          <a href="#projects">Projects</a>
+          <a href="/#projects">Projects</a>
         </li>
         
         <li class="menu-item hvr-underline-from-left 4">
-          <a href="#certifications">Certifications</a>
+          <a href="/#certifications">Certifications</a>
         </li>
         
         <li class="menu-item hvr-underline-from-left 5">
-          <a href="https://www.sidathm.online/post">Blog</a>
+          <a href="/post">Blog</a>
         </li>
         
       </ul>
@@ -134,10 +134,10 @@
           </a>
         </div>
         <div class="mobile-menu-logo">
-          <a href="https://www.sidathm.online/"
+          <a href="/"
             ><img
               class="img-fluid"
-              src="https://www.sidathm.online/images/S_logo_dark.png"
+              src="/images/S_logo_dark.png"
               alt="Sidath Munasinghe"
           /></a>
         </div>
@@ -146,23 +146,23 @@
             <ul class="mobile-menu-list">
               
               <li class="mobile-menu-item 1 mx-auto">
-                <a href="https://www.sidathm.online/">Home</a>
+                <a href="/">Home</a>
               </li>
               
               <li class="mobile-menu-item 1 mx-auto">
-                <a href="#about">About me</a>
+                <a href="/#about">About me</a>
               </li>
               
               <li class="mobile-menu-item 1 mx-auto">
-                <a href="#projects">Projects</a>
+                <a href="/#projects">Projects</a>
               </li>
               
               <li class="mobile-menu-item 1 mx-auto">
-                <a href="#certifications">Certifications</a>
+                <a href="/#certifications">Certifications</a>
               </li>
               
               <li class="mobile-menu-item 1 mx-auto">
-                <a href="https://www.sidathm.online/post">Blog</a>
+                <a href="/post">Blog</a>
               </li>
               
             </ul>
@@ -210,7 +210,7 @@
   <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
     <h1>Optimizing GraphQL at Scale: Tackling the N&#43;1 Problem in AWS AppSync</h1>
     <span class="date">Posted on: 6/11/2025</span>
-    <img src="https://www.sidathm.online/images/posts/Optimizing-GraphQL-at-Scale-Tackling-the-N&#43;1-Problem-in-AWS-AppSync/cover-image.jpg" alt="Optimizing GraphQL at Scale: Tackling the N&#43;1 Problem in AWS AppSync" />
+    <img src="/images/posts/Optimizing-GraphQL-at-Scale-Tackling-the-N&#43;1-Problem-in-AWS-AppSync/cover-image.jpg" alt="Optimizing GraphQL at Scale: Tackling the N&#43;1 Problem in AWS AppSync" />
     <div class="body">
       <p>GraphQL has become a popular alternative to traditional RESTful APIs, offering a more efficient and flexible way for clients to retrieve data. Instead of making multiple calls to various endpoints and receiving fixed response formats—as is common with REST—GraphQL enables clients to request exactly the data they need in a single request. This eliminates issues like over-fetching and under-fetching and gives frontend developers precise control over the data structure.</p>
 <p>AWS AppSync is a fully managed service that simplifies the creation of scalable, real-time GraphQL APIs. It integrates smoothly with AWS services like DynamoDB, Lambda, RDS, and OpenSearch, and includes built-in support for features such as real-time subscriptions, offline access, and fine-grained access control. AppSync handles much of the complexity around scalability and security, so developers can focus on defining data models and resolver logic.</p>
@@ -231,7 +231,7 @@
   }
 }
 </code></pre><p>Here’s what typically happens behind the scenes in AppSync</p>
-<p><img src="https://www.sidathm.online/images/posts/Optimizing-GraphQL-at-Scale-Tackling-the-N+1-Problem-in-AWS-AppSync/query-execution-plan.png" alt="Image description"></p>
+<p><img src="/images/posts/Optimizing-GraphQL-at-Scale-Tackling-the-N+1-Problem-in-AWS-AppSync/query-execution-plan.png" alt="Image description"></p>
 <ol>
 <li>books resolver fetches a list of books — let’s say 100 (N) items.</li>
 <li>For each of those 100 books, the author resolver is called individually (resulting in 100 calls).</li>
@@ -379,12 +379,12 @@ Think of it as “fan-in” batching: one resolver invocation processes multiple
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
 
-<script src="https://www.sidathm.online/plugins/text-animation/text-animation.js"></script>
+<script src="/plugins/text-animation/text-animation.js"></script>
 
-<script src="https://www.sidathm.online/plugins/hugrid/hugrid.min.js"></script>
+<script src="/plugins/hugrid/hugrid.min.js"></script>
  <!-- Main Scripts --> 
-<script src="https://www.sidathm.online/js/script.min.js"></script>
+<script src="/js/script.min.js"></script>
 
-<script src="https://www.sidathm.online/js/hugrid.custom.min.js"></script>
+<script src="/js/hugrid.custom.min.js"></script>
 </body>
 </html>

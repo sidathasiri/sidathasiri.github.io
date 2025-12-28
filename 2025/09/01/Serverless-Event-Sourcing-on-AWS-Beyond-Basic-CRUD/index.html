@@ -53,21 +53,21 @@
   
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900&amp;display=swap" />
   
-    <link rel="stylesheet" href="https://www.sidathm.online/plugins/text-animation/text-animation.css" />
+    <link rel="stylesheet" href="/plugins/text-animation/text-animation.css" />
   
-    <link rel="stylesheet" href="https://www.sidathm.online/plugins/hugrid/hugrid.css" />
+    <link rel="stylesheet" href="/plugins/hugrid/hugrid.css" />
   
 
   <!-- Main Stylesheet -->
 
   
-  <link rel="stylesheet" href="https://www.sidathm.online/css/style.min.css" media="screen" />
+  <link rel="stylesheet" href="/css/style.min.css" media="screen" />
 
-  <link rel="stylesheet" href="https://www.sidathm.online/css/customizations.css" media="screen" />
+  <link rel="stylesheet" href="/css/customizations.css" media="screen" />
 
   <!--Favicon-->
 
-  <link rel="icon" type="image/png" href="https://www.sidathm.online/images/favicon.ico" />
+  <link rel="icon" type="image/png" href="/images/favicon.ico" />
 
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
@@ -83,7 +83,7 @@
 <body> <!-- preloader start -->
 <div class="preloader">
   
-  <img src="https://www.sidathm.online/images/preloader.gif" alt="preloader" />
+  <img src="/images/preloader.gif" alt="preloader" />
   
 </div>
 <!-- preloader end --> 
@@ -93,10 +93,10 @@
     
     <div class="menu-container">
       <div class="desktop-menu-logo">
-        <a href="https://www.sidathm.online/"
+        <a href="/"
           ><img
             class="img-fluid"
-            src="https://www.sidathm.online/images/S_logo_white.png"
+            src="/images/S_logo_white.png"
             alt="Sidath Munasinghe"
             id="desktop-logo"
         /></a>
@@ -104,23 +104,23 @@
       <ul class="desktop-menu list-inline mb-0" id="desktop-menu">
         
         <li class="menu-item hvr-underline-from-left 1">
-          <a href="https://www.sidathm.online/">Home</a>
+          <a href="/">Home</a>
         </li>
         
         <li class="menu-item hvr-underline-from-left 2">
-          <a href="#about">About me</a>
+          <a href="/#about">About me</a>
         </li>
         
         <li class="menu-item hvr-underline-from-left 3">
-          <a href="#projects">Projects</a>
+          <a href="/#projects">Projects</a>
         </li>
         
         <li class="menu-item hvr-underline-from-left 4">
-          <a href="#certifications">Certifications</a>
+          <a href="/#certifications">Certifications</a>
         </li>
         
         <li class="menu-item hvr-underline-from-left 5">
-          <a href="https://www.sidathm.online/post">Blog</a>
+          <a href="/post">Blog</a>
         </li>
         
       </ul>
@@ -134,10 +134,10 @@
           </a>
         </div>
         <div class="mobile-menu-logo">
-          <a href="https://www.sidathm.online/"
+          <a href="/"
             ><img
               class="img-fluid"
-              src="https://www.sidathm.online/images/S_logo_dark.png"
+              src="/images/S_logo_dark.png"
               alt="Sidath Munasinghe"
           /></a>
         </div>
@@ -146,23 +146,23 @@
             <ul class="mobile-menu-list">
               
               <li class="mobile-menu-item 1 mx-auto">
-                <a href="https://www.sidathm.online/">Home</a>
+                <a href="/">Home</a>
               </li>
               
               <li class="mobile-menu-item 1 mx-auto">
-                <a href="#about">About me</a>
+                <a href="/#about">About me</a>
               </li>
               
               <li class="mobile-menu-item 1 mx-auto">
-                <a href="#projects">Projects</a>
+                <a href="/#projects">Projects</a>
               </li>
               
               <li class="mobile-menu-item 1 mx-auto">
-                <a href="#certifications">Certifications</a>
+                <a href="/#certifications">Certifications</a>
               </li>
               
               <li class="mobile-menu-item 1 mx-auto">
-                <a href="https://www.sidathm.online/post">Blog</a>
+                <a href="/post">Blog</a>
               </li>
               
             </ul>
@@ -210,7 +210,7 @@
   <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
     <h1>Serverless Event Sourcing on AWS: Beyond Basic CRUD</h1>
     <span class="date">Posted on: 9/1/2025</span>
-    <img src="https://www.sidathm.online/images/posts/Serverless-Event-Sourcing-on-AWS-Beyond-Basic-CRUD/main-cover-image.png" alt="Serverless Event Sourcing on AWS: Beyond Basic CRUD" />
+    <img src="/images/posts/Serverless-Event-Sourcing-on-AWS-Beyond-Basic-CRUD/main-cover-image.png" alt="Serverless Event Sourcing on AWS: Beyond Basic CRUD" />
     <div class="body">
       <p>When you order something online, a lot happens — order created, payment confirmed, address updated, shipped, delivered. But if the system only stores the final state, you&rsquo;d know it was delivered but lose the story of how it got there. That&rsquo;s the limitation of traditional CRUD (Create, Read, Update, Delete): it shows the present but erases the past.</p>
 <p>Event Sourcing flips that model. Every change is stored as an immutable event, giving you a complete, replayable history — like a bank ledger instead of just today&rsquo;s balance. This means better auditing, debugging, analytics, and the ability to evolve your system without rewriting history.</p>
@@ -235,7 +235,7 @@
 <li>Who made the update?</li>
 <li>What was the system state at a specific point in time?</li>
 </ul>
-<p><img src="https://www.sidathm.online/images/posts/Serverless-Event-Sourcing-on-AWS-Beyond-Basic-CRUD/what-is-event-sourcing.webp" alt="Image description"></p>
+<p><img src="/images/posts/Serverless-Event-Sourcing-on-AWS-Beyond-Basic-CRUD/what-is-event-sourcing.webp" alt="Image description"></p>
 <p>This approach turns your database into a source of truth for the past, present, and future. You can not only see what happened, but also replay events to rebuild projections, feed analytics pipelines, or even drive new features without touching existing data.</p>
 <blockquote>
 <p>Event Sourcing is not just about data storage — it&rsquo;s about preserving the story of your system.</p></blockquote>
@@ -351,12 +351,12 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
 
-<script src="https://www.sidathm.online/plugins/text-animation/text-animation.js"></script>
+<script src="/plugins/text-animation/text-animation.js"></script>
 
-<script src="https://www.sidathm.online/plugins/hugrid/hugrid.min.js"></script>
+<script src="/plugins/hugrid/hugrid.min.js"></script>
  <!-- Main Scripts --> 
-<script src="https://www.sidathm.online/js/script.min.js"></script>
+<script src="/js/script.min.js"></script>
 
-<script src="https://www.sidathm.online/js/hugrid.custom.min.js"></script>
+<script src="/js/hugrid.custom.min.js"></script>
 </body>
 </html>
