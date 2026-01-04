@@ -6,8 +6,15 @@
     <description>Recent content in Posts on Sidath Munasinghe</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 01 Sep 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 04 Jan 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://www.sidathm.online/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Beyond the 15-Minute Wall: A Guide to AWS Lambda Durable Functions in TypeScript</title>
+      <link>https://www.sidathm.online/2026/01/04/Beyond-the-15-Minute-Wall-A-Guide-to-AWS-Lambda-Durable-Functions-in-TypeScript/</link>
+      <pubDate>Sun, 04 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://www.sidathm.online/2026/01/04/Beyond-the-15-Minute-Wall-A-Guide-to-AWS-Lambda-Durable-Functions-in-TypeScript/</guid>
+      <description>&lt;p&gt;Let&amp;rsquo;s be real: we&amp;rsquo;ve all had that moment where our AWS Lambda function hit the dreaded 15-minute timeout, and we died a little bit inside.&lt;/p&gt;&#xA;&lt;p&gt;Up until recently, if you wanted to build a long-running process — say, a 30-day trial onboarding flow or a multi-step document processing pipeline — you had two choices:&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;strong&gt;AWS Step Functions&lt;/strong&gt;: Powerful, but you had to learn Amazon States Language (ASL). Let&amp;rsquo;s just say writing logic in 500 lines of JSON/YAML isn&amp;rsquo;t exactly &amp;ldquo;fun.&amp;rdquo;&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;The &amp;ldquo;DIY&amp;rdquo; State Machine&lt;/strong&gt;: Manually saving state to DynamoDB, triggering SQS queues, and praying your retry logic didn&amp;rsquo;t create an infinite loop.&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;But the game changed at re:Invent 2025. Enter &lt;strong&gt;AWS Lambda Durable Functions&lt;/strong&gt;. We can finally write stateful, long-running workflows directly in TypeScript or in other supported languages. No YAML, no external state management, just pure code.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Serverless Event Sourcing on AWS: Beyond Basic CRUD</title>
       <link>https://www.sidathm.online/2025/09/01/Serverless-Event-Sourcing-on-AWS-Beyond-Basic-CRUD/</link>

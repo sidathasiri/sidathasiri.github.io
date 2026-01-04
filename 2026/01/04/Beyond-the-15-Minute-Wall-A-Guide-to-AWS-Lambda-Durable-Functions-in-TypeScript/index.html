@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <title>Beyond the 15-Minute Wall: A Guide to AWS Lambda Durable Functions in TypeScript | Sidath Munasinghe</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Learn how AWS Lambda Durable Functions enables stateful, long-running workflows in TypeScript without Step Functions complexity. Build workflows that can run for up to a year with automatic checkpointing and state management."
+  />
+
+  <meta
+    name="keywords"
+    content="[aws lambda, durable functions, typescript, serverless, aws, cloud computing, state management, sidath, munasinghe]"
+  />
+
+  
+    <meta name="author" content="Sidath Munasinghe" />
+  
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://www.sidathm.online/2026/01/04/Beyond-the-15-Minute-Wall-A-Guide-to-AWS-Lambda-Durable-Functions-in-TypeScript/" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://www.sidathm.online/2026/01/04/Beyond-the-15-Minute-Wall-A-Guide-to-AWS-Lambda-Durable-Functions-in-TypeScript/" />
+  <meta property="og:title" content="Beyond the 15-Minute Wall: A Guide to AWS Lambda Durable Functions in TypeScript" />
+  <meta property="og:description" content="Learn how AWS Lambda Durable Functions enables stateful, long-running workflows in TypeScript without Step Functions complexity. Build workflows that can run for up to a year with automatic checkpointing and state management." />
+  <meta property="og:site_name" content="Sidath Munasinghe" />
+  
+  <meta property="og:image" content="https://www.sidathm.online/images/posts/Beyond-the-15-Minute-Wall-A-Guide-to-AWS-Lambda-Durable-Functions-in-TypeScript/main-cover-image.png" />
+  
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://www.sidathm.online/2026/01/04/Beyond-the-15-Minute-Wall-A-Guide-to-AWS-Lambda-Durable-Functions-in-TypeScript/" />
+  <meta name="twitter:title" content="Beyond the 15-Minute Wall: A Guide to AWS Lambda Durable Functions in TypeScript" />
+  <meta name="twitter:description" content="Learn how AWS Lambda Durable Functions enables stateful, long-running workflows in TypeScript without Step Functions complexity. Build workflows that can run for up to a year with automatic checkpointing and state management." />
+  
+  <meta name="twitter:image" content="https://www.sidathm.online/images/posts/Beyond-the-15-Minute-Wall-A-Guide-to-AWS-Lambda-Durable-Functions-in-TypeScript/main-cover-image.png" />
+  
+
+  <meta name="google-site-verification" content="Os0XiJ_IsnKUGbMIAetAT8jRKYr8ty87olW3V1P0ia4" />
+
+  <!-- plugins -->
+  
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.1.0/css/hover-min.css" />
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900&amp;display=swap" />
+  
+    <link rel="stylesheet" href="/plugins/text-animation/text-animation.css" />
+  
+    <link rel="stylesheet" href="/plugins/hugrid/hugrid.css" />
+  
+
+  <!-- Main Stylesheet -->
+
+  
+  <link rel="stylesheet" href="/css/style.min.css" media="screen" />
+
+  <link rel="stylesheet" href="/css/customizations.css" media="screen" />
+
+  <!--Favicon-->
+
+  <link rel="icon" type="image/png" href="/images/favicon.ico" />
+
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-ABCDEFG123');
+    </script>
+  
+</head>
+<body> <!-- preloader start -->
+<div class="preloader">
+  
+  <img src="/images/preloader.gif" alt="preloader" />
+  
+</div>
+<!-- preloader end --> 
+
+  <section class="menu menu-fix" id="menu">
+  <nav>
+    
+    <div class="menu-container">
+      <div class="desktop-menu-logo">
+        <a href="/"
+          ><img
+            class="img-fluid"
+            src="/images/S_logo_white.png"
+            alt="Sidath Munasinghe"
+            id="desktop-logo"
+        /></a>
+      </div>
+      <ul class="desktop-menu list-inline mb-0" id="desktop-menu">
+        
+        <li class="menu-item hvr-underline-from-left 1">
+          <a href="/">Home</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 2">
+          <a href="/#about">About me</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 3">
+          <a href="/#projects">Projects</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 4">
+          <a href="/#certifications">Certifications</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 5">
+          <a href="/post">Blog</a>
+        </li>
+        
+      </ul>
+      
+      <div class="mobile-menu">
+        <div class="mobile-menu-nav">
+          <a class="menu-link">
+            <span></span>
+            <span></span>
+            <span></span>
+          </a>
+        </div>
+        <div class="mobile-menu-logo">
+          <a href="/"
+            ><img
+              class="img-fluid"
+              src="/images/S_logo_dark.png"
+              alt="Sidath Munasinghe"
+          /></a>
+        </div>
+        <div class="menu-slider">
+          <nav>
+            <ul class="mobile-menu-list">
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="/#about">About me</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="/#projects">Projects</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="/#certifications">Certifications</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="/post">Blog</a>
+              </li>
+              
+            </ul>
+            <ul class="mobile-menu-icons list-inline mx-auto">
+              
+              <li>
+                <a href="https://github.com/sidathasiri"
+                  ><i class="fab fab fa-github fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://www.linkedin.com/in/sidath-asiri/"
+                  ><i class="fab fab fa-linkedin fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="mailto:sidathasiri@gmail.com"
+                  ><i class="fab fas fa-envelope fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://medium.com/@sidathasiri"
+                  ><i class="fab fab fa-medium fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://dev.to/sidathasiri"
+                  ><i class="fab fab fa-dev fa-2x"></i
+                ></a>
+              </li>
+              
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </nav>
+</section>
+
+
+  <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
+    <h1>Beyond the 15-Minute Wall: A Guide to AWS Lambda Durable Functions in TypeScript</h1>
+    <span class="date">Posted on: 1/4/2026</span>
+    <img src="/images/posts/Beyond-the-15-Minute-Wall-A-Guide-to-AWS-Lambda-Durable-Functions-in-TypeScript/main-cover-image.png" alt="Beyond the 15-Minute Wall: A Guide to AWS Lambda Durable Functions in TypeScript" />
+    <div class="body">
+      <p>Let&rsquo;s be real: we&rsquo;ve all had that moment where our AWS Lambda function hit the dreaded 15-minute timeout, and we died a little bit inside.</p>
+<p>Up until recently, if you wanted to build a long-running process — say, a 30-day trial onboarding flow or a multi-step document processing pipeline — you had two choices:</p>
+<ol>
+<li><strong>AWS Step Functions</strong>: Powerful, but you had to learn Amazon States Language (ASL). Let&rsquo;s just say writing logic in 500 lines of JSON/YAML isn&rsquo;t exactly &ldquo;fun.&rdquo;</li>
+<li><strong>The &ldquo;DIY&rdquo; State Machine</strong>: Manually saving state to DynamoDB, triggering SQS queues, and praying your retry logic didn&rsquo;t create an infinite loop.</li>
+</ol>
+<p>But the game changed at re:Invent 2025. Enter <strong>AWS Lambda Durable Functions</strong>. We can finally write stateful, long-running workflows directly in TypeScript or in other supported languages. No YAML, no external state management, just pure code.</p>
+<h2 id="what-is-durable-execution-anyway">What is &ldquo;Durable Execution&rdquo; Anyway?</h2>
+<p>Imagine you&rsquo;re reading a massive 1,000-page book. If you have to put it down to sleep, you don&rsquo;t start from page one the next morning — you use a bookmark.</p>
+<p>Durable Functions act as that bookmark for your code. When your function hits a &ldquo;wait&rdquo;, AWS &ldquo;checkpoints&rdquo; the progress and shuts down the compute. When the event is ready, it &ldquo;replays&rdquo; the function, skips the parts it already finished, and picks up exactly where it left off. The idea is very simple but it&rsquo;s very powerful.</p>
+<p>I know what you&rsquo;re thinking: &ldquo;Is Step Functions dead?&rdquo; Not quite. If you are building complex micro-service choreography between 10 different AWS services, Step Functions&rsquo; visual designer is still king. But if you are building application logic that just needs to be stateful, Durable Functions is your new best friend.</p>
+<h2 id="order-processing-with-durable-functions">Order Processing With Durable Functions</h2>
+<p>Let&rsquo;s look at a real-world scenario: An e-commerce workflow that needs to validate an order, wait for payment, and then ship the goods.</p>
+<p>Here is how you would write this using the new <code>@aws-sdk/client-lambda-durable</code> in TypeScript.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">DurableContext</span>, <span style="color:#a6e22e">withDurableExecution</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;@aws/durable-execution-sdk-js&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Imagine these services interact with your DB and APIs
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">inventoryService</span>, <span style="color:#a6e22e">paymentService</span>, <span style="color:#a6e22e">shippingService</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;./services&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">handler</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">withDurableExecution</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">event</span>: <span style="color:#66d9ef">any</span>, <span style="color:#a6e22e">context</span>: <span style="color:#66d9ef">DurableContext</span>) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">orderId</span>, <span style="color:#a6e22e">amount</span>, <span style="color:#a6e22e">items</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 1. Reserve inventory
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// If this fails, the SDK handles the retry. If it succeeds, the result is checkpointed
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">inventory</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">step</span>(<span style="color:#e6db74">&#34;reserve-inventory&#34;</span>, <span style="color:#66d9ef">async</span> () <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">inventoryService</span>.<span style="color:#a6e22e">reserve</span>(<span style="color:#a6e22e">items</span>);
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2. Process payment
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">payment</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">step</span>(<span style="color:#e6db74">&#34;process-payment&#34;</span>, <span style="color:#66d9ef">async</span> () <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">paymentService</span>.<span style="color:#a6e22e">charge</span>(<span style="color:#a6e22e">amount</span>);
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 3. Create shipment
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// This step only runs once the previous two are successfully checkpointed.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">shipment</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">step</span>(<span style="color:#e6db74">&#34;create-shipment&#34;</span>, <span style="color:#66d9ef">async</span> () <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">shippingService</span>.<span style="color:#a6e22e">createShipment</span>(<span style="color:#a6e22e">orderId</span>, <span style="color:#a6e22e">inventory</span>);
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">orderId</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">status</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;completed&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">paymentId</span>: <span style="color:#66d9ef">payment.id</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">shipmentTracking</span>: <span style="color:#66d9ef">shipment.trackingNumber</span>
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><p>This code represents a significant shift in how we build on AWS. By using the <code>@aws-durable-execution-sdk-js</code>, you are moving away from &ldquo;fire-and-forget&rdquo; functions toward <strong>Stateful Workflows</strong>.</p>
+<p>Here is a breakdown of what is actually happening under the hood while this code runs.</p>
+<h3 id="1-the-wrapper-withdurableexecution">1. The Wrapper (<code>withDurableExecution</code>)</h3>
+<p>This isn&rsquo;t just a decorator; it&rsquo;s a manager. It tracks every interaction you have with the <code>context</code> object. It maintains a &ldquo;History Log&rdquo; of your execution.</p>
+<h3 id="2-checkpointing-contextstep">2. Checkpointing (<code>context.step</code>)</h3>
+<p>When your code hits <code>await context.step(&quot;reserve-inventory&quot;, ...)</code>:</p>
+<ul>
+<li><strong>Execution</strong>: The SDK runs your code.</li>
+<li><strong>Persistence</strong>: Once the code returns the <code>inventory</code> object, the SDK saves that result into a managed state store (hidden from you).</li>
+<li><strong>Reliability</strong>: If the Lambda crashes 10 seconds later, AWS knows that &ldquo;reserve-inventory&rdquo; is already done.</li>
+</ul>
+<h3 id="3-the-replay-mechanism">3. The Replay Mechanism</h3>
+<p>If your <code>process-payment</code> step takes too long or the Lambda environment restarts, AWS triggers the function again.</p>
+<ul>
+<li>The code starts from the very first line.</li>
+<li>When it hits <code>context.step(&quot;reserve-inventory&quot;)</code>, the SDK looks at the history log and says: &ldquo;I already have the result for this!&rdquo;</li>
+<li>Instead of running the inventory code again, it simply injects the saved result into the <code>inventory</code> variable and moves to the next line.</li>
+</ul>
+<h2 id="other-powerful-features">Other Powerful Features</h2>
+<p>Once you move beyond basic sequential steps, the <code>@aws-durable-execution-sdk-js</code> reveals its true power. It allows you to build complex, non-linear systems that feel like a single script but behave like a distributed state machine.</p>
+<p>Here is a breakdown of the advanced primitives you can use to orchestrate high-scale applications.</p>
+<h3 id="contextwait-the-time-traveler"><code>context.wait</code>: The Time-Traveler</h3>
+<p>This is more than just a <code>sleep()</code> command. When you call <code>wait</code>, your Lambda function stops executing entirely. AWS saves the state and schedules a fresh invocation for the future.</p>
+<ul>
+<li><strong>Cost Efficiency</strong>: You are charged $0.00 for the time spent waiting.</li>
+<li><strong>Precision</strong>: You can wait for seconds, hours, or even a specific <code>Date</code>.</li>
+<li><strong>Max Duration</strong>: A single workflow can wait for up to 1 year.</li>
+</ul>
+<h3 id="contextwaitforcallback-the-human-bridge"><code>context.waitForCallback</code>: The Human Bridge</h3>
+<p>This is the &ldquo;Human-in-the-Loop&rdquo; pattern. It pauses the code until an external system tells it to continue.</p>
+<ul>
+<li><strong>How it works</strong>: When called, it generates a unique <code>taskToken</code>. You send this token to an external service (like a Slack bot, an Email, or a React UI).</li>
+<li><strong>The Resume</strong>: The code stays &ldquo;frozen&rdquo; until your external system calls the <code>SendDurableExecutionCallback</code> API with that specific token.</li>
+</ul>
+<h3 id="contextparallel-the-turbo-charger"><code>context.parallel</code>: The Turbo-Charger</h3>
+<p>Standard <code>Promise.all()</code> is dangerous in serverless because one long-running promise could time out the whole Lambda. <code>context.parallel</code> is different. It tells AWS to manage multiple durable operations simultaneously.</p>
+<ul>
+<li><strong>Persistence</strong>: Each branch in the parallel array is checkpointed individually.</li>
+<li><strong>Resilience</strong>: If one branch fails, the other branches&rsquo; results are already saved, so a retry only re-runs the failed path.</li>
+</ul>
+<h3 id="contextinvoke-the-modular-architect"><code>context.invoke</code>: The Modular Architect</h3>
+<p>This allows you to call other Lambda functions (durable or standard) as a child process of your current workflow.</p>
+<ul>
+<li><strong>Encapsulation</strong>: You can build a library of &ldquo;Micro-Workflows&rdquo; (e.g., a <code>sendEmailWorkflow</code>) and call them from any parent.</li>
+<li><strong>Parent-Child Link</strong>: If the parent is canceled, AWS can automatically handle the cleanup of child invocations.</li>
+</ul>
+<h2 id="best-practices--gotchas">Best Practices &amp; Gotchas</h2>
+<p>The durable functions are so powerful. But at the same time you&rsquo;ll need to follow the best practices to avoid the chaos.</p>
+<h3 id="the-golden-rule-orchestration-must-be-deterministic">The Golden Rule: Orchestration Must Be Deterministic</h3>
+<p>When your function &ldquo;wakes up&rdquo; from a 7-day wait, it runs from the very beginning to find its place. If your code produces a different result during this replay, the SDK will throw a Non-Deterministic Error.</p>
+<p><strong>The Mistake</strong>: Using <code>new Date()</code> or <code>Math.random()</code> in the main body.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// ❌ BAD: This will be different every time the function replays
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">requestId</span> <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">random</span>();
+</span></span></code></pre></div><p><strong>The Fix</strong>: Wrap these calls in <code>context.step()</code>. This ensures the value is generated once, saved in the checkpoint, and then &ldquo;replayed&rdquo; as the exact same value.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// ✅ GOOD: The result is saved to the history after the first run
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">requestId</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">step</span>(<span style="color:#e6db74">&#34;get-id&#34;</span>, <span style="color:#66d9ef">async</span> () <span style="color:#f92672">=&gt;</span> Math.<span style="color:#a6e22e">random</span>());
+</span></span></code></pre></div><h3 id="the-15-minute-misconception">The &ldquo;15-Minute&rdquo; Misconception</h3>
+<p>It&rsquo;s a common trap to think the 15-minute Lambda limit is gone. It isn&rsquo;t.</p>
+<ul>
+<li><strong>Workflow Limit</strong>: Can last up to 1 year.</li>
+<li><strong>Step Limit</strong>: Any single <code>context.step</code> must finish within the 15-minute Lambda timeout.</li>
+</ul>
+<h3 id="state-size--the-fat-payload-problem">State Size &amp; The &ldquo;Fat Payload&rdquo; Problem</h3>
+<p>AWS stores your execution history (the results of every <code>context.step</code>) in a managed state store.</p>
+<ul>
+<li><strong>Limit</strong>: This history is typically limited</li>
+<li><strong>Gotcha</strong>: If you return a massive JSON object from <code>inventoryService.reserve()</code>, the checkpointing will fail.</li>
+<li><strong>Solution</strong>: Store large data in S3 and return only the <code>S3_URL</code> from your steps.</li>
+</ul>
+<h3 id="avoiding-zombie-workflows">Avoiding &ldquo;Zombie&rdquo; Workflows</h3>
+<p>Since workflows can live for a year, it&rsquo;s easy to accidentally leave thousands of executions &ldquo;Waiting&rdquo; and racking up state storage costs.</p>
+<ul>
+<li><strong>Best Practice</strong>: Always set a <code>timeout</code> in your <code>waitForCallback</code> and <code>wait</code> operations.</li>
+<li><strong>Retention Policy</strong>: Configure your <code>RetentionPeriodInDays</code> in the <code>DurableConfig</code> so that finished histories are automatically scrubbed.</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>With the release of AWS Lambda Durable Functions, the boundary between &ldquo;simple functions&rdquo; and &ldquo;complex orchestrators&rdquo; has finally vanished. We no longer have to choose between the simplicity of a single code file and the resilience of a multi-step state machine.</p>
+<h3 id="when-to-use-durable-functions-vs-step-functions">When to Use Durable Functions vs. Step Functions</h3>
+<p>Even in 2026, Step Functions remains the king of low-code orchestration and massive service integrations (like connecting S3 to Bedrock without any code). However, Durable Functions is now the clear winner for:</p>
+<ul>
+<li><strong>Pure Developer Workflows</strong>: If you want your logic in TypeScript, not YAML.</li>
+<li><strong>Complex Data Handling</strong>: When you need to pass rich objects between steps without JSON serialization headaches.</li>
+<li><strong>Fast Iteration</strong>: Testing locally with the <code>LocalDurableTestRunner</code> is significantly faster than deploying state machines to the cloud.</li>
+</ul>
+<h3 id="monitoring-your-marathons">Monitoring Your &ldquo;Marathons&rdquo;</h3>
+<p>Because these functions can run for months, AWS introduced a dedicated Durable Executions tab in the Lambda Console. You can now see a visual timeline of every execution, including exactly when a function &ldquo;went to sleep&rdquo; and which specific <code>context.step</code> is currently running.</p>
+<h3 id="final-thought-write-code-not-config">Final Thought: Write Code, Not Config</h3>
+<p>The true power of this SDK is that it lets you focus on business logic. You don&rsquo;t have to write &ldquo;plumbing&rdquo; code for retries, database checkpoints, or state management. You simply write your function from top to bottom, and AWS ensures that it stays alive until the job is done.</p>
+<p>The 15-minute wall has been torn down. It&rsquo;s time to start building applications that can truly go the distance.</p>
+
+    </div>
+  </div>
+
+  <div class="footer container text-center" id="contact">
+  <ul class="footer-icons list-inline">
+    
+      <li>
+        <a href="https://github.com/sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-github footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://www.linkedin.com/in/sidath-asiri/" target="_blank" rel="noreferrer"
+          ><i class="fab fa-linkedin footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="mailto:sidathasiri@gmail.com" target="_blank" rel="noreferrer"
+          ><i class="fas fa-envelope footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://medium.com/@sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-medium footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://dev.to/sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-dev footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+  </ul>
+  <div class="credit">
+    Copyright Sidath Munasinghe ©
+    <span id="current-year"></span>
+  </div>
+</div>
+
+<!-- JS Plugins --> 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
+
+<script src="/plugins/text-animation/text-animation.js"></script>
+
+<script src="/plugins/hugrid/hugrid.min.js"></script>
+ <!-- Main Scripts --> 
+<script src="/js/script.min.js"></script>
+
+<script src="/js/hugrid.custom.min.js"></script>
+</body>
+</html>
