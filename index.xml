@@ -106,5 +106,12 @@
       <guid>https://www.sidathm.online/2023/01/20/Seamless-Infrastructure-Management-with-AWS-CDK/</guid>
       <description>&lt;p&gt;The heart of any software solution is its infrastructure and administering it appropriately is very crucial. At present, it can be seen that the majority of software vendors have moved towards using cloud platforms and serverless architectures to mitigate the complexity of maintaining infrastructure. Still, things like provisioning the infrastructure in diverse environments and keeping them in sync need enormous effort if done manually.&lt;/p&gt;&#xA;&lt;p&gt;This challenge can be eased by a practice known as Infrastructure as code (IaC) that codifies and manages underlying IT infrastructure. This helps to deploy the infrastructure automatically in a predictable manner by executing a single command wiping out the hurdle of manual work. Further, this facilitates to version control the infrastructure and performing changes in a controlled manner with visibility across the team or organization.&lt;/p&gt;</description>
     </item>
+    <item>
+      <title>All Projects</title>
+      <link>https://www.sidathm.online/projects/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.sidathm.online/projects/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>
