@@ -124,6 +124,10 @@
         </li>
         
         <li class="menu-item hvr-underline-from-left 6">
+          <a href="https://www.sidathm.online/#testimonials">Testimonials</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 7">
           <a href="https://www.sidathm.online/post">Blog</a>
         </li>
         
@@ -167,6 +171,10 @@
               
               <li class="mobile-menu-item 1 mx-auto">
                 <a href="https://www.sidathm.online/#accomplishments">Accomplishments</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="https://www.sidathm.online/#testimonials">Testimonials</a>
               </li>
               
               <li class="mobile-menu-item 1 mx-auto">
@@ -234,29 +242,29 @@
 <h2 id="order-processing-with-durable-functions">Order Processing With Durable Functions</h2>
 <p>Let&rsquo;s look at a real-world scenario: An e-commerce workflow that needs to validate an order, wait for payment, and then ship the goods.</p>
 <p>Here is how you would write this using the new <code>@aws-sdk/client-lambda-durable</code> in TypeScript.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">DurableContext</span>, <span style="color:#a6e22e">withDurableExecution</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;@aws/durable-execution-sdk-js&#34;</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">DurableContext</span>, <span style="color:#a6e22e">withDurableExecution</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;@aws/durable-execution-sdk-js&#34;</span>;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// Imagine these services interact with your DB and APIs
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">inventoryService</span>, <span style="color:#a6e22e">paymentService</span>, <span style="color:#a6e22e">shippingService</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;./services&#34;</span>;
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">inventoryService</span>, <span style="color:#a6e22e">paymentService</span>, <span style="color:#a6e22e">shippingService</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;./services&#34;</span>;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">handler</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">withDurableExecution</span>(
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">event</span>: <span style="color:#66d9ef">any</span>, <span style="color:#a6e22e">context</span>: <span style="color:#66d9ef">DurableContext</span>) <span style="color:#f92672">=&gt;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">orderId</span>, <span style="color:#a6e22e">amount</span>, <span style="color:#a6e22e">items</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>;
 </span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 1. Reserve inventory
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// If this fails, the SDK handles the retry. If it succeeds, the result is checkpointed
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">inventory</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">step</span>(<span style="color:#e6db74">&#34;reserve-inventory&#34;</span>, <span style="color:#66d9ef">async</span> () <span style="color:#f92672">=&gt;</span> {
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// If this fails, the SDK handles the retry. If it succeeds, the result is checkpointed
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">inventory</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">step</span>(<span style="color:#e6db74">&#34;reserve-inventory&#34;</span>, <span style="color:#66d9ef">async</span> () <span style="color:#f92672">=&gt;</span> {
 </span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">inventoryService</span>.<span style="color:#a6e22e">reserve</span>(<span style="color:#a6e22e">items</span>);
 </span></span><span style="display:flex;"><span>    });
 </span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2. Process payment
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">payment</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">step</span>(<span style="color:#e6db74">&#34;process-payment&#34;</span>, <span style="color:#66d9ef">async</span> () <span style="color:#f92672">=&gt;</span> {
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">payment</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">step</span>(<span style="color:#e6db74">&#34;process-payment&#34;</span>, <span style="color:#66d9ef">async</span> () <span style="color:#f92672">=&gt;</span> {
 </span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">paymentService</span>.<span style="color:#a6e22e">charge</span>(<span style="color:#a6e22e">amount</span>);
 </span></span><span style="display:flex;"><span>    });
 </span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 3. Create shipment
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// This step only runs once the previous two are successfully checkpointed.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">shipment</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">step</span>(<span style="color:#e6db74">&#34;create-shipment&#34;</span>, <span style="color:#66d9ef">async</span> () <span style="color:#f92672">=&gt;</span> {
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// This step only runs once the previous two are successfully checkpointed.
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">shipment</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">step</span>(<span style="color:#e6db74">&#34;create-shipment&#34;</span>, <span style="color:#66d9ef">async</span> () <span style="color:#f92672">=&gt;</span> {
 </span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">shippingService</span>.<span style="color:#a6e22e">createShipment</span>(<span style="color:#a6e22e">orderId</span>, <span style="color:#a6e22e">inventory</span>);
 </span></span><span style="display:flex;"><span>    });
 </span></span><span style="display:flex;"><span>    
@@ -319,11 +327,11 @@
 <h3 id="the-golden-rule-orchestration-must-be-deterministic">The Golden Rule: Orchestration Must Be Deterministic</h3>
 <p>When your function &ldquo;wakes up&rdquo; from a 7-day wait, it runs from the very beginning to find its place. If your code produces a different result during this replay, the SDK will throw a Non-Deterministic Error.</p>
 <p><strong>The Mistake</strong>: Using <code>new Date()</code> or <code>Math.random()</code> in the main body.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// ❌ BAD: This will be different every time the function replays
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">requestId</span> <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">random</span>();
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// ❌ BAD: This will be different every time the function replays
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">requestId</span> <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">random</span>();
 </span></span></code></pre></div><p><strong>The Fix</strong>: Wrap these calls in <code>context.step()</code>. This ensures the value is generated once, saved in the checkpoint, and then &ldquo;replayed&rdquo; as the exact same value.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// ✅ GOOD: The result is saved to the history after the first run
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">requestId</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">step</span>(<span style="color:#e6db74">&#34;get-id&#34;</span>, <span style="color:#66d9ef">async</span> () <span style="color:#f92672">=&gt;</span> Math.<span style="color:#a6e22e">random</span>());
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// ✅ GOOD: The result is saved to the history after the first run
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">requestId</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">step</span>(<span style="color:#e6db74">&#34;get-id&#34;</span>, <span style="color:#66d9ef">async</span> () <span style="color:#f92672">=&gt;</span> Math.<span style="color:#a6e22e">random</span>());
 </span></span></code></pre></div><h3 id="the-15-minute-misconception">The &ldquo;15-Minute&rdquo; Misconception</h3>
 <p>It&rsquo;s a common trap to think the 15-minute Lambda limit is gone. It isn&rsquo;t.</p>
 <ul>

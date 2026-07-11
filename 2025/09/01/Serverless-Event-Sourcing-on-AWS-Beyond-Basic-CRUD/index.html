@@ -124,6 +124,10 @@
         </li>
         
         <li class="menu-item hvr-underline-from-left 6">
+          <a href="https://www.sidathm.online/#testimonials">Testimonials</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 7">
           <a href="https://www.sidathm.online/post">Blog</a>
         </li>
         
@@ -167,6 +171,10 @@
               
               <li class="mobile-menu-item 1 mx-auto">
                 <a href="https://www.sidathm.online/#accomplishments">Accomplishments</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="https://www.sidathm.online/#testimonials">Testimonials</a>
               </li>
               
               <li class="mobile-menu-item 1 mx-auto">
@@ -246,7 +254,8 @@
 <p><img src="https://www.sidathm.online/images/posts/Serverless-Event-Sourcing-on-AWS-Beyond-Basic-CRUD/what-is-event-sourcing.webp" alt="Image description"></p>
 <p>This approach turns your database into a source of truth for the past, present, and future. You can not only see what happened, but also replay events to rebuild projections, feed analytics pipelines, or even drive new features without touching existing data.</p>
 <blockquote>
-<p>Event Sourcing is not just about data storage — it&rsquo;s about preserving the story of your system.</p></blockquote>
+<p>Event Sourcing is not just about data storage — it&rsquo;s about preserving the story of your system.</p>
+</blockquote>
 <h2 id="designing-an-event-sourced-system-on-aws">Designing an Event-Sourced System on AWS</h2>
 <p>Designing event sourcing comes down to two core questions: how do you store events, and how do you use them?</p>
 <p>On AWS, a common approach is to use DynamoDB as the event store. Since events are usually unstructured or vary over time, DynamoDB&rsquo;s schemaless design makes it a natural fit. Every new change in the system is appended to this table as an immutable event.</p>

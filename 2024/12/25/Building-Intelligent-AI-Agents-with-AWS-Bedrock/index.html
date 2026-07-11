@@ -124,6 +124,10 @@
         </li>
         
         <li class="menu-item hvr-underline-from-left 6">
+          <a href="https://www.sidathm.online/#testimonials">Testimonials</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 7">
           <a href="https://www.sidathm.online/post">Blog</a>
         </li>
         
@@ -167,6 +171,10 @@
               
               <li class="mobile-menu-item 1 mx-auto">
                 <a href="https://www.sidathm.online/#accomplishments">Accomplishments</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="https://www.sidathm.online/#testimonials">Testimonials</a>
               </li>
               
               <li class="mobile-menu-item 1 mx-auto">
@@ -324,7 +332,7 @@ By leveraging AWS Bedrock, you gain the robust security and compliance features 
 <ol start="5">
 <li>After creating the three action groups, there will be three corresponding Lambda functions, each linked to one of the actions. We now need to update the logic of each Lambda function to execute the desired tasks. Below is a sample Lambda handler implementation to check the availability of a given appointment. You can modify this implementation to query a database or call an API to fetch the results. In this example, the function guarantees that appointments will be available except for <strong>December 31, 2024</strong>. As shown, we can access the previously defined parameters from the Lambda event to tailor the logic based on user input.</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">json</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">json</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">def</span> <span style="color:#a6e22e">lambda_handler</span>(<span style="color:#a6e22e">event</span>, <span style="color:#a6e22e">context</span>)<span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">agent</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>[<span style="color:#e6db74">&#39;agent&#39;</span>]
@@ -342,7 +350,7 @@ By leveraging AWS Bedrock, you gain the robust security and compliance features 
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paramDict</span>[<span style="color:#e6db74">&#39;providerName&#39;</span>])
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">#</span> <span style="color:#a6e22e">Execute</span> <span style="color:#a6e22e">your</span> <span style="color:#a6e22e">business</span> <span style="color:#a6e22e">logic</span> <span style="color:#a6e22e">here</span>. <span style="color:#a6e22e">For</span> <span style="color:#a6e22e">more</span> <span style="color:#a6e22e">information</span>, <span style="color:#a6e22e">refer</span> <span style="color:#a6e22e">to</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">https</span><span style="color:#f92672">:</span><span style="color:#75715e">//docs.aws.amazon.com/bedrock/latest/userguide/agents-lambda.html
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">paramDict</span>[<span style="color:#e6db74">&#39;date&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;31/12/2024&#34;</span>)<span style="color:#f92672">:</span>
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">paramDict</span>[<span style="color:#e6db74">&#39;date&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;31/12/2024&#34;</span>)<span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">print</span>(<span style="color:#e6db74">&#34;Unavailable date&#34;</span>)
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">responseBody</span> <span style="color:#f92672">=</span>  {
 </span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;TEXT&#34;</span><span style="color:#f92672">:</span> {
@@ -372,7 +380,7 @@ By leveraging AWS Bedrock, you gain the robust security and compliance features 
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">dummy_function_response</span>
 </span></span></code></pre></div><p>Similarly, we can implement a Lambda handler to list available appointments by hardcoding a set of available dates. This implementation can be customized to query a database or an external API to retrieve real-time appointment data, depending on your business requirements. Here’s a sample Lambda handler to list appointments:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">json</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">json</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">def</span> <span style="color:#a6e22e">lambda_handler</span>(<span style="color:#a6e22e">event</span>, <span style="color:#a6e22e">context</span>)<span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">agent</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>[<span style="color:#e6db74">&#39;agent&#39;</span>]
@@ -383,7 +391,7 @@ By leveraging AWS Bedrock, you gain the robust security and compliance features 
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">print</span>(<span style="color:#e6db74">&#34;Looking for all available slots&#34;</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">#</span> <span style="color:#a6e22e">Execute</span> <span style="color:#a6e22e">your</span> <span style="color:#a6e22e">business</span> <span style="color:#a6e22e">logic</span> <span style="color:#a6e22e">here</span>. <span style="color:#a6e22e">For</span> <span style="color:#a6e22e">more</span> <span style="color:#a6e22e">information</span>, <span style="color:#a6e22e">refer</span> <span style="color:#a6e22e">to</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">https</span><span style="color:#f92672">:</span><span style="color:#75715e">//docs.aws.amazon.com/bedrock/latest/userguide/agents-lambda.html
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">responseBody</span> <span style="color:#f92672">=</span>  {
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">responseBody</span> <span style="color:#f92672">=</span>  {
 </span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;TEXT&#34;</span><span style="color:#f92672">:</span> {
 </span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;These are the available slots: On 01/01/2025, an appointment is available in Colombo at 9am with Dr. Silva. Another slot is open on 15/01/2025 in Kandy at 11am with Dr. Fernando.&#34;</span>
 </span></span><span style="display:flex;"><span>        }
@@ -403,7 +411,7 @@ By leveraging AWS Bedrock, you gain the robust security and compliance features 
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">dummy_function_response</span>
 </span></span></code></pre></div><p>Finally, we can implement the Lambda function to create the appointment. For this sample implementation, we will include a simple print statement to confirm the behavior. In a production scenario, this function would typically involve database updates or API calls to schedule the appointment. Here’s a sample Lambda handler to create an appointment:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">json</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">json</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">def</span> <span style="color:#a6e22e">lambda_handler</span>(<span style="color:#a6e22e">event</span>, <span style="color:#a6e22e">context</span>)<span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">agent</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>[<span style="color:#e6db74">&#39;agent&#39;</span>]
@@ -416,7 +424,7 @@ By leveraging AWS Bedrock, you gain the robust security and compliance features 
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">print</span>(<span style="color:#e6db74">&#34;Placed appointment for:&#34;</span>, <span style="color:#a6e22e">paramDict</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">#</span> <span style="color:#a6e22e">Execute</span> <span style="color:#a6e22e">your</span> <span style="color:#a6e22e">business</span> <span style="color:#a6e22e">logic</span> <span style="color:#a6e22e">here</span>. <span style="color:#a6e22e">For</span> <span style="color:#a6e22e">more</span> <span style="color:#a6e22e">information</span>, <span style="color:#a6e22e">refer</span> <span style="color:#a6e22e">to</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">https</span><span style="color:#f92672">:</span><span style="color:#75715e">//docs.aws.amazon.com/bedrock/latest/userguide/agents-lambda.html
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">responseBody</span> <span style="color:#f92672">=</span>  {
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">responseBody</span> <span style="color:#f92672">=</span>  {
 </span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;TEXT&#34;</span><span style="color:#f92672">:</span> {
 </span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Appointment placed successfully&#34;</span>
 </span></span><span style="display:flex;"><span>        }

@@ -124,6 +124,10 @@
         </li>
         
         <li class="menu-item hvr-underline-from-left 6">
+          <a href="https://www.sidathm.online/#testimonials">Testimonials</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 7">
           <a href="https://www.sidathm.online/post">Blog</a>
         </li>
         
@@ -167,6 +171,10 @@
               
               <li class="mobile-menu-item 1 mx-auto">
                 <a href="https://www.sidathm.online/#accomplishments">Accomplishments</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="https://www.sidathm.online/#testimonials">Testimonials</a>
               </li>
               
               <li class="mobile-menu-item 1 mx-auto">
@@ -266,7 +274,8 @@
 </code></pre><pre tabindex="0"><code>controller:
   serviceType: LoadBalancer
 </code></pre><blockquote>
-<p>You can find the full implementation of this from this <a href="https://github.com/sidathasiri/cdev-eks-jenkins">GitHub repo</a></p></blockquote>
+<p>You can find the full implementation of this from this <a href="https://github.com/sidathasiri/cdev-eks-jenkins">GitHub repo</a></p>
+</blockquote>
 <p>That’s all we need to do. Now, we can run the command below, and Cluster.dev will create the Kubernetes cluster and then deploy the Jenkins service within it.</p>
 <pre tabindex="0"><code>cdev apply - force
 </code></pre><p>Once the deployment is complete, we can see that a load balancer has been created. We can access the deployed Jenkins service using the DNS address of the load balancer on the port 8080.</p>
