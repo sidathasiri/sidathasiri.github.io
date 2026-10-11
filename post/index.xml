@@ -6,8 +6,15 @@
     <description>Recent content in Posts on Sidath Munasinghe</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 04 Jan 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 11 Oct 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://www.sidathm.online/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SQS, SNS, EventBridge, or MSK? Building the Same Event-Driven System Four Ways</title>
+      <link>https://www.sidathm.online/2026/10/11/SQS-SNS-EventBridge-or-MSK-Building-the-Same-Event-Driven-System-Four-Ways/</link>
+      <pubDate>Sun, 11 Oct 2026 00:00:00 +0000</pubDate>
+      <guid>https://www.sidathm.online/2026/10/11/SQS-SNS-EventBridge-or-MSK-Building-the-Same-Event-Driven-System-Four-Ways/</guid>
+      <description>&lt;p&gt;Open the AWS console and search for &amp;ldquo;messaging&amp;rdquo;. You get SQS, SNS, EventBridge, Kinesis, MSK, MQ, and a few more that I&amp;rsquo;m sure someone at AWS is very proud of.&lt;/p&gt;&#xA;&lt;p&gt;Now try to answer a simple question: &lt;em&gt;my service needs to tell other services that something happened. Which one do I use?&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;The honest answer from most architecture discussions is &amp;ldquo;it depends&amp;rdquo;, which is correct and completely useless. So instead of comparing feature lists, I want to do something different. We&amp;rsquo;ll take one system, an online store, and let it grow. Every few months a new requirement shows up and breaks the previous design. Each break points to the next service.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Beyond the 15-Minute Wall: A Guide to AWS Lambda Durable Functions in TypeScript</title>
       <link>https://www.sidathm.online/2026/01/04/Beyond-the-15-Minute-Wall-A-Guide-to-AWS-Lambda-Durable-Functions-in-TypeScript/</link>
