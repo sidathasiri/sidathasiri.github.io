@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8" />
-  <title>Building a WebSocket API on AWS | Sidath Munasinghe</title>
+  <title>Real-Time Messaging on AWS: A Serverless WebSocket API with API Gateway, Lambda and CDK | Sidath Munasinghe</title>
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="Learn what is a web socket API and how it differ from RESTful APIs. Understand how to implement a web socket API with AWS Api Gateway to build a small chat application"
+    content="A hands-on guide to WebSocket APIs on AWS API Gateway: routes, connection IDs and route selection, plus a CDK and Lambda example that sends chat messages."
   />
 
   <meta
     name="keywords"
-    content="[web socket, api gateway, aws, cdk, amazon, sidath, munasinghe]"
+    content="[websocket api, aws api gateway, lambda, aws cdk, typescript, real-time, serverless, sidath, munasinghe]"
   />
 
   
@@ -25,8 +25,8 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://www.sidathm.online/2023/10/15/Building-WebSocket-APIs-with-AWS-API-Gateway-and-CDK/" />
-  <meta property="og:title" content="Building a WebSocket API on AWS" />
-  <meta property="og:description" content="Learn what is a web socket API and how it differ from RESTful APIs. Understand how to implement a web socket API with AWS Api Gateway to build a small chat application" />
+  <meta property="og:title" content="Real-Time Messaging on AWS: A Serverless WebSocket API with API Gateway, Lambda and CDK" />
+  <meta property="og:description" content="A hands-on guide to WebSocket APIs on AWS API Gateway: routes, connection IDs and route selection, plus a CDK and Lambda example that sends chat messages." />
   <meta property="og:site_name" content="Sidath Munasinghe" />
   
   <meta property="og:image" content="https://www.sidathm.online/images/posts/Building-WebSocket-APIs-with-AWS-API-Gateway-and-CDK/web-sockets-api-gateway.png" />
@@ -35,8 +35,8 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:url" content="https://www.sidathm.online/2023/10/15/Building-WebSocket-APIs-with-AWS-API-Gateway-and-CDK/" />
-  <meta name="twitter:title" content="Building a WebSocket API on AWS" />
-  <meta name="twitter:description" content="Learn what is a web socket API and how it differ from RESTful APIs. Understand how to implement a web socket API with AWS Api Gateway to build a small chat application" />
+  <meta name="twitter:title" content="Real-Time Messaging on AWS: A Serverless WebSocket API with API Gateway, Lambda and CDK" />
+  <meta name="twitter:description" content="A hands-on guide to WebSocket APIs on AWS API Gateway: routes, connection IDs and route selection, plus a CDK and Lambda example that sends chat messages." />
   
   <meta name="twitter:image" content="https://www.sidathm.online/images/posts/Building-WebSocket-APIs-with-AWS-API-Gateway-and-CDK/web-sockets-api-gateway.png" />
   
@@ -225,48 +225,69 @@
 
 
   <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
-    <h1>Building a WebSocket API on AWS</h1>
+    <h1>Real-Time Messaging on AWS: A Serverless WebSocket API with API Gateway, Lambda and CDK</h1>
     <span class="date">Posted on: 10/15/2023</span>
-    <img src="https://www.sidathm.online/images/posts/Building-WebSocket-APIs-with-AWS-API-Gateway-and-CDK/web-sockets-api-gateway.png" alt="Building a WebSocket API on AWS" />
+    <img src="https://www.sidathm.online/images/posts/Building-WebSocket-APIs-with-AWS-API-Gateway-and-CDK/web-sockets-api-gateway.png" alt="Real-Time Messaging on AWS: A Serverless WebSocket API with API Gateway, Lambda and CDK" />
     <div class="body">
-      <p>In the continuously evolving landscape of web applications, real-time communication has become the gold standard for creating engaging and interactive user experiences. Whether you’re building a chat application, a collaborative online game, or a live dashboard, WebSocket technology has emerged as the enchanting solution that makes real-time magic happen. And when it comes to unleashing the full potential of WebSockets in a serverless and scalable manner, Amazon Web Services (AWS) has a spell of its own — AWS API Gateway.</p>
-<p>In this article, we will go through the fundamental concepts of WebSocket API in Amazon API Gateway and create a small application to evaluate its capabilities using the AWS Cloud Development Kit (CDK).</p>
-<h2 id="websocket-apis">WebSocket APIs</h2>
-<p>WebSocket is a protocol that allows full duplex communication between a client and server using a persistent connection for continuous communication. Since the WebSocket connection is persistent, it allows extremely fast data transmission.</p>
-<p>Unlike the short-lived stateless connections in HTTP, WebSocket leverages long-lived opened connections to exchange messages with each other independently. This feature allows WebSocket connections to go beyond the traditional request and response model, making it the ideal solution for use cases like chat applications, live broadcasts, and extremely fast data synchronization.</p>
-<p><img src="https://www.sidathm.online/images/posts/Building-WebSocket-APIs-with-AWS-API-Gateway-and-CDK/comparison-table.png" alt="WebSockets vs HTTP"></p>
-<p>However, when implementing a WebSockets API, some of the crucial areas that we need to pay extra attention to are,</p>
+      <p>Think about the last time you watched a chat thread update by itself, a multiplayer game sync a move, or a dashboard tick over without a refresh. None of that works well if the browser has to keep asking the server &ldquo;anything new?&rdquo;. What you want is a channel that stays open so either side can talk whenever it has something to say. WebSockets give you exactly that. On AWS, API Gateway can host that channel for you, so you don&rsquo;t have to run your own socket servers.</p>
+<p>In this post I&rsquo;ll cover the building blocks of WebSocket APIs in Amazon API Gateway, then put them to work in a tiny messaging app defined with the AWS Cloud Development Kit (CDK) in TypeScript.</p>
+<h2 id="what-makes-websockets-different-from-plain-http">What makes WebSockets different from plain HTTP</h2>
+<p>A WebSocket is a single, long-lived connection that carries traffic in both directions at the same time (full duplex). The client opens it once and keeps it. After that, the client and the server can each push messages whenever they like, and there&rsquo;s no new handshake for every exchange. That&rsquo;s why latency is so low.</p>
+<p>HTTP is built the other way around. Each request opens a short exchange, the server answers, and that&rsquo;s the end of it, with no state carried over. That model is fine for fetching resources. It&rsquo;s awkward when the server needs to tell the client something it never asked for. Chat, live broadcasts and fast state synchronisation fit the persistent model much better.</p>
+<p><img src="https://www.sidathm.online/images/posts/Building-WebSocket-APIs-with-AWS-API-Gateway-and-CDK/comparison-table.png" alt="Table comparing WebSocket and HTTP on connection lifetime, direction of communication and statefulness"></p>
+<p>Keeping connections open does give you some extra work, though. If you run a WebSocket backend yourself, you have to deal with:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Concern</th>
+          <th>What you need to handle</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Connection lifecycle</td>
+          <td>Tracking clients as they connect and drop off</td>
+      </tr>
+      <tr>
+          <td>Transport security</td>
+          <td>Keeping data encrypted and protected while in transit</td>
+      </tr>
+      <tr>
+          <td>Message routing</td>
+          <td>Sending each incoming message to the right piece of server-side logic</td>
+      </tr>
+      <tr>
+          <td>Observability</td>
+          <td>Watching connection health and performance, and spotting problems early</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="why-let-api-gateway-host-your-websockets">Why let API Gateway host your WebSockets</h2>
+<p>Amazon API Gateway is a fully managed service for creating, publishing, securing and monitoring APIs at any scale. It&rsquo;s best known for REST and HTTP APIs, but it also supports WebSocket APIs, and it takes care of most of the concerns in the table above. That leaves you to write the parts that are specific to your app. The main wins:</p>
 <ul>
-<li><strong>connection management:</strong> manage incoming connections appropriately when clients connect and disconnect</li>
-<li><strong>security:</strong> ensure protection of data in transit</li>
-<li><strong>message routing:</strong> determine how WebSocket messages will be routed to the appropriate handlers on the server side</li>
-<li><strong>monitoring and logging:</strong> set up monitoring and logging to keep track of WebSocket connection status, performance, and potential issues</li>
+<li><strong>You don&rsquo;t touch the protocol.</strong> API Gateway runs the WebSocket handshake and holds the connections, so your code only sees events.</li>
+<li><strong>There are no socket servers to run.</strong> Provisioning, configuration and scaling of the WebSocket layer are all handled for you.</li>
+<li><strong>The backend can be whatever you like.</strong> A route can point to a Lambda function, a DynamoDB table or an HTTP endpoint, depending on what the message needs.</li>
+<li><strong>Security is built in.</strong> You can control access with IAM or a Lambda authorizer that runs your own logic. Connections use WSS (WebSocket Secure), so traffic is encrypted, which protects against man-in-the-middle attacks.</li>
+<li><strong>Routing is declarative.</strong> You map message types to routes, and each route to an integration such as a Lambda function.</li>
+<li><strong>Monitoring comes with it.</strong> Metrics and logs go to CloudWatch, so you can track the API&rsquo;s health and set alarms for anything that needs a closer look.</li>
 </ul>
-<h2 id="websocket-apis-on-aws">WebSocket APIs on AWS</h2>
-<p>Amazon API Gateway is a fully managed service that makes it easy for developers to create, publish, maintain, monitor, and secure APIs at any scale. Apart from the HTTP-based restful APIs, it allows creating and managing WebSocket APIs as well by simplifying the areas we discussed above while allowing developers to focus on the core functionality of the real-time applications. Here are the key benefits of using AWS API Gateway for building your next WebSocket API.</p>
+<h2 id="core-concepts-you-need-before-writing-code">Core concepts you need before writing code</h2>
+<p>WebSocket APIs reuse familiar API Gateway ideas such as models, authorizers and stages. On top of those, a few WebSocket-specific concepts matter.</p>
+<h3 id="routes-and-the-three-built-in-ones">Routes and the three built-in ones</h3>
+<p>Routes play the role that endpoints play in a REST API. Each incoming JSON message is matched to a route, and the route forwards it to a backend integration. API Gateway gives you three reserved routes out of the box:</p>
 <ul>
-<li><strong>Abstracts out the protocol understanding:</strong> AWS API Gateway abstracts much of the WebSocket protocol details, making it easier to use. It manages the handshaking process and connection handling, allowing you to focus on application logic.</li>
-<li><strong>Simplified infrastructure management:</strong> It takes care of the WebSocket server setup and configuration, eliminating the need for you to manage the WebSocket server infrastructure.</li>
-<li><strong>Integration options:</strong> API Gateway can be integrated with multiple backend sources such as lambda functions, DynamoDB tables, or HTTP endpoints to implement any logic based on the content of the messages it receives from the client.</li>
-<li><strong>Security:</strong> Access can be controlled by AWS IAM or lambda authorizers to implement your authorization logic. Further, it supports WSS (WebSocket Secure) to have encrypted connections for enhanced security, like protecting against man-in-the-middle attacks.</li>
-<li><strong>Easy message routing:</strong> AWS API Gateway permits you to define routes for WebSocket messages and map them to specific AWS Lambda functions, enabling you to handle them as required.</li>
-<li><strong>Monitoring and Logging:</strong> AWS CloudWatch Logs and Metrics monitors the WebSocket APIs created with AWS API Gateway, allowing us to monitor its statuses and get alerts when it needs our attention to investigate any critical issue.</li>
+<li><strong><code>$connect</code></strong> fires when a client first opens the persistent connection.</li>
+<li><strong><code>$disconnect</code></strong> fires when either the client or the server closes it.</li>
+<li><strong><code>$default</code></strong> is the fallback. It catches messages whose route can&rsquo;t be worked out or that don&rsquo;t match any route, which makes it a good place to reject malformed input politely.</li>
 </ul>
-<h2 id="concepts-of-api-gateway-websocket-apis">Concepts of API Gateway WebSocket APIs</h2>
-<p>AWS API Gateway service utilizes its fundamental concepts, such as models, authorizers, and stages for WebSocket APIs as well. Below are the additional concepts we need to know when using WebSocket APIs.</p>
-<h3 id="routes">Routes</h3>
-<p>In a WebSocket API, incoming JSON messages are directed to backend integrations based on routes you configure, similar to the endpoints in RestFul APIs. API Gateway provides three predefined routes as below.</p>
-<ul>
-<li><strong>$connect:</strong> Triggers when a persistent connection between the client and a WebSocket API is initiated.</li>
-<li><strong>$disconnect:</strong> Triggers when the client or the server disconnects from the API.</li>
-<li><strong>$default:</strong> Triggers if the route selection expression cannot be evaluated against the message or if no matching route is found. This is useful for handling invalid messages gracefully.</li>
-</ul>
-<p>We can also create custom routes to cater to the business requirements and functionalities. To handle incoming requests, these routes must be connected with available backend integrations, such as Lambda functions, DynamoDB tables, etc.</p>
-<p>In WebSocket-based communications, connection IDs are very important since they need to be presented to exchange messages. The creation of connection IDs is handled by API Gateway for us, but implementing the logic to handle those events is up to us. For example, we can integrate a lambda function to the <code>$connect</code> route to implement some logic to store the newly created connection ID in a datastore for functionality like broadcasting an event. Also, we will need to delete those entries by implementing some logic behind the <code>$disconnet</code> route.</p>
-<h3 id="one-waytwo-way-communication">One-way/Two-way Communication</h3>
-<p>WebSockets are bidirectional by nature. However, AWS API Gateway allows us to configure one-way or two-way communication routes. If configured for one-way, there won’t be any response after completing the message processing. When two-way communication is enabled, we can implement some logic to receive acknowledgements after complete processing.</p>
-<h3 id="route-selection-expression">Route Selection Expression</h3>
-<p>API Gateway uses the route selection expression to determine which route to invoke when a client sends a message. When creating a WebSocket API, we must provide the route selection expression. Therefore, before creating the API, we must decide what the message structure looks like. For example, we can use an attribute called action in the message to specify the route like below.</p>
+<p>Alongside these, you can define custom routes for your own features. Each one must be wired to an integration (a Lambda function, a DynamoDB table and so on) before it can do anything.</p>
+<h3 id="connection-ids">Connection IDs</h3>
+<p>Every connected client gets a connection ID, and you need that ID to send a message to that client. API Gateway generates the IDs, but deciding what to do with them is up to you. A common pattern is to put a Lambda behind <code>$connect</code> that stores each new ID in a datastore. Later, you can loop over the stored IDs to broadcast. You&rsquo;d then add matching cleanup logic behind <code>$disconnect</code> to delete the IDs that have gone away.</p>
+<h3 id="one-way-vs-two-way-routes">One-way vs two-way routes</h3>
+<p>The protocol itself is bidirectional, but API Gateway lets you choose per route whether the client gets a reply. A one-way route processes the message and sends nothing back. A two-way route can return a response, for example an acknowledgement that processing has finished.</p>
+<h3 id="route-selection-expression">Route selection expression</h3>
+<p>How does API Gateway know which route a message belongs to? It evaluates a route selection expression against every message. You set this expression when you create the API, so you need to agree on a message shape first. A simple convention is an <code>action</code> field that names the route:</p>
 <pre tabindex="0"><code>{
    &#34;action&#34;: &#34;createTodo&#34;,
    &#34;data&#34;: {
@@ -274,20 +295,20 @@
       &#34;completed&#34;: false
    }
 }
-</code></pre><p>In this scenario, we can use <code>$request.body.action</code> as the route selection expression. Here <code>$request.body</code> refers to the message payload. We can choose an appropriate attribute we want based on the message structure.</p>
-<p><strong>Building the WebSocket API with CDK</strong>
-Now let’s create a very simple WebSocket API using AWS CDK with Typescript to define and deploy the infrastructure and apply the concept we just learned. We will also add a custom route to send a message to a connection so that we can play around and test it. Below are the main steps we have to follow.</p>
+</code></pre><p>For that shape, the expression is <code>$request.body.action</code>. <code>$request.body</code> points at the message payload, and you can point at any attribute in it that suits your design.</p>
+<h2 id="hands-on-a-minimal-messaging-api-with-cdk">Hands-on: a minimal messaging API with CDK</h2>
+<p>Now let&rsquo;s apply those ideas. Using CDK with TypeScript, I&rsquo;ll build the smallest useful WebSocket API I can think of. It logs connects and disconnects, and it has one custom route that lets one client send a message to another. The plan:</p>
 <ol>
-<li>Create three lambda functions to handle new WebSocket connections/disconnections and send a message to a connection.</li>
-<li>Create a WebSocket API</li>
-<li>Create a custom route for sending a message</li>
-<li>Integrate lambda functions to routes</li>
-<li>Grant any required permissions</li>
-<li>Test the API</li>
+<li>Write three Lambda functions: connect, disconnect and send-message.</li>
+<li>Create the WebSocket API.</li>
+<li>Add a custom route for sending messages.</li>
+<li>Wire each Lambda to its route.</li>
+<li>Grant the permissions the send-message function needs.</li>
+<li>Deploy and try it out.</li>
 </ol>
-<h3 id="lambda-functions">Lambda Functions</h3>
-<p>Let’s first create the three lambda functions so we can directly integrate them when creating the WebSockets API routes. The below code snippet shows how to create the mentioned Lambda functions using the NodejsFunction construct in CDK.</p>
-<pre tabindex="0"><code>// Lambda function to handle new connections
+<h3 id="defining-the-lambda-functions">Defining the Lambda functions</h3>
+<p>I&rsquo;m creating the functions first so they&rsquo;re ready to plug in when the API and its routes are defined. CDK&rsquo;s <code>NodejsFunction</code> construct bundles the TypeScript handlers for us:</p>
+<pre tabindex="0"><code>// Handles clients opening a connection
 const wsConnectLambda = new NodejsFunction(this, &#39;ws-connect-lambda&#39;, {
       entry: join(__dirname, &#39;../src/connect/index.ts&#39;),
       handler: &#39;handler&#39;,
@@ -295,7 +316,7 @@ const wsConnectLambda = new NodejsFunction(this, &#39;ws-connect-lambda&#39;, {
       runtime: Runtime.NODEJS_18_X,
 });
 
-// Lambda function to handle disconnections
+// Handles clients closing a connection
 const wsDisconnectLambda = new NodejsFunction(
       this,
       &#39;ws-disconnect-lambda&#39;,
@@ -307,42 +328,36 @@ const wsDisconnectLambda = new NodejsFunction(
       }
 );
 
-// Lambda function to handle sending messages
+// Handles relaying a message to another connection
 const sendMessageLambda = new NodejsFunction(this, &#39;send-message-lambda&#39;, {
       entry: join(__dirname, &#39;../src/send-message/index.ts&#39;),
       runtime: Runtime.NODEJS_18_X,
       functionName: &#39;send-message&#39;,
       handler: &#39;handler&#39;,
 });
-</code></pre><p>Now, let’s review the handler function implementations for each function. The below code snippet shows the implementation of the connection handler function.</p>
-<h3 id="connection-handler-function">Connection Handler Function</h3>
+</code></pre><h3 id="the-connect-and-disconnect-handlers">The connect and disconnect handlers</h3>
+<p>I&rsquo;ve kept both lifecycle handlers deliberately bare. Each one just logs the connection ID, which is enough to watch clients come and go. In a real app, this is where you&rsquo;d persist or remove IDs, check who the caller is, and so on.</p>
+<p>On connect:</p>
 <pre tabindex="0"><code>export const handler = async (event: APIGatewayProxyEvent) =&gt; {
   const connectionId = event.requestContext.connectionId;
   console.log(&#39;connection created:&#39;, connectionId);
   return { statusCode: 200, body: &#39;Connected.&#39; };
 };
-</code></pre><p>We only log the generated connection ID when a new client connects with the API to keep this as simple as possible. If you have any sophisticated logic, we can implement them here.</p>
-<h3 id="disconnection-handler-function">Disconnection Handler Function</h3>
+</code></pre><p>On disconnect:</p>
 <pre tabindex="0"><code>export const handler = async (event: APIGatewayProxyEvent) =&gt; {
   const connectionId = event.requestContext.connectionId;
   console.log(&#39;Disconnected:&#39;, connectionId);
   return { statusCode: 200, body: &#39;Disconnected.&#39; };
 };
-</code></pre><p>We also only log the connection ID when a connection terminates for simplicity. We can extend this implementation to match the business requirements.</p>
-<h3 id="send-message-handler-function">Send Message Handler Function</h3>
-<p>We use this function to send messages to another connection. Below is the structure of the message format we are going to use.</p>
+</code></pre><h3 id="the-send-message-handler">The send-message handler</h3>
+<p>This function does the interesting work: it relays a message to a different client. Clients call it with a payload like this:</p>
 <pre tabindex="0"><code>{
    &#34;action&#34;:&#34;sendMessage&#34;,
    &#34;connectionId&#34;:&#34;&lt;receiver&#39;s connection id&gt;&#34;,
    &#34;message&#34;:&#34;&lt;message content&gt;&#34;
 }
-</code></pre><p>Below is the definition of these attributes.</p>
-<ul>
-<li><strong>action:</strong> Acts as the route selection attribute</li>
-<li><strong>connectionId:</strong> Contains the receiver’s connection ID</li>
-<li><strong>message:</strong> Message content</li>
-</ul>
-<p>With this information, we can implement the below logic inside this lambda function to handle this requirement.</p>
+</code></pre><p>Here, <code>action</code> is what the route selection expression reads, <code>connectionId</code> identifies the recipient, and <code>message</code> is the text to deliver.</p>
+<p>The handler builds an API Gateway Management API client that points at the API&rsquo;s own domain and stage. It pulls the recipient and the text out of the body and calls <code>postToConnection</code>:</p>
 <pre tabindex="0"><code>export const handler = async (event: APIGatewayProxyEvent) =&gt; {
   const apigwManagementApi = new ApiGatewayManagementApi({
     apiVersion: &#39;2018-11-29&#39;,
@@ -365,10 +380,9 @@ const sendMessageLambda = new NodejsFunction(this, &#39;send-message-lambda&#39;
   }
   return { statusCode: 200, body: &#39;Message sent&#39; };
 };
-</code></pre><p>Here, we get the connectionId and the message from the event body and then use AWS API Gateway Management API to post the received message to the received connection.</p>
-<h3 id="websocket-api">WebSocket API</h3>
-<p>Since the lambda functions are ready now, let’s create the WebSockets API. The below code snippet demonstrates how to create it.</p>
-<pre tabindex="0"><code>// Create WebSocket API with connection/disconnection route integrations
+</code></pre><h3 id="creating-the-api-stage-and-custom-route">Creating the API, stage and custom route</h3>
+<p>With the handlers in place, the API is only a few lines:</p>
+<pre tabindex="0"><code>// WebSocket API with the lifecycle routes wired to their Lambdas
 const webSocketApi = new apigw2.WebSocketApi(
       this,
       &#39;my-first-websocket-api&#39;,
@@ -388,51 +402,78 @@ const webSocketApi = new apigw2.WebSocketApi(
       }
 );
 
-// Create API stage
+// Deployment stage for the API
 const apiStage = new apigw2.WebSocketStage(this, &#39;dev&#39;, {
       webSocketApi,
       stageName: &#39;dev&#39;,
       autoDeploy: true,
 });
 
-// Add the custom sendMessage route
+// Custom route that relays messages between clients
 webSocketApi.addRoute(&#39;sendMessage&#39;, {
       integration: new WebSocketLambdaIntegration(
         &#39;send-message-integration&#39;,
         sendMessageLambda
       ),
 });
-</code></pre><p>We first create the WebSocket API using the WebSocketApi CDK construct in the above code. Since our connection/disconnection lambda functions are ready, we have also integrated those while creating the API. Then, we defined a dev stage for the API as usual in a typical API in AWS API Gateway. Finally, we have added our custom route for the message-sending purpose. Note that since we are using sendMessage as the action in the message payload, we need to mention the same here as well when adding the route. Further, we don’t need to mention the route selection expression here, since we can use the default value ($request.body.action) provided by CDK construct.</p>
-<p>There is one last thing missing in this setup. Our send message lambda function needs permission to post messages to connections. So we need to add the below code segment as well to grant those permissions.</p>
-<pre tabindex="0"><code>// Get the resource ARN of the created WebSocket API
+</code></pre><p>Here&rsquo;s what&rsquo;s happening in that snippet:</p>
+<ul>
+<li>The <code>WebSocketApi</code> construct creates the API, and the connect and disconnect Lambdas are attached to <code>$connect</code> and <code>$disconnect</code> right there in the constructor.</li>
+<li>A <code>dev</code> stage is added with <code>autoDeploy</code> turned on, just as you&rsquo;d do for any other API Gateway API.</li>
+<li><code>addRoute('sendMessage', ...)</code> registers the custom route. The route key has to match the <code>action</code> value that clients send.</li>
+<li>I don&rsquo;t set a route selection expression, because the CDK construct already defaults to <code>$request.body.action</code>, which is the convention I&rsquo;m using.</li>
+</ul>
+<h3 id="allowing-lambda-to-post-back-to-clients">Allowing Lambda to post back to clients</h3>
+<p>There&rsquo;s one more piece. Calling <code>postToConnection</code> requires the <code>execute-api:ManageConnections</code> permission on the API, and the send-message function doesn&rsquo;t have that yet. I build the ARN for the stage&rsquo;s connections and add a policy statement to the function&rsquo;s role:</p>
+<pre tabindex="0"><code>// Build the ARN covering connections on this API stage
 const connectionsArns = this.formatArn({
       service: &#39;execute-api&#39;,
       resourceName: `${apiStage.stageName}/POST/*`,
       resource: webSocketApi.apiId,
 });
 
-// Attach the required policy to the relavant lambda function
+// Let the send-message Lambda manage those connections
 sendMessageLambda.addToRolePolicy(
       new PolicyStatement({
         actions: [&#39;execute-api:ManageConnections&#39;],
         resources: [connectionsArns],
       })
 );
-</code></pre><p>Now everything is complete, and we can deploy the infrastructure to AWS using the <code>cdk deploy</code> command.</p>
-<h3 id="testing">Testing</h3>
-<p>Once the deployment is complete, we can get the API’s WebSocket URL with wssprotocol from the API Gateway console. For testing purposes, we can use any WebSocket testing tool like <a href="https://www.piesocket.com/websocket-tester">piesocket</a> to connect and send messages.</p>
-<p>We can give our WebSocket API URL to this tool to test the connection creation. We should be able to see the connection ID in the Cloudwatch logs of connection handling lambda. We can connect with as many clients as we want and track their connection IDs to send messages.</p>
-<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/txba973daa29n95ipt58.png" alt="Log of different connection IDs in Cloudwatch"></p>
-<p>Then, we can use these connection IDs to send messages to each other using the custom route we created.</p>
-<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ovr5zrpwsklhr0707nal.png" alt="Message history of connection 1"></p>
-<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/l5a9tbbds65s17q13oxe.png" alt="Message history of connection 2"></p>
-<p>Since the message sending is working as expected, now we can try the disconnection handler’s functionality. When a client disconnects, we should be able to see the appropriate log as well.</p>
-<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/29qe2fbs5zdhchwtdvn7.png" alt="Appropriate logs for disconnected connections"></p>
-<p>So everything is working as expected, and it takes very little time to implement using the capabilities of AWS API Gateway. We can enhance the security of the API by introducing authorizers and access control mechanisms. Further, you can use CloudWatch to monitor the service status using different metrics, such as the connection count.</p>
-<p>The full source code for this example application can be found in this <a href="https://github.com/sidath-munasinghe/apigateway-websocket-api">GitHub repo</a>.</p>
-<h2 id="conclusion">Conclusion</h2>
-<p>From the introduction to the basics of WebSocket APIs, we’ve navigated through the realm of real-time web development. AWS API Gateway stood as our gateway to real-time magic, simplifying the complexities and providing security and scalability. Armed with this knowledge, your journey into real-time web development begins, where you can create captivating applications with the help of AWS CDK. Embrace the magic, and let your applications come alive in the world of real-time experiences!</p>
-<h2 id="further-reading">Further Reading</h2>
+</code></pre><p>That completes the stack. Run <code>cdk deploy</code> and it goes out to AWS.</p>
+<h2 id="trying-it-out">Trying it out</h2>
+<p>After the deployment finishes, copy the API&rsquo;s <code>wss://</code> URL from the API Gateway console. Any WebSocket client will do for testing. I used <a href="https://www.piesocket.com/websocket-tester">piesocket</a>.</p>
+<p>First, open a few connections with that URL. Each one should show up as a new connection ID in the connect Lambda&rsquo;s CloudWatch logs. Note those IDs down, because you need them to address messages.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/txba973daa29n95ipt58.png" alt="CloudWatch log entries from the connect Lambda showing several different connection IDs"></p>
+<p>Next, use the <code>sendMessage</code> action to send a message from one connection to another, and check that it arrives on the other side.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ovr5zrpwsklhr0707nal.png" alt="WebSocket tester view of the first client sending a message to the second client&rsquo;s connection ID"></p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/l5a9tbbds65s17q13oxe.png" alt="WebSocket tester view of the second client receiving the message and replying"></p>
+<p>Finally, close one of the clients. The disconnect Lambda should log the ID that just left.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/29qe2fbs5zdhchwtdvn7.png" alt="CloudWatch log entries from the disconnect Lambda recording the closed connection IDs"></p>
+<p>That&rsquo;s a working real-time API, and API Gateway did most of the heavy lifting. Natural next steps are an authorizer and tighter access control, plus CloudWatch metrics such as connection count to keep an eye on the service.</p>
+<p>You can find the complete project in this <a href="https://github.com/sidath-munasinghe/apigateway-websocket-api">GitHub repo</a>.</p>
+<h2 id="gotchas-worth-knowing-before-production">Gotchas worth knowing before production</h2>
+<p>The demo skips a few things that will bite you once real users show up:</p>
+<ul>
+<li><strong>Stale connection IDs.</strong> If you post to a client that has already gone, <code>postToConnection</code> fails with a <code>GoneException</code> (HTTP 410). Treat that as a signal to delete the stored ID, rather than just logging it the way the demo does.</li>
+<li><strong>Connections don&rsquo;t live forever.</strong> API Gateway closes idle connections after about 10 minutes, and caps any connection at 2 hours. Clients should send periodic heartbeats and reconnect automatically.</li>
+<li><strong><code>$disconnect</code> is best effort.</strong> It usually fires, but it isn&rsquo;t guaranteed. Don&rsquo;t rely on it alone to clean up. Expiring stored IDs (for example with a DynamoDB TTL) is a sensible safety net.</li>
+<li><strong>Authorize on <code>$connect</code>.</strong> Authorizers for WebSocket APIs attach to the <code>$connect</code> route. Once a connection is accepted, later messages on it aren&rsquo;t re-authorized, so validate the caller up front.</li>
+<li><strong>Message size limits.</strong> WebSocket frames are capped at 32 KB, and a full message at 128 KB. For larger payloads, send a reference (for example an S3 key) instead.</li>
+<li><strong>Least privilege.</strong> The <code>ManageConnections</code> grant above only covers the <code>dev</code> stage of this API. Keep it scoped that tightly rather than using a wildcard across all APIs.</li>
+</ul>
+<h2 id="when-this-approach-fits-and-when-it-doesnt">When this approach fits (and when it doesn&rsquo;t)</h2>
+<p><strong>A good fit:</strong> chat, notifications, collaborative editing, live dashboards and similar bursty, event-driven traffic, where you&rsquo;d rather pay per message and connection minute than run socket servers around the clock.</p>
+<p><strong>Think twice:</strong> if updates only flow from server to client and are infrequent, plain polling or server-sent events may be simpler. If you need very high, steady message rates or custom protocol features, a self-managed WebSocket fleet or a dedicated real-time service may suit you better.</p>
+<h2 id="wrapping-up">Wrapping up</h2>
+<p>We started with why a persistent, two-way connection beats request/response for real-time features. Then we looked at routes, connection IDs and route selection in API Gateway, and finished with a deployed CDK stack that relays messages between clients. API Gateway takes the protocol, scaling and security plumbing off your plate, and CDK keeps the whole thing reproducible. From here, adding persistence, broadcasting and authorization is a matter of extending the handlers you&rsquo;ve already got.</p>
+<p><strong>Key takeaways</strong></p>
+<ul>
+<li>WebSocket APIs on API Gateway are serverless: you write route handlers, not socket servers.</li>
+<li>Settle your message shape early, because the route selection expression depends on it.</li>
+<li>Connection IDs are your addressing scheme, so store them, clean them up and expect some to go stale.</li>
+<li>The Lambda that posts back to clients needs <code>execute-api:ManageConnections</code>, scoped to your API and stage.</li>
+</ul>
+<h2 id="further-reading">Further reading</h2>
 <ul>
 <li><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-overview.html">About WebSocket APIs in API Gateway</a></li>
 <li><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/websocket-api-chat-app.html">Tutorial: Building a serverless chat app with a WebSocket API, Lambda and DynamoDB</a></li>

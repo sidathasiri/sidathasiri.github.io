@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8" />
-  <title>Beyond the 15-Minute Wall: A Guide to AWS Lambda Durable Functions in TypeScript | Sidath Munasinghe</title>
+  <title>Long-Running Workflows in Plain TypeScript: Getting Started with AWS Lambda Durable Functions | Sidath Munasinghe</title>
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="Learn how AWS Lambda Durable Functions enables stateful, long-running workflows in TypeScript without Step Functions complexity. Build workflows that can run for up to a year with automatic checkpointing and state management."
+    content="Build stateful, long-running TypeScript workflows with AWS Lambda Durable Functions: checkpoints, replay, waits, callbacks and the gotchas to avoid."
   />
 
   <meta
     name="keywords"
-    content="[aws lambda, durable functions, typescript, serverless, aws, cloud computing, state management, sidath, munasinghe]"
+    content="[aws lambda durable functions, long-running workflows, typescript, serverless orchestration, checkpointing, step functions alternative, aws, sidath, munasinghe]"
   />
 
   
@@ -25,8 +25,8 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://www.sidathm.online/2026/01/04/Beyond-the-15-Minute-Wall-A-Guide-to-AWS-Lambda-Durable-Functions-in-TypeScript/" />
-  <meta property="og:title" content="Beyond the 15-Minute Wall: A Guide to AWS Lambda Durable Functions in TypeScript" />
-  <meta property="og:description" content="Learn how AWS Lambda Durable Functions enables stateful, long-running workflows in TypeScript without Step Functions complexity. Build workflows that can run for up to a year with automatic checkpointing and state management." />
+  <meta property="og:title" content="Long-Running Workflows in Plain TypeScript: Getting Started with AWS Lambda Durable Functions" />
+  <meta property="og:description" content="Build stateful, long-running TypeScript workflows with AWS Lambda Durable Functions: checkpoints, replay, waits, callbacks and the gotchas to avoid." />
   <meta property="og:site_name" content="Sidath Munasinghe" />
   
   <meta property="og:image" content="https://www.sidathm.online/images/posts/Beyond-the-15-Minute-Wall-A-Guide-to-AWS-Lambda-Durable-Functions-in-TypeScript/main-cover-image.png" />
@@ -35,8 +35,8 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:url" content="https://www.sidathm.online/2026/01/04/Beyond-the-15-Minute-Wall-A-Guide-to-AWS-Lambda-Durable-Functions-in-TypeScript/" />
-  <meta name="twitter:title" content="Beyond the 15-Minute Wall: A Guide to AWS Lambda Durable Functions in TypeScript" />
-  <meta name="twitter:description" content="Learn how AWS Lambda Durable Functions enables stateful, long-running workflows in TypeScript without Step Functions complexity. Build workflows that can run for up to a year with automatic checkpointing and state management." />
+  <meta name="twitter:title" content="Long-Running Workflows in Plain TypeScript: Getting Started with AWS Lambda Durable Functions" />
+  <meta name="twitter:description" content="Build stateful, long-running TypeScript workflows with AWS Lambda Durable Functions: checkpoints, replay, waits, callbacks and the gotchas to avoid." />
   
   <meta name="twitter:image" content="https://www.sidathm.online/images/posts/Beyond-the-15-Minute-Wall-A-Guide-to-AWS-Lambda-Durable-Functions-in-TypeScript/main-cover-image.png" />
   
@@ -225,46 +225,62 @@
 
 
   <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
-    <h1>Beyond the 15-Minute Wall: A Guide to AWS Lambda Durable Functions in TypeScript</h1>
+    <h1>Long-Running Workflows in Plain TypeScript: Getting Started with AWS Lambda Durable Functions</h1>
     <span class="date">Posted on: 1/4/2026</span>
-    <img src="https://www.sidathm.online/images/posts/Beyond-the-15-Minute-Wall-A-Guide-to-AWS-Lambda-Durable-Functions-in-TypeScript/main-cover-image.png" alt="Beyond the 15-Minute Wall: A Guide to AWS Lambda Durable Functions in TypeScript" />
+    <img src="https://www.sidathm.online/images/posts/Beyond-the-15-Minute-Wall-A-Guide-to-AWS-Lambda-Durable-Functions-in-TypeScript/main-cover-image.png" alt="Long-Running Workflows in Plain TypeScript: Getting Started with AWS Lambda Durable Functions" />
     <div class="body">
-      <p>Let&rsquo;s be real: we&rsquo;ve all had that moment where our AWS Lambda function hit the dreaded 15-minute timeout, and we died a little bit inside.</p>
-<p>Up until recently, if you wanted to build a long-running process — say, a 30-day trial onboarding flow or a multi-step document processing pipeline — you had two choices:</p>
-<ol>
-<li><strong>AWS Step Functions</strong>: Powerful, but you had to learn Amazon States Language (ASL). Let&rsquo;s just say writing logic in 500 lines of JSON/YAML isn&rsquo;t exactly &ldquo;fun.&rdquo;</li>
-<li><strong>The &ldquo;DIY&rdquo; State Machine</strong>: Manually saving state to DynamoDB, triggering SQS queues, and praying your retry logic didn&rsquo;t create an infinite loop.</li>
-</ol>
-<p>But the game changed at re:Invent 2025. Enter <strong>AWS Lambda Durable Functions</strong>. We can finally write stateful, long-running workflows directly in TypeScript or in other supported languages. No YAML, no external state management, just pure code.</p>
-<h2 id="what-is-durable-execution-anyway">What is &ldquo;Durable Execution&rdquo; Anyway?</h2>
-<p>Imagine you&rsquo;re reading a massive 1,000-page book. If you have to put it down to sleep, you don&rsquo;t start from page one the next morning — you use a bookmark.</p>
-<p>Durable Functions act as that bookmark for your code. When your function hits a &ldquo;wait&rdquo;, AWS &ldquo;checkpoints&rdquo; the progress and shuts down the compute. When the event is ready, it &ldquo;replays&rdquo; the function, skips the parts it already finished, and picks up exactly where it left off. The idea is very simple but it&rsquo;s very powerful.</p>
-<p>I know what you&rsquo;re thinking: &ldquo;Is Step Functions dead?&rdquo; Not quite. If you are building complex micro-service choreography between 10 different AWS services, Step Functions&rsquo; visual designer is still king. But if you are building application logic that just needs to be stateful, Durable Functions is your new best friend.</p>
-<h2 id="order-processing-with-durable-functions">Order Processing With Durable Functions</h2>
-<p>Let&rsquo;s look at a real-world scenario: An e-commerce workflow that needs to validate an order, wait for payment, and then ship the goods.</p>
-<p>Here is how you would write this using the new <code>@aws-sdk/client-lambda-durable</code> in TypeScript.</p>
+      <p>Every serverless developer eventually writes a Lambda that does &ldquo;just one more thing&rdquo;, and one day it runs for 15 minutes and gets killed halfway through. If you&rsquo;ve watched a CloudWatch log end abruptly with <code>Task timed out</code>, you know the feeling.</p>
+<p>The trouble is that plenty of real business processes don&rsquo;t finish in minutes. Think of a month-long trial onboarding sequence, or a document pipeline that hands off to a human reviewer. Until recently, the options for workflows like that on AWS weren&rsquo;t great:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Approach</th>
+          <th>What you get</th>
+          <th>What it costs you</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>AWS Step Functions</strong></td>
+          <td>A powerful, managed orchestrator</td>
+          <td>Your logic lives in Amazon States Language, which quickly grows into hundreds of lines of JSON/YAML</td>
+      </tr>
+      <tr>
+          <td><strong>Hand-rolled state machine</strong></td>
+          <td>Full control</td>
+          <td>You persist state in DynamoDB yourself, chain SQS queues together, and hope the retries never loop forever</td>
+      </tr>
+  </tbody>
+</table>
+<p>AWS announced a third option at re:Invent 2025: <strong>AWS Lambda Durable Functions</strong>. You write the stateful, long-running workflow as ordinary code, in TypeScript or one of the other supported languages. You don&rsquo;t write a state machine definition or build your own persistence layer.</p>
+<h2 id="the-core-idea-checkpoint-sleep-replay">The Core Idea: Checkpoint, Sleep, Replay</h2>
+<p>Here&rsquo;s the analogy I find most useful. When you stop halfway through a long novel, you don&rsquo;t start again from chapter one the next day. You put a bookmark in and carry on from there.</p>
+<p>A durable function keeps a bookmark for your code. When the workflow reaches a point where it has to wait, AWS records how far it got and releases the compute. Later, when it&rsquo;s time to continue, Lambda invokes the function again. The function runs from the top, but every step that already finished is skipped using its recorded result, so execution effectively resumes at the bookmark. The idea is simple, and it changes a lot about what you can build.</p>
+<p>Does this make Step Functions obsolete? No. If you&rsquo;re orchestrating ten AWS services and your team relies on the visual designer, Step Functions is still the better tool. Where durable functions shine is <em>application logic</em> that needs to remember where it was.</p>
+<h2 id="a-worked-example-reserve-charge-ship">A Worked Example: Reserve, Charge, Ship</h2>
+<p>Let&rsquo;s take a typical e-commerce flow. We reserve stock for the order, charge the customer, and then create a shipment. Here&rsquo;s what that looks like with the durable execution SDK (<code>@aws/durable-execution-sdk-js</code>) in TypeScript:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">DurableContext</span>, <span style="color:#a6e22e">withDurableExecution</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;@aws/durable-execution-sdk-js&#34;</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Imagine these services interact with your DB and APIs
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Placeholder services that talk to your database and external APIs
 </span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">inventoryService</span>, <span style="color:#a6e22e">paymentService</span>, <span style="color:#a6e22e">shippingService</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;./services&#34;</span>;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">handler</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">withDurableExecution</span>(
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">event</span>: <span style="color:#66d9ef">any</span>, <span style="color:#a6e22e">context</span>: <span style="color:#66d9ef">DurableContext</span>) <span style="color:#f92672">=&gt;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">orderId</span>, <span style="color:#a6e22e">amount</span>, <span style="color:#a6e22e">items</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>;
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 1. Reserve inventory
-</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// If this fails, the SDK handles the retry. If it succeeds, the result is checkpointed
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 1. Hold stock for the order
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// On failure the SDK retries this step; on success its return value is checkpointed
 </span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">inventory</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">step</span>(<span style="color:#e6db74">&#34;reserve-inventory&#34;</span>, <span style="color:#66d9ef">async</span> () <span style="color:#f92672">=&gt;</span> {
 </span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">inventoryService</span>.<span style="color:#a6e22e">reserve</span>(<span style="color:#a6e22e">items</span>);
 </span></span><span style="display:flex;"><span>    });
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2. Process payment
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2. Charge the customer
 </span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">payment</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">step</span>(<span style="color:#e6db74">&#34;process-payment&#34;</span>, <span style="color:#66d9ef">async</span> () <span style="color:#f92672">=&gt;</span> {
 </span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">paymentService</span>.<span style="color:#a6e22e">charge</span>(<span style="color:#a6e22e">amount</span>);
 </span></span><span style="display:flex;"><span>    });
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 3. Create shipment
-</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// This step only runs once the previous two are successfully checkpointed.
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 3. Book the shipment
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Reached only after both earlier steps have been checkpointed
 </span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">shipment</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">step</span>(<span style="color:#e6db74">&#34;create-shipment&#34;</span>, <span style="color:#66d9ef">async</span> () <span style="color:#f92672">=&gt;</span> {
 </span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">shippingService</span>.<span style="color:#a6e22e">createShipment</span>(<span style="color:#a6e22e">orderId</span>, <span style="color:#a6e22e">inventory</span>);
 </span></span><span style="display:flex;"><span>    });
@@ -277,95 +293,79 @@
 </span></span><span style="display:flex;"><span>    };
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>);
-</span></span></code></pre></div><p>This code represents a significant shift in how we build on AWS. By using the <code>@aws-durable-execution-sdk-js</code>, you are moving away from &ldquo;fire-and-forget&rdquo; functions toward <strong>Stateful Workflows</strong>.</p>
-<p>Here is a breakdown of what is actually happening under the hood while this code runs.</p>
-<h3 id="1-the-wrapper-withdurableexecution">1. The Wrapper (<code>withDurableExecution</code>)</h3>
-<p>This isn&rsquo;t just a decorator; it&rsquo;s a manager. It tracks every interaction you have with the <code>context</code> object. It maintains a &ldquo;History Log&rdquo; of your execution.</p>
-<h3 id="2-checkpointing-contextstep">2. Checkpointing (<code>context.step</code>)</h3>
-<p>When your code hits <code>await context.step(&quot;reserve-inventory&quot;, ...)</code>:</p>
-<ul>
-<li><strong>Execution</strong>: The SDK runs your code.</li>
-<li><strong>Persistence</strong>: Once the code returns the <code>inventory</code> object, the SDK saves that result into a managed state store (hidden from you).</li>
-<li><strong>Reliability</strong>: If the Lambda crashes 10 seconds later, AWS knows that &ldquo;reserve-inventory&rdquo; is already done.</li>
-</ul>
-<h3 id="3-the-replay-mechanism">3. The Replay Mechanism</h3>
-<p>If your <code>process-payment</code> step takes too long or the Lambda environment restarts, AWS triggers the function again.</p>
-<ul>
-<li>The code starts from the very first line.</li>
-<li>When it hits <code>context.step(&quot;reserve-inventory&quot;)</code>, the SDK looks at the history log and says: &ldquo;I already have the result for this!&rdquo;</li>
-<li>Instead of running the inventory code again, it simply injects the saved result into the <code>inventory</code> variable and moves to the next line.</li>
-</ul>
-<h2 id="other-powerful-features">Other Powerful Features</h2>
-<p>Once you move beyond basic sequential steps, the <code>@aws-durable-execution-sdk-js</code> reveals its true power. It allows you to build complex, non-linear systems that feel like a single script but behave like a distributed state machine.</p>
-<p>Here is a breakdown of the advanced primitives you can use to orchestrate high-scale applications.</p>
-<h3 id="contextwait-the-time-traveler"><code>context.wait</code>: The Time-Traveler</h3>
-<p>This is more than just a <code>sleep()</code> command. When you call <code>wait</code>, your Lambda function stops executing entirely. AWS saves the state and schedules a fresh invocation for the future.</p>
-<ul>
-<li><strong>Cost Efficiency</strong>: You are charged $0.00 for the time spent waiting.</li>
-<li><strong>Precision</strong>: You can wait for seconds, hours, or even a specific <code>Date</code>.</li>
-<li><strong>Max Duration</strong>: A single workflow can wait for up to 1 year.</li>
-</ul>
-<h3 id="contextwaitforcallback-the-human-bridge"><code>context.waitForCallback</code>: The Human Bridge</h3>
-<p>This is the &ldquo;Human-in-the-Loop&rdquo; pattern. It pauses the code until an external system tells it to continue.</p>
-<ul>
-<li><strong>How it works</strong>: When called, it generates a unique <code>taskToken</code>. You send this token to an external service (like a Slack bot, an Email, or a React UI).</li>
-<li><strong>The Resume</strong>: The code stays &ldquo;frozen&rdquo; until your external system calls the <code>SendDurableExecutionCallback</code> API with that specific token.</li>
-</ul>
-<h3 id="contextparallel-the-turbo-charger"><code>context.parallel</code>: The Turbo-Charger</h3>
-<p>Standard <code>Promise.all()</code> is dangerous in serverless because one long-running promise could time out the whole Lambda. <code>context.parallel</code> is different. It tells AWS to manage multiple durable operations simultaneously.</p>
-<ul>
-<li><strong>Persistence</strong>: Each branch in the parallel array is checkpointed individually.</li>
-<li><strong>Resilience</strong>: If one branch fails, the other branches&rsquo; results are already saved, so a retry only re-runs the failed path.</li>
-</ul>
-<h3 id="contextinvoke-the-modular-architect"><code>context.invoke</code>: The Modular Architect</h3>
-<p>This allows you to call other Lambda functions (durable or standard) as a child process of your current workflow.</p>
-<ul>
-<li><strong>Encapsulation</strong>: You can build a library of &ldquo;Micro-Workflows&rdquo; (e.g., a <code>sendEmailWorkflow</code>) and call them from any parent.</li>
-<li><strong>Parent-Child Link</strong>: If the parent is canceled, AWS can automatically handle the cleanup of child invocations.</li>
-</ul>
-<h2 id="best-practices--gotchas">Best Practices &amp; Gotchas</h2>
-<p>The durable functions are so powerful. But at the same time you&rsquo;ll need to follow the best practices to avoid the chaos.</p>
-<h3 id="the-golden-rule-orchestration-must-be-deterministic">The Golden Rule: Orchestration Must Be Deterministic</h3>
-<p>When your function &ldquo;wakes up&rdquo; from a 7-day wait, it runs from the very beginning to find its place. If your code produces a different result during this replay, the SDK will throw a Non-Deterministic Error.</p>
-<p><strong>The Mistake</strong>: Using <code>new Date()</code> or <code>Math.random()</code> in the main body.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// ❌ BAD: This will be different every time the function replays
+</span></span></code></pre></div><p>It looks like a normal async handler, and that&rsquo;s the point. But this is no longer a fire-and-forget function. It&rsquo;s a <strong>stateful workflow</strong>, and three mechanisms make that work.</p>
+<h3 id="how-the-handler-is-wrapped">How the handler is wrapped</h3>
+<p><code>withDurableExecution</code> does more than decorate the handler. It supervises the execution, records every call you make through <code>context</code>, and keeps a running history of the workflow.</p>
+<h3 id="what-happens-at-each-step">What happens at each step</h3>
+<p>When execution reaches <code>context.step(&quot;reserve-inventory&quot;, ...)</code>, the SDK:</p>
+<ol>
+<li>runs the function you passed in,</li>
+<li>takes its return value (here, <code>inventory</code>) and persists it to a state store that AWS manages for you, and</li>
+<li>treats the step as complete from then on. If the Lambda environment dies a few seconds later, the platform already knows the reservation succeeded.</li>
+</ol>
+<h3 id="how-a-resumed-run-catches-up">How a resumed run catches up</h3>
+<p>Say <code>process-payment</code> runs slowly, or the execution environment gets recycled. Lambda invokes the handler again, from the first line. When the code reaches <code>reserve-inventory</code>, the SDK finds that step in the history, skips the callback and returns the stored value. <code>inventory</code> ends up with exactly the same data as before, and the workflow moves on to the step that hasn&rsquo;t completed yet.</p>
+<h2 id="beyond-sequential-steps">Beyond Sequential Steps</h2>
+<p>A linear list of steps is only the start. The SDK gives you a handful of primitives for non-linear flows. Your code still reads like one script, but it behaves like a distributed state machine.</p>
+<p><strong><code>context.wait</code>: pausing without paying.</strong> This isn&rsquo;t a <code>sleep()</code>. Your function actually stops running. AWS stores the state and schedules a new invocation for later. You aren&rsquo;t charged compute while the workflow waits. You can wait for seconds, hours, or until a specific <code>Date</code>, and a single workflow can stay paused for up to a year.</p>
+<p><strong><code>context.waitForCallback</code>: waiting for a person or another system.</strong> This is how you implement human-in-the-loop flows. The call produces a unique <code>taskToken</code>, which you hand to something outside the workflow, such as a Slack approval bot, an email link or a button in a React app. The workflow stays paused until that system calls the <code>SendDurableExecutionCallback</code> API with the token.</p>
+<p><strong><code>context.parallel</code>: concurrency that survives failures.</strong> Running a plain <code>Promise.all()</code> inside a Lambda is risky, because one slow promise can push the whole invocation past its timeout. With <code>context.parallel</code>, AWS manages the concurrent durable operations for you. Each branch is checkpointed on its own, so if one branch fails, the finished branches keep their results and a retry re-runs only the failed one.</p>
+<p><strong><code>context.invoke</code>: composing workflows.</strong> You can call another Lambda function, durable or regular, as a child of the current workflow. That lets you build small reusable sub-workflows (a <code>sendEmailWorkflow</code>, for example) and call them from any parent. Because AWS tracks the parent-child relationship, it can clean up child invocations when the parent is cancelled.</p>
+<h2 id="rules-to-live-by-and-traps-to-avoid">Rules to Live By (and Traps to Avoid)</h2>
+<p>These primitives are powerful, but they come with rules. Ignore them and you&rsquo;ll get errors that are hard to diagnose.</p>
+<h3 id="keep-the-orchestration-code-deterministic">Keep the orchestration code deterministic</h3>
+<p>This is the most important rule. When a workflow resumes, say after a seven-day wait, the handler runs again from the top to find its place. If the code takes a different path or produces different values on that replay, the SDK raises a Non-Deterministic Error.</p>
+<p>The usual cause is calling something non-deterministic, such as <code>Math.random()</code> or <code>new Date()</code>, directly in the handler body:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// ❌ BAD: a new value is produced on every replay
 </span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">requestId</span> <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">random</span>();
-</span></span></code></pre></div><p><strong>The Fix</strong>: Wrap these calls in <code>context.step()</code>. This ensures the value is generated once, saved in the checkpoint, and then &ldquo;replayed&rdquo; as the exact same value.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// ✅ GOOD: The result is saved to the history after the first run
+</span></span></code></pre></div><p>The fix is to put the call inside a step. The value is generated once, stored in the checkpoint, and returned unchanged on every replay:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// ✅ GOOD: generated on the first run, then read back from history
 </span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">requestId</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">step</span>(<span style="color:#e6db74">&#34;get-id&#34;</span>, <span style="color:#66d9ef">async</span> () <span style="color:#f92672">=&gt;</span> Math.<span style="color:#a6e22e">random</span>());
-</span></span></code></pre></div><h3 id="the-15-minute-misconception">The &ldquo;15-Minute&rdquo; Misconception</h3>
-<p>It&rsquo;s a common trap to think the 15-minute Lambda limit is gone. It isn&rsquo;t.</p>
+</span></span></code></pre></div><h3 id="the-15-minute-limit-still-exists-just-at-a-different-level">The 15-minute limit still exists, just at a different level</h3>
+<p>People often assume the timeout has disappeared. It hasn&rsquo;t. It now applies per invocation rather than per workflow:</p>
 <ul>
-<li><strong>Workflow Limit</strong>: Can last up to 1 year.</li>
-<li><strong>Step Limit</strong>: Any single <code>context.step</code> must finish within the 15-minute Lambda timeout.</li>
+<li>the <strong>workflow</strong> as a whole can last up to a year;</li>
+<li>any single <strong><code>context.step</code></strong> still has to finish inside the normal 15-minute Lambda timeout.</li>
 </ul>
-<h3 id="state-size--the-fat-payload-problem">State Size &amp; The &ldquo;Fat Payload&rdquo; Problem</h3>
-<p>AWS stores your execution history (the results of every <code>context.step</code>) in a managed state store.</p>
+<p>If one step could run longer than that, split it into smaller steps.</p>
+<h3 id="return-small-values-from-steps">Return small values from steps</h3>
+<p>Every step result goes into the execution history, and that history has a size limit. If <code>inventoryService.reserve()</code> returns a huge JSON document, checkpointing will fail. Write large payloads to S3 and return only a reference such as the <code>S3_URL</code>.</p>
+<h3 id="dont-leave-workflows-waiting-forever">Don&rsquo;t leave workflows waiting forever</h3>
+<p>A workflow can live for a year, so it&rsquo;s easy to end up with thousands of executions sitting in a waiting state and adding to your state storage bill. Two habits help:</p>
 <ul>
-<li><strong>Limit</strong>: This history is typically limited</li>
-<li><strong>Gotcha</strong>: If you return a massive JSON object from <code>inventoryService.reserve()</code>, the checkpointing will fail.</li>
-<li><strong>Solution</strong>: Store large data in S3 and return only the <code>S3_URL</code> from your steps.</li>
+<li>Always set a <code>timeout</code> on <code>wait</code> and <code>waitForCallback</code> operations, so nothing waits indefinitely.</li>
+<li>Set <code>RetentionPeriodInDays</code> in the <code>DurableConfig</code>, so the histories of finished executions are cleaned up automatically.</li>
 </ul>
-<h3 id="avoiding-zombie-workflows">Avoiding &ldquo;Zombie&rdquo; Workflows</h3>
-<p>Since workflows can live for a year, it&rsquo;s easy to accidentally leave thousands of executions &ldquo;Waiting&rdquo; and racking up state storage costs.</p>
+<h3 id="more-pitfalls-worth-knowing">More pitfalls worth knowing</h3>
+<p>These aren&rsquo;t in the example above, but they follow from how checkpoint-and-replay works:</p>
 <ul>
-<li><strong>Best Practice</strong>: Always set a <code>timeout</code> in your <code>waitForCallback</code> and <code>wait</code> operations.</li>
-<li><strong>Retention Policy</strong>: Configure your <code>RetentionPeriodInDays</code> in the <code>DurableConfig</code> so that finished histories are automatically scrubbed.</li>
+<li><strong>Design steps to be safe to retry.</strong> A step can fail after its side effect has happened but before the result is checkpointed, and then the SDK retries it. Make external calls idempotent, for example by passing <code>orderId</code> as an idempotency key to your payment provider, so a retry can&rsquo;t charge the customer twice.</li>
+<li><strong>Treat step names as part of the contract.</strong> Replay matches recorded results to steps by their order and name. Renaming, reordering or removing steps in code that in-flight executions will resume can break those executions. Ship incompatible changes as a new published version or alias and let old executions finish on the old code.</li>
+<li><strong>Don&rsquo;t do side effects outside steps.</strong> Any API call, database write or log you care about that sits outside a <code>context.step</code> runs again on every replay. Anything that must happen exactly once belongs inside a step.</li>
 </ul>
-<h2 id="conclusion">Conclusion</h2>
-<p>With the release of AWS Lambda Durable Functions, the boundary between &ldquo;simple functions&rdquo; and &ldquo;complex orchestrators&rdquo; has finally vanished. We no longer have to choose between the simplicity of a single code file and the resilience of a multi-step state machine.</p>
-<h3 id="when-to-use-durable-functions-vs-step-functions">When to Use Durable Functions vs. Step Functions</h3>
-<p>Even in 2026, Step Functions remains the king of low-code orchestration and massive service integrations (like connecting S3 to Bedrock without any code). However, Durable Functions is now the clear winner for:</p>
+<h2 id="choosing-between-durable-functions-and-step-functions">Choosing Between Durable Functions and Step Functions</h2>
+<p>Step Functions is still the strongest low-code orchestration option, especially for direct service integrations such as connecting S3 to Bedrock without writing glue code. Durable functions are the better fit when:</p>
 <ul>
-<li><strong>Pure Developer Workflows</strong>: If you want your logic in TypeScript, not YAML.</li>
-<li><strong>Complex Data Handling</strong>: When you need to pass rich objects between steps without JSON serialization headaches.</li>
-<li><strong>Fast Iteration</strong>: Testing locally with the <code>LocalDurableTestRunner</code> is significantly faster than deploying state machines to the cloud.</li>
+<li>you want the workflow logic in <strong>TypeScript rather than YAML/JSON</strong>;</li>
+<li>your steps pass <strong>rich objects</strong> to each other and you&rsquo;d rather not fight JSON serialization between states;</li>
+<li>you care about <strong>fast feedback</strong>: running tests locally with the <code>LocalDurableTestRunner</code> is much quicker than deploying a state machine to the cloud for every change.</li>
 </ul>
-<h3 id="monitoring-your-marathons">Monitoring Your &ldquo;Marathons&rdquo;</h3>
-<p>Because these functions can run for months, AWS introduced a dedicated Durable Executions tab in the Lambda Console. You can now see a visual timeline of every execution, including exactly when a function &ldquo;went to sleep&rdquo; and which specific <code>context.step</code> is currently running.</p>
-<h3 id="final-thought-write-code-not-config">Final Thought: Write Code, Not Config</h3>
-<p>The true power of this SDK is that it lets you focus on business logic. You don&rsquo;t have to write &ldquo;plumbing&rdquo; code for retries, database checkpoints, or state management. You simply write your function from top to bottom, and AWS ensures that it stays alive until the job is done.</p>
-<p>The 15-minute wall has been torn down. It&rsquo;s time to start building applications that can truly go the distance.</p>
+<p>For observability, the Lambda console now has a <strong>Durable Executions</strong> tab. It shows each execution on a visual timeline, including when it went to sleep and which <code>context.step</code> is currently running. That matters a lot when a workflow runs for weeks.</p>
+<h2 id="quick-faq">Quick FAQ</h2>
+<p><strong>Do I pay while a workflow is waiting?</strong>
+You don&rsquo;t pay for compute during a <code>wait</code>, because the function isn&rsquo;t running. The stored execution state does have a cost, which is why timeouts and retention settings matter.</p>
+<p><strong>Can I use <code>Promise.all</code> inside a durable function?</strong>
+It&rsquo;s safer to use <code>context.parallel</code>. It checkpoints each branch, so a failure doesn&rsquo;t throw away the work the other branches already finished.</p>
+<p><strong>What triggers a Non-Deterministic Error?</strong>
+Anything that makes a replay behave differently from the original run. Common causes are random values, timestamps, or reading changing external state outside a <code>context.step</code>.</p>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ul>
+<li>Durable functions let a Lambda-based workflow run for <strong>up to a year</strong>, using checkpoints and replay.</li>
+<li>Wrap anything non-deterministic or side-effecting in <strong><code>context.step</code></strong>, and keep each step <strong>under 15 minutes</strong>.</li>
+<li>Use <strong><code>wait</code></strong>, <strong><code>waitForCallback</code></strong>, <strong><code>parallel</code></strong> and <strong><code>invoke</code></strong> for delays, approvals, fan-out and composition.</li>
+<li>Keep step results small, set timeouts and retention, and make external calls idempotent.</li>
+</ul>
+<p>The biggest win is that you spend your time on business logic instead of plumbing. You don&rsquo;t write retry loops, checkpoint tables or state-tracking code yourself. You write the function from top to bottom, and AWS keeps it running until the work is done. The 15-minute limit no longer caps how long a workflow can run, so we can build applications for processes that take days or months.</p>
 
     </div>
   </div>

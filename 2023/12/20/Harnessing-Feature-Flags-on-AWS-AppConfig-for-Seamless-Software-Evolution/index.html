@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8" />
-  <title>Feature Flags on AWS Using AppConfig for Seamless Software Evolution | Sidath Munasinghe</title>
+  <title>Implementing Feature Flags with AWS AppConfig and Lambda Using CDK | Sidath Munasinghe</title>
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="Learn what are feature flags and how to use AWS AppConfig service to implement feature flags. Get hands on experience by integrating feature flags with AWS Lambda using CDK"
+    content="A practical guide to feature flags with AWS AppConfig: how flags are fetched, agent options for Lambda, EC2 and containers, and a full CDK Lambda example."
   />
 
   <meta
     name="keywords"
-    content="[feature flags, aws, appconfig, cdk, release, continuos deployment, sidath, munasinghe]"
+    content="[feature flags, aws appconfig, aws lambda, cdk, feature toggles, progressive delivery, continuous deployment, sidath, munasinghe]"
   />
 
   
@@ -25,8 +25,8 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://www.sidathm.online/2023/12/20/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/" />
-  <meta property="og:title" content="Feature Flags on AWS Using AppConfig for Seamless Software Evolution" />
-  <meta property="og:description" content="Learn what are feature flags and how to use AWS AppConfig service to implement feature flags. Get hands on experience by integrating feature flags with AWS Lambda using CDK" />
+  <meta property="og:title" content="Implementing Feature Flags with AWS AppConfig and Lambda Using CDK" />
+  <meta property="og:description" content="A practical guide to feature flags with AWS AppConfig: how flags are fetched, agent options for Lambda, EC2 and containers, and a full CDK Lambda example." />
   <meta property="og:site_name" content="Sidath Munasinghe" />
   
   <meta property="og:image" content="https://www.sidathm.online/images/posts/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/main-logo.png" />
@@ -35,8 +35,8 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:url" content="https://www.sidathm.online/2023/12/20/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/" />
-  <meta name="twitter:title" content="Feature Flags on AWS Using AppConfig for Seamless Software Evolution" />
-  <meta name="twitter:description" content="Learn what are feature flags and how to use AWS AppConfig service to implement feature flags. Get hands on experience by integrating feature flags with AWS Lambda using CDK" />
+  <meta name="twitter:title" content="Implementing Feature Flags with AWS AppConfig and Lambda Using CDK" />
+  <meta name="twitter:description" content="A practical guide to feature flags with AWS AppConfig: how flags are fetched, agent options for Lambda, EC2 and containers, and a full CDK Lambda example." />
   
   <meta name="twitter:image" content="https://www.sidathm.online/images/posts/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/main-logo.png" />
   
@@ -225,79 +225,82 @@
 
 
   <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
-    <h1>Feature Flags on AWS Using AppConfig for Seamless Software Evolution</h1>
+    <h1>Implementing Feature Flags with AWS AppConfig and Lambda Using CDK</h1>
     <span class="date">Posted on: 12/20/2023</span>
-    <img src="https://www.sidathm.online/images/posts/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/main-logo.png" alt="Feature Flags on AWS Using AppConfig for Seamless Software Evolution" />
+    <img src="https://www.sidathm.online/images/posts/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/main-logo.png" alt="Implementing Feature Flags with AWS AppConfig and Lambda Using CDK" />
     <div class="body">
-      <p>In the fast-paced realm of software development, agility and adaptability are not just a virtue but a necessity. Feature flagging is a versatile technique that offers a strategic approach for releasing features to end users, enabling rapid software development while giving more control to teams to evolve products.</p>
-<p>Feature flags decouple feature deployment from code deployment, allowing teams to release features incrementally and independently. Due to this, teams can do frequent code deployments darkly, although the entire feature development is incomplete. Once the entire feature development is complete and ready to enable users, it can be released on demand as needed. This promotes a continuous deployment approach, enabling faster time-to-market without disrupting the entire application.</p>
-<h2 id="feature-flags">Feature Flags</h2>
-<p>Incorporating feature flags introduces a lot of advantages to the software development process as well as to the software releases.</p>
+      <p>What if shipping code and launching a feature didn&rsquo;t have to happen at the same moment? Feature flags give you that separation. They let you merge and deploy work continuously, keep unfinished features switched off in production, and turn them on whenever the business is ready, without running another deployment.</p>
+<p>Because of this, a team can deploy &ldquo;dark&rdquo; many times while a feature is still in progress. When the feature is complete, someone flips the flag and users see it. The result is a smoother continuous deployment pipeline, a shorter time-to-market, and less risk that one big release disrupts the whole application.</p>
+<p>In this post I&rsquo;ll cover why flags are worth using, what AWS AppConfig offers for them, how applications actually read flag values, and finally a working AWS Lambda integration built with the AWS CDK.</p>
+<h2 id="why-teams-reach-for-feature-flags">Why teams reach for feature flags</h2>
+<p>The benefits go beyond hiding unfinished work. These are the four I value most:</p>
 <ul>
-<li><strong>Risk Mitigation:</strong> Feature flags can act as safety nets since they enable teams to turn off features in production if there are any issues without needing additional code deployments. This helps teams to troubleshoot issues and apply the fixes while keeping the production environment healthy.</li>
-<li><strong>Personalization and Experimentation:</strong> Feature flags provide the capability to enable features for specific users or user segments. This provides the canary feature enablement to roll out new features gradually. Further, this extends to conducting A/B testing and experimentation, where teams can gather valuable user feedback and data to make informed decisions about feature improvements.</li>
-<li><strong>Unblock Dependencies:</strong> It’s common in software development that teams get blocked due to dependencies with other teams. With feature flags, teams can work independently based on the design/contract and deploy even the partially completed implementation to production behind a feature flag. Once all teams have completed the implementation and everything is tested, it can be enabled for end users.</li>
-<li><strong>Graceful Degradation:</strong> There are situations where systems receive excessive traffic, putting them under stress and leading to performance issues. In those scenarios, teams can use feature flags to turn off non-critical features and let the core features perform as expected.</li>
+<li><strong>A kill switch for production.</strong> If a newly released feature causes trouble, you switch it off. No hotfix deployment is needed, production stays healthy, and the team can investigate and fix the issue calmly.</li>
+<li><strong>Targeted rollouts and experiments.</strong> Flags can be enabled for selected users or segments only. That makes canary-style gradual rollouts possible, and it also supports A/B testing, where real usage data and feedback guide how the feature should evolve.</li>
+<li><strong>Fewer cross-team blockers.</strong> Teams that depend on each other can build against an agreed contract and ship their partial implementations to production behind a flag. Once every piece is ready and tested, the flag goes on for end users.</li>
+<li><strong>Graceful degradation under load.</strong> During a traffic spike you can turn off non-essential features to free up capacity, so the core of the system keeps performing.</li>
 </ul>
-<h2 id="appconfig-feature-flags">AppConfig Feature Flags</h2>
-<p><img src="https://www.sidathm.online/images/posts/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/app-config.png" alt="Source: https://gallery.ecr.aws/aws-appconfig/aws-appconfig-agent"></p>
-<p>AWS AppConfig is a service that facilitates deploying and managing application configurations on the AWS cloud, including feature flags. It allows teams to create, manage, and deploy configurations seamlessly with several additional capabilities.</p>
-<ul>
-<li><strong>Rollout strategies:</strong> AWS AppConfig supports different rollout strategies to enable feature activation in a controlled manner. This helps to identify potential issues, gather user feedback in a controlled manner, and react accordingly to keep rolling out or revert.</li>
-</ul>
-<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kz5efaiiu9y2x4gfuqvb.png" alt="Different rollout options in AppConfig feature flags"></p>
-<ul>
-<li><strong>Versioning:</strong> The service supports automatic versioning of configurations, allowing teams to track the entire history of the configuration changes.</li>
-<li><strong>Rollback:</strong> When there is a need to change the flag status, AppConfig provides a built-in capability to rollback configuration to previous versions.</li>
-<li><strong>Manage Environments:</strong> AppConfig has a concept called environment, which can be used to control feature flag values per each product environment. This helps to test the feature flag capabilities in non-prod environments first and then use them in production as needed.</li>
-</ul>
-<h2 id="retrieving-state-in-appconfig-feature-flags">Retrieving State in AppConfig Feature Flags</h2>
-<p>The real magic behind the feature flags is we don’t need to redeploy applications to get the latest configuration changes. When we update the configuration settings, all the applications will get the latest changes automatically. Applications can get this capability by establishing a configuration session with the AppConfig server and polling for configuration changes. The sequence diagram below summarizes the overall communication flow.</p>
-<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/976wsk6liuyygurgpnfl.png" alt="Sequence diagram for fetching feature flag configurations"></p>
-<ol>
-<li>Create a configuration session using the application name, configuration profile, and environment we must connect to. In response, it will return a token to get the latest configuration in the next poll request.</li>
-<li>Once the application gets that token, it can be used to get the latest configuration by calling the GetLatestConfiguration API. In response, it will return the latest configuration settings and a new token for the next poll.</li>
-<li>The application can periodically call the GetLatestConfiguration API using the token that was retrieved previously.</li>
-</ol>
-<p>Here, the important thing is that the token can be used only once. So, the application needs to keep track of the latest token it received and use it in the subsequent request.</p>
-<h2 id="available-integration-options">Available Integration Options</h2>
-<p>Since implementing this polling mechanism to get the flag status/configuration is not as straightforward, AWS has provided simplified integration options for common compute services.</p>
-<h3 id="aws-lambda">AWS Lambda</h3>
-<p>AWS Lambda can be easily integrated with AppConfig feature flags with <strong>AWS AppConfig Agent Lambda extension</strong> as a layer to the lambda function. The lambda extension layer handles the polling implementation, and developers can benefit from feature flags. Further, the lambda layer will fetch and store the flag&rsquo;s statuses in a local cache, including the necessary tokens for subsequence API calls.</p>
-<p>To access its configuration data, the function can call the AWS AppConfig extension at an HTTP endpoint running on <code>localhost:2772</code>. The following diagram shows how it works.</p>
-<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/g0osh3m00nccfb0b20li.png" alt="Source: https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-integration-lambda-extensions.html"></p>
-<h3 id="amazon-ec2">Amazon EC2</h3>
-<p>Like the lambda extension, an <strong>AWS AppConfig Agent</strong> can be installed on the instance to interact with AppConfig and fetch and cache the flag configuration data on your behalf. As we saw earlier, the retrieved configurations can be accessed from <code>localhost:2772</code>.</p>
-<p>It is important to note that the agent is available for Linux operating systems running kernel version 4.15 or greater, and the agent can be installed via the <strong>yum</strong> command-line package-management utility.</p>
-<h3 id="amazon-ecs-and-amazon-eks">Amazon ECS and Amazon EKS</h3>
-<p>AWS AppConfig can be integrated with AWS ECS and EKS using <strong>AWS AppConfig Agent</strong>. The agent functions as a sidecar container running alongside the main container application. The agent will manage all the interactions with AppConfig, and the fetched configurations can be accessed from <code>localhost:2772</code>.</p>
-<h2 id="integrating-into-aws-lambda">Integrating into AWS Lambda</h2>
-<p>Now, let’s walk through how to implement this for AWS Lambda, a common serverless computing service. We will use AWS CDK for the infrastructure code to automate the infrastructure provisioning.</p>
-<p>To implement this setup, we need to create the below resources on AWS.</p>
-<ul>
-<li>AppConfig Application</li>
-<li>AppConfig Environment</li>
-<li>AppConfig Configuration Profile</li>
-<li>AppConfig Configuration Version</li>
-<li>Lambda Function</li>
-</ul>
-<p>Let’s see each component and how to implement them with CDK constructs.</p>
-<h3 id="creating-appconfig-application">Creating AppConfig Application</h3>
-<p>An AppConfig Application refers to a logical entity that utilizes AWS AppConfig for managing its configuration settings. This could be any software application or service that benefits from dynamic and centralized configuration management.</p>
-<p>We can create an application with CDK using the code snippet below by providing a meaningful name for the use case.</p>
-<pre tabindex="0"><code>const application = new CfnApplication(scope, `AppConfig Application`,
+<h2 id="what-aws-appconfig-brings-to-the-table">What AWS AppConfig brings to the table</h2>
+<p><img src="https://www.sidathm.online/images/posts/Harnessing-Feature-Flags-on-AWS-AppConfig-for-Seamless-Software-Evolution/app-config.png" alt="The AWS AppConfig agent logo (source: Amazon ECR Public Gallery)"></p>
+<p>AWS AppConfig is AWS&rsquo;s managed service for creating, managing and deploying application configuration, and feature flags are a first-class configuration type in it. Beyond storing values, it adds several capabilities that make flags safe to operate:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Capability</th>
+          <th>What it gives you</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Rollout strategies</td>
+          <td>Change flags gradually, so you can watch for problems and gather feedback before deciding whether to continue or back out</td>
+      </tr>
+      <tr>
+          <td>Versioning</td>
+          <td>Every configuration change is versioned automatically, giving you a full change history</td>
+      </tr>
+      <tr>
+          <td>Rollback</td>
+          <td>Built-in support for reverting a configuration to an earlier version</td>
+      </tr>
+      <tr>
+          <td>Environments</td>
+          <td>Separate flag values per stage (for example dev, test and prod), so you can prove a flag in non-production before using it live</td>
+      </tr>
+  </tbody>
+</table>
+<p>Here are the rollout options available when deploying a flag change:</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kz5efaiiu9y2x4gfuqvb.png" alt="AppConfig deployment strategy options for rolling out feature flag changes"></p>
+<h2 id="how-an-application-reads-flag-values">How an application reads flag values</h2>
+<p>The key benefit is that applications pick up configuration changes without being redeployed. When you change a flag in AppConfig, running applications receive the new value on their own. They do this by opening a configuration session with AppConfig and then polling it for updates.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/976wsk6liuyygurgpnfl.png" alt="Sequence diagram of an application starting an AppConfig configuration session and polling for the latest configuration"></p>
+<p>The flow is as follows. First, the application calls <code>StartConfigurationSession</code> with the application, environment and configuration profile it is interested in, and receives an initial token. Next, it passes that token to <code>GetLatestConfiguration</code>, which returns the current configuration along with a fresh token. From then on, it keeps polling <code>GetLatestConfiguration</code> on an interval, each time using the token from the previous response.</p>
+<p>The detail that trips people up is that <strong>each token is single-use</strong>. Your client must always store the most recent token and send it on the next call. Reusing an old one won&rsquo;t work.</p>
+<h2 id="integration-options-by-compute-service">Integration options by compute service</h2>
+<p>Writing and maintaining that session-and-polling logic yourself is tedious. AWS provides ready-made agents for the common compute platforms, and they all work the same way: the agent handles the polling and caching, and your code reads flags over HTTP from <code>localhost:2772</code>.</p>
+<h3 id="lambda-functions">Lambda functions</h3>
+<p>Attach the <strong>AWS AppConfig Agent Lambda extension</strong> to your function as a layer. The extension runs the polling for you and keeps the flag values, along with the tokens needed for later calls, in a local cache. Your handler simply makes an HTTP request to <code>localhost:2772</code>.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/g0osh3m00nccfb0b20li.png" alt="How the AWS AppConfig Lambda extension caches configuration and serves it to the function over localhost (source: AWS documentation)"></p>
+<h3 id="ec2-instances">EC2 instances</h3>
+<p>On EC2 you install the <strong>AWS AppConfig Agent</strong> on the instance. It retrieves and caches the configuration for you, and your application reads it from <code>localhost:2772</code>, exactly like the Lambda case. Note that the agent supports Linux with kernel 4.15 or newer, and it is installed with the <strong>yum</strong> package manager.</p>
+<h3 id="ecs-and-eks-containers">ECS and EKS containers</h3>
+<p>For containers, the same <strong>AWS AppConfig Agent</strong> runs as a sidecar container next to your application container. It handles all communication with AppConfig, and your app again reads the configuration from <code>localhost:2772</code>.</p>
+<h2 id="hands-on-feature-flags-in-lambda-with-the-cdk">Hands-on: feature flags in Lambda with the CDK</h2>
+<p>Let&rsquo;s build the Lambda version end to end, with the AWS CDK provisioning all the infrastructure. We need five resources: an AppConfig application, an environment, a configuration profile, a hosted configuration version, and the Lambda function that reads the flag. I&rsquo;ll go through them in that order, since each one builds on the previous ones.</p>
+<h3 id="step-1-the-application">Step 1: The application</h3>
+<p>In AppConfig, an application is the logical container for the configuration of a piece of software, whether that is a service, a website or anything else that benefits from centralised, dynamic configuration. All you need to give it is a meaningful name:</p>
+<pre tabindex="0"><code>const application = new CfnApplication(scope, `AppConfig Application`, {
   name: &#39;e-commerce-app&#39;,
 });
-</code></pre><h3 id="creating-appconfig-environment">Creating AppConfig Environment</h3>
-<p>An AppConfig Environment is a deployment environment within an AWS AppConfig application where the configurations are managed independently from each other. Environments provide a way to separate configurations for different stages of development, testing, and production, allowing for controlled and efficient management of configurations across different deployment scenarios.</p>
-<p>We can create an environment using the snippet below. Since we are creating an environment under an application, we need to provide a reference to the application we created earlier in addition to the environment name.</p>
+</code></pre><h3 id="step-2-an-environment">Step 2: An environment</h3>
+<p>Environments sit inside an application and keep configuration for each stage (development, testing, production and so on) isolated from the others. That lets you manage and deploy configuration to each stage independently. Since an environment belongs to an application, we pass a reference to the application along with the environment name:</p>
 <pre tabindex="0"><code>const environment = new CfnEnvironment(scope, `AppConfig Environment`, {
   applicationId: application.ref,
   name: &#39;DEV&#39;,
 });
-</code></pre><h3 id="creating-appconfig-configuration-profile">Creating AppConfig Configuration Profile</h3>
-<p>A configuration profile helps to define what kind of configuration (feature flag/freeform) will be created and optionally defines any validators to ensure the configuration data is syntactically and semantically correct.</p>
-<p>The code snippet below creates a <strong>feature flag type</strong> configuration profile called login. When we use the feature flag type, the location URI has to be set with <strong>hosted</strong>. Further, we need to specify the application for this configuration profile.</p>
+</code></pre><h3 id="step-3-a-configuration-profile">Step 3: A configuration profile</h3>
+<p>The configuration profile declares what type of configuration you&rsquo;re storing, either feature flags or freeform data. It can also attach validators to check that the data is syntactically and semantically correct.</p>
+<p>Below, we create a profile named <code>login</code> of the <strong>feature flag type</strong> (<code>AWS.AppConfig.FeatureFlags</code>). With this type, the location URI must be <strong>hosted</strong>, meaning AppConfig stores the data itself. The profile is also linked to our application:</p>
 <pre tabindex="0"><code>const configurationProfile = new CfnConfigurationProfile(
   scope,
   `AppConfig ConfigurationProfile`,
@@ -308,9 +311,9 @@
     type: &#39;AWS.AppConfig.FeatureFlags&#39;,
    }
 );
-</code></pre><h3 id="creating-appconfig-configuration-version">Creating AppConfig Configuration Version</h3>
-<p>An AppConfig Configuration Version represents a specific snapshot or version of a configuration. As configurations may evolve over time, different versions allow for tracking and managing changes. Each version is associated with a unique identifier.</p>
-<p>Using the code snippet below, we create a configuration version for a feature flag called <strong>sso_enabled</strong>, which the value has set to <strong>true</strong>. Similar to the previous constructs, we need to connect this with the application and the configuration profile we need to use.</p>
+</code></pre><h3 id="step-4-a-configuration-version-holding-the-flag">Step 4: A configuration version holding the flag</h3>
+<p>A hosted configuration version is an immutable snapshot of the configuration content. Each change produces a new version with its own identifier, which is how AppConfig provides history and rollback.</p>
+<p>Here we define a single flag, <strong>sso_enabled</strong>, and set it to <strong>true</strong>. The version is linked to both the application and the configuration profile created above:</p>
 <pre tabindex="0"><code>const configurationVersion = new CfnHostedConfigurationVersion(
   scope,
   `AppConfig ConfigurationProfileVersion`,
@@ -333,9 +336,14 @@
     })
   }
 );
-</code></pre><h3 id="creating-lambda-function">Creating Lambda Function</h3>
-<p>Now, we can create the lambda function and attach the lambda layer to integrate it with AppConfig. The lambda function must be configured with proper environment variables so the agent can connect with the required AppConfig application, environment and configuration profile, as shown in the code snippet below. Further, we must grant permissions via IAM to the lambda function to access AppConfig and fetch the configurations.</p>
-<p>Below is the CDK infrastructure code for the lambda function, including the lambda layer integration and permission granting to AppConfig.</p>
+</code></pre><h3 id="step-5-the-lambda-function-extension-layer-and-permissions">Step 5: The Lambda function, extension layer and permissions</h3>
+<p>The function needs three things:</p>
+<ul>
+<li><strong>Environment variables</strong> identifying the AppConfig application, environment and configuration profile, so the handler knows which configuration to request.</li>
+<li><strong>The AppConfig extension layer</strong>, added by its ARN.</li>
+<li><strong>IAM permissions</strong> for <code>appconfig:StartConfigurationSession</code> and <code>appconfig:GetLatestConfiguration</code>, so the extension can retrieve the data.</li>
+</ul>
+<p>All three are in the CDK code below:</p>
 <pre tabindex="0"><code>const lambdaFunction = new NodejsFunction(this, &#39;my-lambda-fn&#39;, {
       entry: join(__dirname, &#39;../src/lambdaHandler.ts&#39;),
       runtime: Runtime.NODEJS_18_X,
@@ -369,7 +377,8 @@ lambdaFunction.role?.attachInlinePolicy(
     ],
   })
 );
-</code></pre><p>Now, we should be able to access <code>localhost:2772</code> from the lambda handler function and get the configuration of the feature flag. The code snippet below shows a very basic implementation. In the request URL, we need to specify the AppConfig configurations we exposed as the environment variables to fetch the configuration from the correct application, configuration profile and the environment we want.</p>
+</code></pre><h3 id="reading-the-flag-inside-the-handler">Reading the flag inside the handler</h3>
+<p>With the extension in place, the handler only needs to build the local URL from those environment variables and fetch it. The extension returns the cached configuration for the given application, environment and profile:</p>
 <pre tabindex="0"><code>import { Handler } from &#39;aws-cdk-lib/aws-lambda&#39;;
 
 export const handler: Handler = async (event: any) =&gt; {
@@ -385,18 +394,28 @@ export const handler: Handler = async (event: any) =&gt; {
 
     console.log(&#39;data:&#39;, JSON.stringify(responseData));
   } catch (error) {
-    console.log(console.error);
+    console.error(error);
   }
 };
-</code></pre><p>Finally, when we test the lambda function from the AWS console, we can see that the AppConfig agent has started and the configuration values have fetched successfully from the CloudWatch logs.</p>
-<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kbholjgwq4gy96rzlat3.png" alt="Image description"></p>
+</code></pre><p>To check it, I invoked the function from the AWS console. The CloudWatch logs show the AppConfig extension starting and the flag configuration being fetched successfully:</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kbholjgwq4gy96rzlat3.png" alt="CloudWatch logs showing the AppConfig extension starting and the Lambda function logging the fetched feature flag data"></p>
 <blockquote>
-<p>The full implementation of this can be found on this <a href="https://github.com/sidathasiri/appconfig-feature-flags">GitHub repo</a>.</p>
+<p>You can find the complete working project in this <a href="https://github.com/sidathasiri/appconfig-feature-flags">GitHub repo</a>.</p>
 </blockquote>
-<h2 id="conclusion">Conclusion</h2>
-<p>In conclusion, adopting feature flags, particularly through AWS AppConfig, empowers software teams to achieve a smooth and adaptive software evolution. The advantages of feature flags, such as controlled rollout, risk mitigation, and dynamic configuration, are effectively harnessed using AppConfig, offering real-time control and seamless integration with AWS services.</p>
-<p>Different integration options underscore AppConfig’s flexibility in catering to diverse development environments. Altogether, leveraging feature flags on AWS AppConfig enhances development agility, allowing teams to respond dynamically to evolving requirements and user feedback, ultimately fostering a resilient and user-centric software evolution.</p>
-<h2 id="learn-more">Learn More</h2>
+<h2 id="gotchas-to-watch-for">Gotchas to watch for</h2>
+<ul>
+<li><strong>Creating a version doesn&rsquo;t release it.</strong> A hosted configuration version is only a stored snapshot. Clients only see it after you <em>deploy</em> it to an environment using a deployment strategy. If your function keeps returning stale or empty data, check that a deployment has actually completed.</li>
+<li><strong>Values are cached, so changes aren&rsquo;t instant.</strong> The agent and extension poll on an interval (configurable, for example through <code>AWS_APPCONFIG_EXTENSION_POLL_INTERVAL_SECONDS</code> for the Lambda extension). Allow for that delay when you flip a flag in an emergency.</li>
+<li><strong>The layer ARN depends on region and version.</strong> The ARN in the example is for <code>us-east-1</code> and one specific release. Look up the correct ARN for your region and runtime architecture in the AppConfig documentation.</li>
+<li><strong>Tighten the IAM policy.</strong> <code>resources: ['*']</code> is fine for a demo. In production, scope the permissions to the specific application, environment and configuration profile ARNs.</li>
+<li><strong>Log the real error.</strong> In your own handler, log the caught <code>error</code> object so failures (for example, the extension not being ready) are visible in CloudWatch.</li>
+<li><strong>Clean up old flags.</strong> Every flag adds a code branch. Once a feature is fully rolled out, remove the flag and the dead path so they don&rsquo;t pile up as technical debt.</li>
+</ul>
+<h2 id="when-feature-flags-arent-the-right-fit">When feature flags aren&rsquo;t the right fit</h2>
+<p>Flags work best for release control, experiments and operational switches. They are a poor home for secrets (use Secrets Manager or Parameter Store instead), and they shouldn&rsquo;t replace proper authorisation checks. If a setting never changes at runtime, a plain environment variable is simpler.</p>
+<h2 id="wrapping-up">Wrapping up</h2>
+<p>Feature flags let teams ship continuously while keeping control over what users actually see, and AWS AppConfig gives you that capability as a managed service. Gradual rollouts, versioning, instant rollback and per-environment values make flags safe to run in production. Ready-made agents for Lambda, EC2, ECS and EKS mean you don&rsquo;t have to write any polling code yourself. Taken together, this lets teams react quickly to changing requirements and user feedback while keeping the risk of each release low.</p>
+<h2 id="further-reading">Further reading</h2>
 <ul>
 <li><a href="https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-integration-lambda-extensions.html">Retrieving configuration data using the AWS AppConfig Agent Lambda extension</a></li>
 <li><a href="https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-integration-ec2.html">Retrieving configuration data from Amazon EC2 instances</a></li>

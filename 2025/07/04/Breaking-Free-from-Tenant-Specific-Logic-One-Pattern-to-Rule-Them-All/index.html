@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8" />
-  <title>Breaking Free from Tenant-Specific Logic: One Pattern to Rule Them All | Sidath Munasinghe</title>
+  <title>Taming Client Customizations in Multi-Tenant SaaS with a Plugin Architecture | Sidath Munasinghe</title>
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="Managing tenant-specific logic can get messy. This article introduces a pattern that simplifies tenant-specific behavior, making your code easier to maintain and extend."
+    content="Stop scattering per-client if-statements across your SaaS code. See how a plugin architecture isolates tenant customizations behind clean extension points."
   />
 
   <meta
     name="keywords"
-    content="[saas, multi-tenant, plugin, pattern, design patterns, sidath, munasinghe]"
+    content="[saas, multi-tenant, plugin architecture, tenant customization, extension points, microkernel, design patterns, sidath, munasinghe]"
   />
 
   
@@ -25,8 +25,8 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://www.sidathm.online/2025/07/04/Breaking-Free-from-Tenant-Specific-Logic-One-Pattern-to-Rule-Them-All/" />
-  <meta property="og:title" content="Breaking Free from Tenant-Specific Logic: One Pattern to Rule Them All" />
-  <meta property="og:description" content="Managing tenant-specific logic can get messy. This article introduces a pattern that simplifies tenant-specific behavior, making your code easier to maintain and extend." />
+  <meta property="og:title" content="Taming Client Customizations in Multi-Tenant SaaS with a Plugin Architecture" />
+  <meta property="og:description" content="Stop scattering per-client if-statements across your SaaS code. See how a plugin architecture isolates tenant customizations behind clean extension points." />
   <meta property="og:site_name" content="Sidath Munasinghe" />
   
   <meta property="og:image" content="https://www.sidathm.online/images/posts/Breaking-Free-from-Tenant-Specific-Logic-One-Pattern-to-Rule-Them-All/main-cover-image.jpg" />
@@ -35,8 +35,8 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:url" content="https://www.sidathm.online/2025/07/04/Breaking-Free-from-Tenant-Specific-Logic-One-Pattern-to-Rule-Them-All/" />
-  <meta name="twitter:title" content="Breaking Free from Tenant-Specific Logic: One Pattern to Rule Them All" />
-  <meta name="twitter:description" content="Managing tenant-specific logic can get messy. This article introduces a pattern that simplifies tenant-specific behavior, making your code easier to maintain and extend." />
+  <meta name="twitter:title" content="Taming Client Customizations in Multi-Tenant SaaS with a Plugin Architecture" />
+  <meta name="twitter:description" content="Stop scattering per-client if-statements across your SaaS code. See how a plugin architecture isolates tenant customizations behind clean extension points." />
   
   <meta name="twitter:image" content="https://www.sidathm.online/images/posts/Breaking-Free-from-Tenant-Specific-Logic-One-Pattern-to-Rule-Them-All/main-cover-image.jpg" />
   
@@ -225,69 +225,96 @@
 
 
   <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
-    <h1>Breaking Free from Tenant-Specific Logic: One Pattern to Rule Them All</h1>
+    <h1>Taming Client Customizations in Multi-Tenant SaaS with a Plugin Architecture</h1>
     <span class="date">Posted on: 7/4/2025</span>
-    <img src="https://www.sidathm.online/images/posts/Breaking-Free-from-Tenant-Specific-Logic-One-Pattern-to-Rule-Them-All/main-cover-image.jpg" alt="Breaking Free from Tenant-Specific Logic: One Pattern to Rule Them All" />
+    <img src="https://www.sidathm.online/images/posts/Breaking-Free-from-Tenant-Specific-Logic-One-Pattern-to-Rule-Them-All/main-cover-image.jpg" alt="Taming Client Customizations in Multi-Tenant SaaS with a Plugin Architecture" />
     <div class="body">
-      <p>Ever built a SaaS product where each new customer wants “just one tiny change”… and suddenly everything starts falling apart?</p>
-<p>It always seems harmless at first.</p>
-<ul>
-<li>Client A wants a slight tweak in the approval logic.</li>
-<li>Client B needs a custom dashboard layout.</li>
-<li>Client C prefers SMS over email for notifications.</li>
-</ul>
-<p>And you think, “No problem — I’ll toss in a few conditionals and move on.”</p>
-<p>And it works… until it doesn’t.</p>
-<p>Before you know it, a change for Client G breaks a feature for Client C. You’re digging through layers of if statements, feature flags, and scattered logic, trying to figure out where it all went sideways.</p>
-<p>Now every deployment feels risky. Onboarding a new tenant is stressful. And you keep telling yourself, <em><strong>“It’s just one more special case…”</strong></em> — while the codebase turns into a fragile mess.</p>
-<h2 id="the-root-cause">The Root Cause</h2>
-<p>The real problem isn’t the custom features — it’s where that logic ends up living.</p>
-<p>When you embed tenant-specific behavior directly into your core codebase, everything becomes tightly coupled. A feature for one client can unintentionally ripple into another. Scaling slows down. Testing turns chaotic.</p>
-<p>The architecture wasn’t designed to embrace change — it was built for uniformity. But in the world of multi-tenant SaaS, uniformity is the exception, not the rule. You don’t just need functional code — you need a foundation that adapts and grows with your product.</p>
-<h2 id="step-into-the-plugin-pattern">Step into the Plugin Pattern</h2>
-<p>So how do you fix this without rewriting your entire app or copy-pasting logic across a dozen tenants?</p>
-<p>The answer: Plugin Architecture.</p>
-<p>Here’s the idea:</p>
-<p>Instead of hardcoding every tenant’s quirks into your main application, you let each client provide their own behavior — as modular, plug-and-play components. Your core stays clean, while custom logic lives where it belongs: outside the core.</p>
-<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*dy95VE-wxNp6Yh7RAyBhpw.jpeg" alt="Plugin Pattern"></p>
-<p>The core system stays clean and focused on the shared functionality. Each plugin handles the custom behavior for just that tenant. No more if-else pyramids. No more regression chaos.</p>
-<p>You expose extension points in your application — kind of like saying:
-<em><strong>“Hey plugin, do you want to do anything before this leave request gets processed?”</strong></em></p>
-<p>Then, for each tenant, you load their plugin dynamically and let it hook in only where needed.</p>
-<p>It’s the same idea behind how VS Code handles extensions or how payment gateways let you integrate custom fraud detection.</p>
-<p>And the best part?</p>
-<p>You don’t have to change the core logic every time a new tenant comes on board. Just drop in a new plugin — and you’re done.</p>
-<h2 id="why-this-works">Why This Works?</h2>
-<p>Now you might be thinking — “Okay, sounds neat… but what actually makes plugin architecture better than just writing more conditions?”</p>
-<p>Let’s break it down.</p>
-<ul>
-<li><strong>Separation of Concerns:</strong> Your core logic stays focused on what the app is supposed to do — not what Client A, B, or Z needs.
-Safer, Faster Deployments: When each client’s custom logic lives in its own module, you don’t need to redeploy the entire system to make a small change.</li>
-<li><strong>Parallel Development Becomes Possible:</strong> Your team (or even your clients’ teams) can work on plugins independently without stepping on each other’s toes — or yours.</li>
-<li><strong>Cleaner Testing:</strong> Testing one tenant’s logic doesn’t mean running the entire suite. You test the plugin in isolation, and you’re done.</li>
-<li><strong>It Scales with You:</strong> As your product grows, you can onboard more clients, add more features, and handle edge cases without your core codebase growing out of control.</li>
-</ul>
-<p><em><strong>In short, Plugin architecture shifts your code from rigid and reactive to flexible and proactive. It’s not just cleaner — it’s sustainable.</strong></em></p>
-<h2 id="lets-walk-through-an-example">Let’s Walk Through an Example</h2>
-<p>To make this more concrete, imagine you&rsquo;re building a multi-tenant employee management system — a classic SaaS scenario.</p>
-<p>The core app handles the essentials:</p>
-<ul>
-<li>Submitting leave requests</li>
-<li>Tracking attendance</li>
-<li>Managing employee profiles</li>
-</ul>
-<p>All pretty standard&hellip; at first.</p>
-<p>Then the custom requirements start rolling in:</p>
-<ul>
-<li>Client A wants leave requests for interns to be auto-approved</li>
-<li>Client B requires two levels of approval for every request</li>
-<li>Client C asks for an SMS alert whenever someone clocks in late</li>
-</ul>
-<p>And just like that, you’re buried in conditionals and scattered logic — unless you break the pattern with plugins.</p>
-<h3 id="core-idea-expose-extension-points">Core Idea: Expose Extension Points</h3>
-<p>We’ll design our system so the core platform exposes hooks, and each client’s custom behavior lives in a plugin.</p>
-<p>Let’s look at some simple code.</p>
-<p><strong>The Core Leave Service (leaveService.ts)</strong></p>
+      <p>Every multi-tenant product I&rsquo;ve seen goes through the same phase. The first customer signs, then the second, and somewhere around the third you hear the phrase that changes everything: <em>&ldquo;Could you make it work slightly differently for us?&rdquo;</em></p>
+<p>None of the individual asks sound scary. One customer wants a small change to how approvals behave. Another wants the dashboard arranged their way. A third would rather get notifications by SMS than by email. Each one looks like a five-minute job with an <code>if (tenant === ...)</code> check, so that&rsquo;s what goes in.</p>
+<p>The trouble shows up later. A tweak you ship for one customer quietly breaks something another customer relies on. Debugging means tracing through nested conditionals, feature flags and special cases spread across a dozen files. Releases start to feel like gambling, onboarding a new tenant becomes something the team dreads, and the codebase gets more brittle with every <em>&ldquo;just this once&rdquo;</em>.</p>
+<h2 id="customization-isnt-the-problem-placement-is">Customization Isn&rsquo;t the Problem. Placement Is</h2>
+<p>It&rsquo;s tempting to blame the customers for asking for too much. But the custom behavior itself is fine. What hurts is that it gets written straight into the shared core of the application.</p>
+<p>Once tenant rules live inside the core, they&rsquo;re coupled to everything else in it. A change made for one client can leak into another, every test run has to consider every tenant, and adding features gets slower over time. The system was designed on the assumption that all tenants behave the same. In multi-tenant SaaS that assumption almost never holds, so you need a foundation that expects variation rather than one that fights it.</p>
+<h2 id="the-fix-let-tenants-plug-in-their-own-behavior">The Fix: Let Tenants Plug In Their Own Behavior</h2>
+<p>You don&rsquo;t need a rewrite, and you definitely don&rsquo;t want to fork code per customer. What you want is a <strong>plugin architecture</strong>.</p>
+<p>The principle is simple: the core application owns the behavior everyone shares, and each tenant&rsquo;s differences are packaged as a separate, swappable module. The core never has to know what any particular client wants. It just offers well-defined places where a plugin can step in.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*dy95VE-wxNp6Yh7RAyBhpw.jpeg" alt="Diagram of a core application surrounded by tenant-specific plugins connected through extension points"></p>
+<p>Those places are called extension points. Think of each one as the core asking a question at a key moment, something like <em>&ldquo;Before I process this leave request, does this tenant&rsquo;s plugin want to change anything?&rdquo;</em> At runtime the app looks up the current tenant&rsquo;s plugin and runs whatever hooks it provides, and skips the ones it doesn&rsquo;t.</p>
+<p>If this sounds familiar, it&rsquo;s because you already use it. Editors like VS Code are built this way, with extensions hooking into a stable host. Payment platforms work the same way when they let you add your own fraud checks to their pipeline.</p>
+<p>The payoff is that a new tenant usually means a new plugin, not a change to the core.</p>
+<h2 id="what-you-gain">What You Gain</h2>
+<p>Why is this better than carefully managing a few more conditionals? Here&rsquo;s a quick comparison:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Concern</th>
+          <th>Conditionals in the core</th>
+          <th>Plugin architecture</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Where tenant logic lives</td>
+          <td>Spread throughout shared code</td>
+          <td>One module per tenant</td>
+      </tr>
+      <tr>
+          <td>Blast radius of a change</td>
+          <td>Potentially every tenant</td>
+          <td>Usually one tenant</td>
+      </tr>
+      <tr>
+          <td>Releasing a tweak</td>
+          <td>Redeploy the whole system</td>
+          <td>Ship just the affected plugin (if plugins are deployed independently)</td>
+      </tr>
+      <tr>
+          <td>Team workflow</td>
+          <td>Everyone edits the same files</td>
+          <td>Teams, or even clients, build plugins in parallel</td>
+      </tr>
+      <tr>
+          <td>Testing</td>
+          <td>Full regression across tenants</td>
+          <td>Test the plugin in isolation plus the core contract</td>
+      </tr>
+      <tr>
+          <td>Growth over time</td>
+          <td>Core keeps getting bigger</td>
+          <td>Core stays stable while plugins grow</td>
+      </tr>
+  </tbody>
+</table>
+<p>Put another way, the core does what the product is for, and the plugins handle what particular customers need. Your code stops reacting to each new request and starts expecting variation. That&rsquo;s what makes it last.</p>
+<h2 id="a-worked-example-leave-management-for-many-tenants">A Worked Example: Leave Management for Many Tenants</h2>
+<p>Let&rsquo;s make this concrete. Picture a multi-tenant employee management platform. Out of the box it lets employees submit leave requests, records attendance and maintains staff profiles. Nothing unusual there.</p>
+<p>Then the requests from tenants come in:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Tenant</th>
+          <th>Requirement</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Client A</td>
+          <td>Interns&rsquo; leave requests should be approved automatically</td>
+      </tr>
+      <tr>
+          <td>Client B</td>
+          <td>Every request must pass through two approval stages</td>
+      </tr>
+      <tr>
+          <td>Client C</td>
+          <td>Send an SMS whenever an employee clocks in late</td>
+      </tr>
+  </tbody>
+</table>
+<p>Without some structure, these end up as scattered conditionals. Instead, we&rsquo;ll have the core expose hooks and put each client&rsquo;s rules in their own plugin. To keep things short I&rsquo;ll implement Client A and Client B. Client C would follow the same approach with an attendance hook.</p>
+<h3 id="the-core-service-with-an-extension-point">The core service with an extension point</h3>
+<p>The <code>LeaveService</code> keeps a plugin registry keyed by tenant ID. Before applying its default behavior, it calls an optional <code>beforeSubmit</code> hook.</p>
+<p><strong>leaveService.ts</strong></p>
 <pre tabindex="0"><code>type LeaveRequest = {
   employeeId: string;
   role: string;
@@ -305,13 +332,13 @@ class LeaveService {
   }
 
   submitLeaveRequest(tenantId: string, request: LeaveRequest) {
-    // Let the plugin modify the request first
+    // Give the tenant&#39;s plugin a chance to adjust the request
     const plugin = this.plugins[tenantId];
     if (plugin?.beforeSubmit) {
       plugin.beforeSubmit(request);
     }
 
-    // Default core behavior
+    // Fallback behavior shared by every tenant
     if (!request.status) {
       request.status = &#39;pending&#39;;
     }
@@ -322,78 +349,104 @@ class LeaveService {
 }
 
 export default LeaveService;
-</code></pre><p><strong>Client A Plugin (clienatA.ts)</strong></p>
+</code></pre><h3 id="tenant-plugins">Tenant plugins</h3>
+<p>Client A&rsquo;s rule is one check on the employee&rsquo;s role:</p>
+<p><strong>clienatA.ts</strong></p>
 <pre tabindex="0"><code>export const clientAPlugin = {
   beforeSubmit: (request) =&gt; {
     if (request.role === &#39;intern&#39;) {
-      request.status = &#39;approved&#39;; // Auto-approve interns
+      request.status = &#39;approved&#39;; // Interns skip the approval queue
     }
   }
 };
-</code></pre><p><strong>Client B Plugin (clientB.ts)</strong></p>
+</code></pre><p>Client B attaches a two-stage workflow to every request:</p>
+<p><strong>clientB.ts</strong></p>
 <pre tabindex="0"><code>export const clientBPlugin = {
   beforeSubmit: (request) =&gt; {
-    request.workflow = [&#39;manager&#39;, &#39;hr&#39;]; // Custom 2-step approval
+    request.workflow = [&#39;manager&#39;, &#39;hr&#39;]; // Manager first, then HR
   }
 };
-</code></pre><p><strong>Putting All Together (index.ts)</strong></p>
+</code></pre><h3 id="wiring-it-up">Wiring it up</h3>
+<p>At startup we register each plugin against its tenant, and after that the core handles every request the same way.</p>
+<p><strong>index.ts</strong></p>
 <pre tabindex="0"><code>import LeaveService from &#39;./leaveService&#39;;
 import { clientAPlugin } from &#39;./clientAPlugin&#39;;
 import { clientBPlugin } from &#39;./clientBPlugin&#39;;
 
 const leaveService = new LeaveService();
 
-// Register tenant-specific plugins
+// Attach each tenant&#39;s plugin
 leaveService.registerPlugin(&#39;client-a&#39;, clientAPlugin);
 leaveService.registerPlugin(&#39;client-b&#39;, clientBPlugin);
 
-// Sample leave requests
+// Example requests
 const requestA = { employeeId: &#39;E123&#39;, role: &#39;intern&#39;, status: &#39;&#39; };
 const requestB = { employeeId: &#39;E456&#39;, role: &#39;full-time&#39;, status: &#39;&#39; };
 
 leaveService.submitLeaveRequest(&#39;client-a&#39;, requestA);
-// → Auto-approved because it&#39;s an intern
+// → Approved automatically since the employee is an intern
 
 leaveService.submitLeaveRequest(&#39;client-b&#39;, requestB);
-// → Assigned a custom workflow: [&#39;manager&#39;, &#39;hr&#39;]
-</code></pre><p>What Just Happened?</p>
+// → Gets the two-stage workflow: [&#39;manager&#39;, &#39;hr&#39;]
+</code></pre><p>Look at what we didn&rsquo;t have to do. <code>submitLeaveRequest</code> contains no reference to Client A or Client B. Each tenant&rsquo;s rule sits in its own file, and adding one didn&rsquo;t put the other at risk. A tenant with no plugin simply gets the default <code>pending</code> status. When Client D arrives with an unusual requirement, the work is one more plugin file and one more <code>registerPlugin</code> call.</p>
+<h2 id="is-it-time-to-reach-for-plugins">Is It Time to Reach for Plugins?</h2>
+<p>Plugins aren&rsquo;t the answer for every codebase. A product with one customer, or with tenants that genuinely behave the same, doesn&rsquo;t need the extra indirection. Where the pattern does pay off, you&rsquo;ll usually notice some warning signs first.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*R81ER8Crc-F67p_K4zZfJg.jpeg" alt="Team planning session with sticky notes on a board"></p>
+<p>The first sign is solving the same problem over and over with small per-client differences. Approval rules, notification channels and pricing tweaks are typical. If every client wants the same flow with different rules, the flow belongs in the core and the rules belong in plugins.</p>
+<p>The second is custom logic that only one tenant will ever use. Putting it in shared code means every other tenant carries it for no benefit.</p>
+<p>The third is when the team gets nervous about editing a piece of code because nobody is sure which tenants depend on it. That&rsquo;s a separation problem, not a testing problem.</p>
+<p>The fourth is hearing <em>&ldquo;Can you just&hellip;&rdquo;</em> in nearly every client conversation. Repeated customization requests are a good sign that you need a proper extension mechanism.</p>
+<h2 id="gotchas-to-watch-for">Gotchas to Watch For</h2>
+<p>The pattern is simple, but a few details decide whether it stays clean:</p>
 <ul>
-<li>The core system didn’t change at all.</li>
-<li>Each client had their own logic encapsulated in a plugin.</li>
-<li>New behavior was added without touching or risking existing functionality.</li>
+<li><strong>Design the extension points carefully.</strong> A hook is a contract. If you expose too few, plugins start hacking around the core. If you expose too many, you can never refactor the core without breaking someone. Start with the points where tenants actually differ.</li>
+<li><strong>Watch out for mutable shared objects.</strong> In the example, plugins mutate the request directly, which keeps things short. In a larger system, consider returning a new object or validating what the plugin produced, so a buggy plugin can&rsquo;t put the core into an invalid state.</li>
+<li><strong>Isolate plugin failures.</strong> Decide what happens if a plugin throws an error. Do you fail the request, log it and fall back to the default, or alert someone? Make that a deliberate choice instead of letting an unhandled exception decide.</li>
+<li><strong>Version the plugin API.</strong> Once more than a few plugins rely on a hook, changing its signature becomes a migration project. Type the hook contracts (as <code>PluginHook</code> does) and treat them like a public API.</li>
+<li><strong>Don&rsquo;t let plugins turn into forks.</strong> If one plugin keeps growing until it reimplements half the core, it&rsquo;s usually a sign the core is missing a general feature that several tenants need.</li>
+<li><strong>Sandbox code you didn&rsquo;t write.</strong> If clients or third parties ever write plugins, running them in-process with full access is a security risk. Consider isolation, for example separate processes, serverless functions or a restricted runtime.</li>
 </ul>
-<p>And the best part?</p>
-<p>If Client D shows up tomorrow with a wild new requirement… you just write one new plugin. That’s it.</p>
-<h2 id="how-to-spot-opportunities-for-the-plugin-pattern">How to Spot Opportunities for the Plugin Pattern?</h2>
-<p>So now you’re probably wondering:
-“This looks great… but how do I know when to actually use it?”</p>
-<p>Plugin Architecture isn’t something you drop into every project. But in the right situations, it can completely change the game.</p>
-<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*R81ER8Crc-F67p_K4zZfJg.jpeg" alt="Planning"></p>
-<p>Here’s how to recognize those moments.</p>
+<h2 id="where-plugins-sit-in-the-wider-architecture">Where Plugins Sit in the Wider Architecture</h2>
+<p>Is this only a neat coding trick, or does it belong in a bigger design? Plugins line up with the same goals as several established architectural styles: keeping the domain separate, making extension explicit and keeping the core stable. Here is how they fit together:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Architecture</th>
+          <th>How plugins fit in</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Microkernel</strong></td>
+          <td>The closest match. A minimal core provides the essentials, and plugins add features dynamically. A plugin architecture is essentially a microkernel.</td>
+      </tr>
+      <tr>
+          <td><strong>Modular monolith</strong></td>
+          <td>Deployed as one unit but built as independent modules. Tenant plugins slot in as modules with clear boundaries.</td>
+      </tr>
+      <tr>
+          <td><strong>Hexagonal (ports and adapters)</strong></td>
+          <td>The core exposes ports and plugins act as adapters that extend it, keeping business logic separate from the outside world.</td>
+      </tr>
+      <tr>
+          <td><strong>Clean Architecture</strong></td>
+          <td>The domain sits at the center, and plugins live in the outer layers where they implement tenant-specific policies.</td>
+      </tr>
+  </tbody>
+</table>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*YdsGLbrwQDrtB71bJfOImA.png" alt="Hexagonal architecture diagram showing the application core with ports and adapters around it"></p>
+<h2 id="key-takeaways">Key Takeaways</h2>
 <ul>
-<li><strong>Repeating the Same Pattern with Slight Variations:</strong> If you’re solving the same kind of problem, but with different rules per client</li>
-<li><strong>Customizations That Only Apply to One Tenant:</strong> If a feature or rule applies to only one tenant, and will likely never be reused</li>
-<li><strong>Fear of Breaking Something When Changing Logic:</strong> If you’re afraid to touch a section of code because it impacts multiple tenants, you’re probably lacking proper separation.</li>
-<li><strong>Frequent “Can You Just…” Requests from Clients:</strong> You keep getting requests like these for customizations.</li>
+<li>Most tenant-specific pain comes from where custom logic lives, not from the fact that it exists.</li>
+<li>Keep the shared behavior in the core and expose clear extension points such as <code>beforeSubmit</code>.</li>
+<li>Package each tenant&rsquo;s rules as a plugin, so onboarding a new tenant means adding code instead of editing the core.</li>
+<li>You get smaller blast radiuses, parallel development, isolated testing and a core that stays stable as you grow.</li>
+<li>Treat hooks as a versioned contract, handle plugin failures deliberately and sandbox any plugin code you don&rsquo;t control.</li>
+<li>The approach maps directly onto microkernel, modular monolith, hexagonal and clean architecture.</li>
 </ul>
-<h2 id="how-the-plugin-pattern-fits-into-system-design">How the Plugin Pattern Fits into System Design?</h2>
-<p>If you&rsquo;re thinking,
-<em><strong>&ldquo;Is this just a clever coding hack, or part of a larger architectural strategy?&rdquo;</strong></em>
-That’s the right question to ask.</p>
-<p>The plugin pattern isn’t just about cleaning up your code — it’s a powerful design approach that aligns with core architectural goals like scalability, maintainability, and adaptability. It complements and fits naturally within broader system patterns. Here are a few architectures that pair well with a plugin-based approach:</p>
-<ul>
-<li><strong>Modular Monolith:</strong> Organizes the system into independent modules or plugins, deployed as one but developed separately. Plugins fit perfectly as modules here.</li>
-<li><strong>Hexagonal Architecture:</strong> Emphasizes clear boundaries between business logic and external systems. Plugins serve as adapters extending the core.</li>
-<li><strong>Clean Architecture:</strong> Focuses on separation between domain and infrastructure. Plugins can live on the outer layers, implementing tenant-specific policies.</li>
-<li><strong>Microkernel Architecture:</strong> The core system provides basic functionality; plugins add features dynamically. This is a direct architectural pattern that mirrors plugin architecture principles.</li>
-</ul>
-<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*YdsGLbrwQDrtB71bJfOImA.png" alt="Hexagonal architecture"></p>
-<h2 id="the-big-picture">The Big Picture</h2>
-<p>At its core, the Plugin Pattern is about building for flexibility and long-term growth.</p>
-<p>It’s more than just a clean way to organize code — it’s a strategic approach to designing software that can evolve alongside your business and adapt to diverse client needs.</p>
-<p>By isolating tenant-specific behavior into modular plugins, you keep your core codebase stable and focused. This reduces the risk of unintended side effects, supports team autonomy, and allows features to be developed and deployed independently. The pattern aligns well with architectural styles like modular monoliths, hexagonal architecture, and microkernel designs — all of which promote separation of concerns, extensibility, and domain isolation.</p>
-<p>Because in the end, good code isn’t just about working — it’s about scaling.
-If you’re building a multi-tenant SaaS platform that needs to keep pace with growing complexity, the Plugin Pattern gives you a powerful, practical foundation for sustainable growth.</p>
+<h2 id="wrapping-up">Wrapping Up</h2>
+<p>Plugins are a way to build software that expects change. Moving per-tenant behavior out of the core and into modules you can swap in and out keeps the core small and predictable, cuts down on surprise regressions, lets teams work without blocking each other and lets features ship on their own schedule. They also fit well with the architectural styles many of us already rely on.</p>
+<p>Code that works today is only part of the job. It also has to hold up as you add customers. If your SaaS platform is starting to bend under client-specific requirements, a plugin architecture is a practical way to support that growth without losing control of the codebase.</p>
 
     </div>
   </div>

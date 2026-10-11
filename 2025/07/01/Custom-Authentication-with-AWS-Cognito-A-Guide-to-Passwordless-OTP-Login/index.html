@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8" />
-  <title>Custom Authentication with AWS Cognito: A Guide to Passwordless OTP Login | Sidath Munasinghe</title>
+  <title>Passwordless SMS Login on AWS Cognito Using Custom Auth Challenges and Lambda | Sidath Munasinghe</title>
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="Learn how to implement a passwordless login system using AWS Cognito’s custom authentication flow and one-time passwords (OTP). A practical guide to secure, modern authentication."
+    content="Build passwordless SMS OTP sign-in with AWS Cognito custom auth: three Lambda triggers, SNS delivery, Terraform setup, CLI testing and key security tips."
   />
 
   <meta
     name="keywords"
-    content="[cognito, custom authentication, cloud, aws, otp, login, passwordless, sidath, sidath, munasinghe]"
+    content="[aws cognito, custom auth flow, lambda triggers, sms otp, passwordless login, amazon sns, terraform, sidath, munasinghe]"
   />
 
   
@@ -25,8 +25,8 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://www.sidathm.online/2025/07/01/Custom-Authentication-with-AWS-Cognito-A-Guide-to-Passwordless-OTP-Login/" />
-  <meta property="og:title" content="Custom Authentication with AWS Cognito: A Guide to Passwordless OTP Login" />
-  <meta property="og:description" content="Learn how to implement a passwordless login system using AWS Cognito’s custom authentication flow and one-time passwords (OTP). A practical guide to secure, modern authentication." />
+  <meta property="og:title" content="Passwordless SMS Login on AWS Cognito Using Custom Auth Challenges and Lambda" />
+  <meta property="og:description" content="Build passwordless SMS OTP sign-in with AWS Cognito custom auth: three Lambda triggers, SNS delivery, Terraform setup, CLI testing and key security tips." />
   <meta property="og:site_name" content="Sidath Munasinghe" />
   
   <meta property="og:image" content="https://www.sidathm.online/images/posts/Custom-Authentication-with-AWS-Cognito-A-Guide-to-Passwordless-OTP-Login/main-cover-image.jpg" />
@@ -35,8 +35,8 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:url" content="https://www.sidathm.online/2025/07/01/Custom-Authentication-with-AWS-Cognito-A-Guide-to-Passwordless-OTP-Login/" />
-  <meta name="twitter:title" content="Custom Authentication with AWS Cognito: A Guide to Passwordless OTP Login" />
-  <meta name="twitter:description" content="Learn how to implement a passwordless login system using AWS Cognito’s custom authentication flow and one-time passwords (OTP). A practical guide to secure, modern authentication." />
+  <meta name="twitter:title" content="Passwordless SMS Login on AWS Cognito Using Custom Auth Challenges and Lambda" />
+  <meta name="twitter:description" content="Build passwordless SMS OTP sign-in with AWS Cognito custom auth: three Lambda triggers, SNS delivery, Terraform setup, CLI testing and key security tips." />
   
   <meta name="twitter:image" content="https://www.sidathm.online/images/posts/Custom-Authentication-with-AWS-Cognito-A-Guide-to-Passwordless-OTP-Login/main-cover-image.jpg" />
   
@@ -225,86 +225,113 @@
 
 
   <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
-    <h1>Custom Authentication with AWS Cognito: A Guide to Passwordless OTP Login</h1>
+    <h1>Passwordless SMS Login on AWS Cognito Using Custom Auth Challenges and Lambda</h1>
     <span class="date">Posted on: 7/1/2025</span>
-    <img src="https://www.sidathm.online/images/posts/Custom-Authentication-with-AWS-Cognito-A-Guide-to-Passwordless-OTP-Login/main-cover-image.jpg" alt="Custom Authentication with AWS Cognito: A Guide to Passwordless OTP Login" />
+    <img src="https://www.sidathm.online/images/posts/Custom-Authentication-with-AWS-Cognito-A-Guide-to-Passwordless-OTP-Login/main-cover-image.jpg" alt="Passwordless SMS Login on AWS Cognito Using Custom Auth Challenges and Lambda" />
     <div class="body">
-      <p>Authentication is a fundamental part of any secure application. While AWS Cognito provides built-in support for common sign-in methods like username/password and social logins, sometimes you need more flexibility. What if you want users to log in using a one-time password (OTP)? Or create a multi-step login process tailored to your product’s specific requirements?</p>
-<p>That’s where Cognito’s custom authentication flow shines.</p>
-<p>Custom auth gives you complete control over how users log in — whether you&rsquo;re implementing OTP-based access, magic links, biometric flows, or organization-specific verification steps. In this post, we’ll break down how the custom authentication flow works in AWS Cognito and walk through a real-world use case: building a passwordless login with SMS-based OTP.</p>
-<p>If you’re looking to build a frictionless sign-in experience or inject business logic into your auth process, this guide will help you get started using AWS Cognito and Lambda functions.</p>
-<h2 id="how-does-aws-cognito-custom-authentication-flow-work">How does AWS Cognito Custom Authentication Flow work?</h2>
-<p>In a custom authentication flow, you take complete control over the entire process. Rather than relying on Cognito’s standard username and password validation, you implement your own method to confirm a user’s identity.</p>
-<p>This method is built around a challenge-response model: you issue a challenge—whether that’s an OTP, CAPTCHA, or even a magic link—and require a valid reply before granting access. The real advantage of this approach is its total flexibility; you choose the challenge, decide how it’s delivered, and determine the criteria for a valid response.</p>
-<p>AWS Cognito makes this possible by using three Lambda triggers that orchestrate the flow:</p>
+      <p>Passwords cause friction for users and risk for whoever has to store them. In a lot of products, especially mobile ones, it&rsquo;s nicer to let people type their phone number, receive a short code and be signed in. AWS Cognito doesn&rsquo;t hide this option. Its <strong>custom authentication flow</strong> lets you swap the usual password check for whatever proof of identity you choose.</p>
+<p>Cognito already handles username/password and social sign-in for you, but real products often need something more specific: one-time codes, magic links, a biometric step, or a verification rule that only your organization uses. Custom auth is the extension point for all of these.</p>
+<p>In this guide I&rsquo;ll first explain how the custom flow works, and then build a working example step by step: <strong>passwordless sign-in with an OTP delivered by SMS</strong>, using Cognito, three Lambda functions and Amazon SNS.</p>
+<h2 id="the-challengeresponse-model-behind-custom-auth">The Challenge–Response Model Behind Custom Auth</h2>
+<p>In a custom flow, Cognito stops validating credentials on its own and lets your code decide whether the user has proven who they are. It works as a series of challenges. You give the user a task, such as entering a code, solving a CAPTCHA or clicking a link, and you grant access only when they answer it correctly. You decide what the challenge is, how it reaches the user and what counts as a correct answer.</p>
+<p>Behind the scenes, three Lambda triggers drive the process:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Trigger</th>
+          <th>Its job</th>
+          <th>In our OTP example</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>DefineAuthChallenge</strong></td>
+          <td>Acts as the controller. It looks at what has happened so far and chooses the next step</td>
+          <td>Asks for an OTP challenge first, then issues tokens or fails the login</td>
+      </tr>
+      <tr>
+          <td><strong>CreateAuthChallenge</strong></td>
+          <td>Builds the challenge to present</td>
+          <td>Generates a 6-digit code and texts it to the user</td>
+      </tr>
+      <tr>
+          <td><strong>VerifyAuthChallengeResponse</strong></td>
+          <td>Checks the user&rsquo;s answer</td>
+          <td>Compares the entered code with the generated one</td>
+      </tr>
+  </tbody>
+</table>
+<p>By combining these three functions you can build anything from a simple passwordless login to a strict, multi-stage enterprise sign-in.</p>
+<h3 id="walking-through-a-sign-in-step-by-step">Walking Through a Sign-In, Step by Step</h3>
+<p>This sequence diagram shows how the client, Cognito and the triggers interact during a single login:</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1386/format:webp/0*-nbFnTe2re2_JqHU.png" alt="Sequence diagram of the client, Cognito and the three Lambda triggers exchanging calls during a custom authentication flow"></p>
 <ol>
-<li><strong>DefineAuthChallenge –</strong> Decides what the next step is in the auth process (e.g., issue a challenge, or complete login).</li>
-<li><strong>CreateAuthChallenge –</strong> Generates the challenge to send to the user (e.g., generate and send an OTP).</li>
-<li><strong>VerifyAuthChallengeResponse –</strong> Validates the user&rsquo;s answer to the challenge.</li>
+<li>
+<p><strong>The client starts the flow.</strong> Your web or mobile app calls the <code>InitiateAuth</code> API with the <code>CUSTOM_AUTH</code> flow and a username, which can be a phone number, an email address or any other unique identifier. In practice, this is the moment the user types their number and taps <em>&ldquo;Send OTP&rdquo;</em>.</p>
+</li>
+<li>
+<p><strong>DefineAuthChallenge picks the first step.</strong> Cognito asks this Lambda what to do next. It reads the session history and either continues with another challenge, issues tokens or fails the attempt. On the first call there&rsquo;s no history yet, so it asks for a new challenge. You write this logic yourself, and as you&rsquo;ll see below, it&rsquo;s only a few lines.</p>
+</li>
+<li>
+<p><strong>CreateAuthChallenge produces and sends the code.</strong> Since you own this function, the challenge can be anything. Here it generates a random 6-digit number and sends it by SMS through Amazon SNS. The expected answer goes back to Cognito in <code>privateChallengeParameters</code>, which the client never sees. The client receives only public information, such as <em>&ldquo;OTP sent to your phone.&rdquo;</em></p>
+</li>
+<li>
+<p><strong>The user answers.</strong> The client calls <code>RespondToAuthChallenge</code> with the code the user entered, along with the session value returned in step 1. That session value is how Cognito ties the answer to this particular login attempt.</p>
+</li>
+<li>
+<p><strong>VerifyAuthChallengeResponse checks the answer.</strong> This Lambda compares the submitted code with the private expected value. If they match, it sets <code>answerCorrect</code> to <code>true</code>, meaning the user has passed the challenge.</p>
+</li>
+<li>
+<p><strong>DefineAuthChallenge makes the final decision.</strong> Cognito calls the controller one more time. With a correct answer recorded, it sets <code>issueTokens = true</code> and the client receives JWTs for the user. If the answer was wrong, or the user has used up their attempts, it fails the authentication instead.</p>
+</li>
 </ol>
-<p>By orchestrating logic across these three Lambda functions, you can build virtually any authentication experience you want — from simple passwordless logins to complex, multi-layered enterprise auth flows.</p>
-<h3 id="how-everything-connects">How Everything Connects</h3>
-<p>Below is how the client, Cognito, and Lambda triggers work together to orchestrate a full authentication flow — step by step:</p>
-<p><img src="https://miro.medium.com/v2/resize:fit:1386/format:webp/0*-nbFnTe2re2_JqHU.png" alt="Authentication flow sequence diagram"></p>
-<p><strong>1. User Initiates Login</strong></p>
-<p>The client application (e.g., your frontend or mobile app) starts the login process by calling the InitiateAuth API using the CUSTOM_AUTH flow. This request typically includes the username , which could be a phone number, email, or any unique identifier.</p>
-<p><em>Example: A user enters their phone number and clicks “Send OTP.”</em></p>
-<p><strong>2. Cognito Triggers DefineAuthChallenge</strong></p>
-<p>Cognito invokes the DefineAuthChallenge Lambda to decide the next action. For the first attempt, this function tells Cognito to create a new challenge (e.g., send an OTP).</p>
-<p>It inspects the user’s session state and decides:</p>
+<p>That covers the full lifecycle. Now let&rsquo;s put it into practice.</p>
+<h2 id="hands-on-building-sms-otp-sign-in">Hands-On: Building SMS OTP Sign-In</h2>
+<p><img src="https://www.sidathm.online/images/posts/Custom-Authentication-with-AWS-Cognito-A-Guide-to-Passwordless-OTP-Login/otp.avif" alt="Phone screen showing a one-time passcode entry field"></p>
+<p>The user experience we want is straightforward. The user enters their phone number. If that number belongs to someone in the user pool, a Lambda function creates a 6-digit code and Amazon SNS texts it to them. The user types the code back, and if it matches, they&rsquo;re signed in.</p>
+<p>This setup works well when:</p>
 <ul>
-<li>Whether to continue the auth flow</li>
-<li>Whether to issue tokens (on successful auth)</li>
-<li>Whether to fail the authentication</li>
+<li>you&rsquo;d prefer users never have to create or remember a password,</li>
+<li>you want sign-in to be quick, particularly on phones, and</li>
+<li>you need security without making the experience complicated.</li>
 </ul>
-<p>You will need to implement this logic, and we will see how simple that is later.</p>
-<p><strong>3. CreateAuthChallengeSends the OTP</strong></p>
-<p>Cognito then calls the CreateAuthChallenge Lambda. This function is responsible for generating the actual challenge. Since the lambda implementation is yours, you have the full freedom to create the necessary challenge ( in our case, a random 6-digit OTP and sending it to the user via SMS using Amazon SNS).</p>
-<p>The answer (e.g., generated OTP value) is securely passed to Cognito in the privateChallengeParameters, while the client may receive a public message related to a challenge, such as <em>“OTP sent to your phone.”</em></p>
-<p><strong>4. User Responds with the Answer</strong></p>
-<p>Then the client should resolve the challenge and send it back using RespondToAuthChallenge along with the answer (e.g., the entered OTP). It should include the session token received in the first step, allowing Cognito to track this challenge session.</p>
-<p><strong>5. VerifyAuthChallengeResponse Validates the Input</strong></p>
-<p>Cognito now calls the VerifyAuthChallengeResponse Lambda. This function compares the answer the user entered (e.g., OTP) with the expected value stored in the private parameters. If it matches, answerCorrect is set to true considering the user as authenticated since he/she was able to solve the given challenge.</p>
-<p><strong>6. Cognito Calls DefineAuthChallenge Again</strong></p>
-<p>Finally, Cognito makes one last call to DefineAuthChallenge. This time, based on the result of the previous challenge:</p>
-<p>If the answer was correct, it sets issueTokens = true, completing the login flow. If the answer was incorrect or attempts exceeded, it can fail the authentication.</p>
-<p>This is the end of the authentication flow and the client will receive the corresponding JWT tokens for the authenticated user if the login challenge was answered correctly. Now let’s see a application of this by implementing a passwordless login with OTP via SMS.</p>
-<h2 id="real-world-example-passwordless-login-with-otp-via-sms">Real-World Example: Passwordless Login with OTP via SMS</h2>
-<p><img src="https://www.sidathm.online/images/posts/Custom-Authentication-with-AWS-Cognito-A-Guide-to-Passwordless-OTP-Login/otp.avif" alt="OTP"></p>
-<p>To make this concept more tangible, let’s walk through a real-world example: implementing a passwordless login experience using AWS Cognito’s custom authentication flow and one-time passwords (OTP) sent over SMS.</p>
-<p>This is a popular use case when:</p>
-<ul>
-<li>You don’t want users to create or remember passwords</li>
-<li>You want a low-friction login experience, especially on mobile</li>
-<li>Security and simplicity both matter</li>
-</ul>
-<p>With this setup, users sign in using just their phone number. If the number exists in your user pool, Cognito invokes a Lambda function that generates a 6-digit OTP and sends it via SMS using Amazon SNS. The user enters the received code, and if it matches, they’re authenticated and allowed access.</p>
-<p><em>We will be using Terraform to create the infrastructure for this setup. But you can use any tool to create the infrastructure or use the AWS console to create all the resources manually.</em></p>
-<p>Let’s look into the main terraform file (main.tf) first since it includes all the AWS resources we need. It is composed with below.</p>
-<ul>
-<li><strong>Provider Configuration:</strong> It specifies the AWS region (us-east-1) where resources will be created.</li>
-<li><strong>IAM Role and Policies:</strong>
-<ul>
-<li>An IAM role (lambda_exec) is created for the Lambda functions, allowing them to be assumed by both AWS Lambda and Cognito services.</li>
-<li>The role is attached to the basic Lambda execution policy (AWSLambdaBasicExecutionRole) and a custom policy to allow publishing messages to SNS (for sending SMS).</li>
-</ul>
-</li>
-<li><strong>Lambda Function Deployment:</strong> Three Lambda functions are defined to implement the custom authentication logic
-<ul>
-<li>DefineAuthChallenge: Decides the next challenge in the authentication flow.</li>
-<li>CreateAuthChallenge: Generates the OTP and send it to the user using SNS as SMS code.</li>
-<li>VerifyAuthChallenge: Verifies the user’s response to the challenge.</li>
-</ul>
-</li>
-<li><strong>Cognito User Pool:</strong>
-<ul>
-<li>A Cognito user pool named custom-auth-user-pool is created with the Lambda triggers set to the above functions.</li>
-<li>It configures SMS as the authentication method, auto-verifies the phone number attribute, and sets phone number as the username attribute.</li>
-</ul>
-</li>
-<li><strong>User Pool Client:</strong> An app client is created to enable the custom authentication flow (ALLOW_CUSTOM_AUTH) and refresh tokens.</li>
-<li><strong>Lambda Permissions:</strong> Permissions are granted for Cognito to invoke the Lambda functions, linking the user pool as the source.</li>
-</ul>
+<h3 id="provisioning-the-infrastructure-with-terraform">Provisioning the Infrastructure with Terraform</h3>
+<p>I&rsquo;ve used Terraform to define the resources, but nothing here depends on it. CDK, CloudFormation or clicking through the AWS console would work just as well.</p>
+<p>Everything lives in <code>main.tf</code>. Here&rsquo;s what it creates:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Resource group</th>
+          <th>What it does</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Provider</td>
+          <td>Targets the <code>us-east-1</code> region</td>
+      </tr>
+      <tr>
+          <td>IAM role <code>lambda_exec</code></td>
+          <td>Can be assumed by both Lambda and Cognito. It has <code>AWSLambdaBasicExecutionRole</code> for logging plus a custom policy that allows <code>sns:Publish</code> so we can send SMS</td>
+      </tr>
+      <tr>
+          <td>Three Lambda functions</td>
+          <td><code>DefineAuthChallenge</code> (controls the flow), <code>CreateAuthChallenge</code> (generates the OTP and sends it via SNS) and <code>VerifyAuthChallenge</code> (checks the reply), each zipped from source with <code>archive_file</code></td>
+      </tr>
+      <tr>
+          <td>Cognito user pool</td>
+          <td><code>custom-auth-user-pool</code>, with the three functions attached as triggers, SMS configured, <code>phone_number</code> auto-verified and used as the username</td>
+      </tr>
+      <tr>
+          <td>App client</td>
+          <td>Allows <code>ALLOW_CUSTOM_AUTH</code> and <code>ALLOW_REFRESH_TOKEN_AUTH</code></td>
+      </tr>
+      <tr>
+          <td>Lambda permissions</td>
+          <td>Let the user pool (as the source ARN) invoke each function</td>
+      </tr>
+  </tbody>
+</table>
 <pre tabindex="0"><code>provider &#34;aws&#34; {
   region = &#34;us-east-1&#34;
 }
@@ -459,9 +486,10 @@ resource &#34;aws_lambda_permission&#34; &#34;verify_auth&#34; {
   principal     = &#34;cognito-idp.amazonaws.com&#34;
   source_arn    = aws_cognito_user_pool.custom_auth_pool.arn
 }
-</code></pre><p>Then let’s see the most important part of the implementation which is the lambda handlers implementation.</p>
-<h3 id="define-auth-challenge-lambda-handler">Define Auth Challenge Lambda Handler</h3>
-<p>This Lambda function’s primary role is to decide what should happen next in the authentication process, based on the user&rsquo;s session history. Cognito invokes it multiple times throughout the custom authentication flow, using its responses to guide the next step in the sequence.</p>
+</code></pre><h3 id="the-three-lambda-handlers">The Three Lambda Handlers</h3>
+<p>The infrastructure is mostly boilerplate. The handlers are where the actual authentication logic lives.</p>
+<h4 id="1-defineauthchallenge-deciding-what-happens-next">1. DefineAuthChallenge: deciding what happens next</h4>
+<p>Cognito calls this function several times during a single sign-in, and each time it uses the response to decide the next step. Its only input is the session history so far.</p>
 <pre tabindex="0"><code>exports.handler = async (event) =&gt; {
   if (event.request.session.length === 0) {
     event.response.challengeName = &#39;CUSTOM_CHALLENGE&#39;;
@@ -479,14 +507,14 @@ resource &#34;aws_lambda_permission&#34; &#34;verify_auth&#34; {
   }
   return event;
 };
-</code></pre><p>The logic of this handler is very simple.</p>
+</code></pre><p>It handles three cases:</p>
 <ul>
-<li><strong>First-time login attempt:</strong> If the session is empty (length === 0), it means this is the user’s first attempt. So, the function sets the challenge type to CUSTOM_CHALLENGE, signaling Cognito to prompt the user (e.g., with an SMS code).</li>
-<li><strong>Successful challenge response:</strong> If there’s exactly one challenge attempt and it succeeded (challengeResult === true), the function tells Cognito to issue tokens and log the user in.</li>
-<li><strong>Failed attempts or retries:</strong> Any other case (e.g., failed attempt or too many retries) causes the function to fail authentication.</li>
+<li><strong>No history yet</strong> (<code>session.length === 0</code>): this is a fresh attempt, so it requests a <code>CUSTOM_CHALLENGE</code>, which tells Cognito to send the SMS code.</li>
+<li><strong>One attempt, and it passed</strong> (<code>challengeResult === true</code>): it tells Cognito to issue tokens and the user is signed in.</li>
+<li><strong>Anything else</strong>: a wrong code or extra attempts, so the authentication fails.</li>
 </ul>
-<h3 id="create-auth-challenge-lambda-handler">Create Auth Challenge Lambda Handler</h3>
-<p>Inside this Lambda handler, you define the challenge you want to present to the client. In our case, that means generating a one-time password (OTP) and sending it to the user via SMS using Amazon SNS.</p>
+<h4 id="2-createauthchallenge-generating-and-sending-the-otp">2. CreateAuthChallenge: generating and sending the OTP</h4>
+<p>This is where the challenge is created. We generate a one-time code and use Amazon SNS to text it to the user&rsquo;s phone number.</p>
 <pre tabindex="0"><code>const { SNSClient, PublishCommand } = require(&#39;@aws-sdk/client-sns&#39;);
 const sns = new SNSClient();
 
@@ -522,15 +550,14 @@ exports.handler = async (event) =&gt; {
     console.log(&#39;error:&#39;, e);
   }
 };
-</code></pre><p>Here an important thing to notice is that it sets,</p>
-<ul>
-<li>a public parameter visible to the client (message only),</li>
-<li>a private parameter that Cognito stores internally (the correct OTP),</li>
-<li>metadata to identify the challenge.</li>
-</ul>
-<p>The private parameter is very important because we will be using it later to verify the challenge.</p>
-<h3 id="verify-auth-challenge-lambda-handler">Verify Auth Challenge Lambda Handler</h3>
-<p>This Lambda function’s job is to verify if the user’s response to the challenge is correct. In our example, it compares the OTP entered by the user with the one previously generated and stored in a private parameter during the authentication flow.</p>
+</code></pre><p>Pay attention to the three values written to <code>event.response</code>:</p>
+<ol>
+<li><code>publicChallengeParameters</code> is returned to the client, so it carries only a harmless status message.</li>
+<li><code>privateChallengeParameters</code> stays inside Cognito and holds the correct OTP. The verify step depends on it.</li>
+<li><code>challengeMetadata</code> labels the challenge so you can identify it later in the session history.</li>
+</ol>
+<h4 id="3-verifyauthchallengeresponse-checking-the-code">3. VerifyAuthChallengeResponse: checking the code</h4>
+<p>All this function does is compare what the user typed with the OTP stored in the private parameters from the previous step.</p>
 <pre tabindex="0"><code>exports.handler = async (event) =&gt; {
   const expectedAnswer = event.request.privateChallengeParameters.answer;
   const userAnswer = event.request.challengeAnswer;
@@ -539,35 +566,52 @@ exports.handler = async (event) =&gt; {
 
   return event;
 };
-</code></pre><p><strong><em>The full implementation of this can be found in <a href="https://github.com/sidathasiri/cognito-custom-authentication">this repository</a>.</em></strong></p>
-<p>That’s all we need to setup. Now it’s the time for testing.</p>
-<h3 id="testing-the-authentication-flow">Testing the Authentication Flow</h3>
-<p>To get started, first you will need to create a test user in the cognito pool and then we need to initiate the custom authentication flow. In a production environment, this is typically done using the AWS SDK to kick off the login process. For testing and demonstration purposes, however, we’ll use the AWS CLI instead.</p>
-<p>You can initiate the login flow by executing the below CLI command.</p>
+</code></pre><p><strong><em>You&rsquo;ll find the complete source in <a href="https://github.com/sidathasiri/cognito-custom-authentication">this repository</a>.</em></strong></p>
+<p>That&rsquo;s everything we need to deploy. Let&rsquo;s test it.</p>
+<h3 id="trying-it-out-from-the-aws-cli">Trying It Out from the AWS CLI</h3>
+<p>First, create a test user in the user pool with a phone number you can receive SMS on. In a real application you&rsquo;d use the AWS SDK from your frontend or backend to start the login. For a quick demonstration, the AWS CLI is enough.</p>
+<p>Start the custom flow with:</p>
 <pre tabindex="0"><code>aws cognito-idp initiate-auth \            
   --auth-flow CUSTOM_AUTH \               
   --client-id &#34;&lt;cognito-app-client-id&gt;&#34;\
   --auth-parameters USERNAME=&#34;&lt;username of the user&gt;&#34;
-</code></pre><p>In response to this you would receive a session id and you should have received a text message as well from SNS including the OTP.</p>
-<p>Once you receive it, now we should respond to it by providing the OTP to solve the challenge. We can do it by executing below command.</p>
+</code></pre><p>The response includes a session value, and an SMS containing the OTP should arrive on the phone shortly afterwards.</p>
+<p>Now answer the challenge by passing the code and the session back to Cognito:</p>
 <pre tabindex="0"><code>aws cognito-idp respond-to-auth-challenge \
   --client-id &#34;&lt;cognito-app-client-id&gt;&#34; \
   --challenge-name CUSTOM_CHALLENGE \      
   --session &#34;&lt;session-id-from-previous-response&gt;&#34;\
   --challenge-responses USERNAME=&#34;&lt;username&gt;&#34;,ANSWER=&#34;&lt;received otp&gt;&#34;
-</code></pre><p>If the provide correct values, then it should return the JWT keys for the successfully authenticated user.</p>
-<h2 id="security-considerations-of-cognito-custom-authentication-flow">Security Considerations of Cognito Custom Authentication Flow</h2>
-<p>While custom authentication flows offer flexibility and power, they also shift more responsibility to you — especially in terms of security. Here are some key considerations to keep in mind when implementing an OTP-based login flow using AWS Cognito:</p>
+</code></pre><p>If the session and the code are both correct, Cognito returns the JWTs (ID, access and refresh tokens) for the authenticated user.</p>
+<h2 id="common-pitfalls">Common Pitfalls</h2>
+<p>A few things that are easy to miss with this setup:</p>
 <ul>
-<li>Avoid Brute Force and Replay Attacks</li>
-<li>Ensure Challenge Expiration and One-Time Use</li>
-<li>Use Verified Contact Information</li>
-<li>Enforce Secure Verification Logic</li>
-<li>Don’t log OTP values, tokens or any other sensitive information</li>
+<li><strong>SNS SMS sandbox.</strong> New AWS accounts start in the SNS SMS sandbox, where messages can only go to verified destination numbers. If no text arrives, check this before debugging your Lambda.</li>
+<li><strong>Only one attempt.</strong> The DefineAuthChallenge logic above fails the login on the first wrong code. To allow retries, let it issue another <code>CUSTOM_CHALLENGE</code> while the session length is below a limit (for example, three attempts), and have CreateAuthChallenge carry the answer forward or create a new code for later rounds. As written, it only creates the OTP when the session is empty.</li>
+<li><strong>The user must already exist.</strong> Custom auth only signs users in. It doesn&rsquo;t create accounts, so users still need a sign-up path, such as a normal sign-up or <code>AdminCreateUser</code>.</li>
+<li><strong>Swallowed errors.</strong> The CreateAuthChallenge <code>catch</code> block only logs the error. If SNS fails, the handler returns nothing and the client gets a vague error. Consider rethrowing, or returning a clear failure, so problems are easier to spot.</li>
+<li><strong>Session expiry.</strong> The session value from <code>InitiateAuth</code> is only valid for a few minutes (the app client&rsquo;s auth session validity setting, 3 minutes by default). Slow testers working in the CLI often hit this limit.</li>
 </ul>
-<h2 id="conclusion">Conclusion</h2>
-<p>AWS Cognito’s Custom Authentication Flow offers a powerful way to create authentication experiences precisely tailored to your business and user requirements. Whether it’s building a passwordless login with OTP, adding external identity verifications, or designing complex multi-step authentication sequences, custom auth puts the control in your hands—delivering security and scalability.</p>
-<p>In this post, we’ve seen how Cognito leverages Lambda functions to manage a flexible challenge-response flow, and walked through a practical example of SMS-based OTP login. We also covered the full authentication lifecycle, shared implementation tips, and highlighted key security considerations to help you build a reliable, customizable authentication system.</p>
+<h2 id="securing-a-custom-otp-flow">Securing a Custom OTP Flow</h2>
+<p>Custom auth gives you a lot of control, but security becomes more of your responsibility as a result. For an OTP login in particular:</p>
+<ul>
+<li><strong>Limit attempts to prevent brute force and replay.</strong> Cap the number of guesses per session and throttle how often a single number can request codes.</li>
+<li><strong>Make codes expire and work only once.</strong> An OTP should stop working after a short time and once it has been used.</li>
+<li><strong>Send codes only to verified contact details.</strong> Otherwise anyone who controls an unverified number could sign in.</li>
+<li><strong>Keep verification strict and server-side.</strong> Compare against the private parameter and never trust anything the client says about the result.</li>
+<li><strong>Never log secrets.</strong> OTPs, tokens and other sensitive values don&rsquo;t belong in CloudWatch. Note that the sample handlers log the phone number, which you may also want to remove in production.</li>
+<li><strong>Use a cryptographically secure random generator.</strong> <code>Math.random()</code> is fine for a demo, but in production generate codes with something like Node&rsquo;s <code>crypto.randomInt</code>.</li>
+</ul>
+<h2 id="faq">FAQ</h2>
+<p><strong>Doesn&rsquo;t Cognito support passwordless sign-in natively now?</strong>
+Yes. Newer Cognito feature plans offer choice-based sign-in with SMS or email one-time codes and passkeys, without writing any Lambda functions. Custom auth is still the right tool when you need your own logic: a different delivery channel, extra business checks, unusual challenge types, or multiple stages of verification.</p>
+<p><strong>Can I send the code by email instead of SMS?</strong>
+Yes. Only CreateAuthChallenge needs to change. Swap the SNS publish call for an email service such as Amazon SES. The define and verify functions stay the same.</p>
+<p><strong>Can I chain multiple challenges?</strong>
+Yes. DefineAuthChallenge sees every previous result in <code>event.request.session</code>, so it can require, for example, an OTP followed by another check before issuing tokens.</p>
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>Cognito&rsquo;s custom authentication flow lets you design sign-in around your product&rsquo;s needs instead of working within fixed options. Whether that means passwordless OTP, a call to an external identity check, or a multi-step enterprise process, you decide the rules and Cognito still handles sessions, tokens and scaling.</p>
+<p>In this post we covered how the three Lambda triggers drive the challenge–response loop, followed one login from start to finish, built SMS OTP sign-in with Terraform and SNS, tested it from the CLI and reviewed the security and operational details that make the difference between a demo and a production-ready setup.</p>
 
     </div>
   </div>

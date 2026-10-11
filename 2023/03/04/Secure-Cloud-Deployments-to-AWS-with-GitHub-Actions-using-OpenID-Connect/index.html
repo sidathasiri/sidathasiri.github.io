@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8" />
-  <title>Secure Deployments to AWS with GitHub Actions via OpenID Connect | Sidath Munasinghe</title>
+  <title>Keyless AWS Deployments from GitHub Actions: A Practical Guide to OIDC Federation | Sidath Munasinghe</title>
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="Learn to deploy securely on AWS with GitHub Actions using OpenID Connect. This approach removes the need to manage AWS credentials, bolstering your deployment security."
+    content="Stop storing AWS access keys in GitHub. Set up OpenID Connect so GitHub Actions workflows assume a scoped IAM role and get short-lived credentials."
   />
 
   <meta
     name="keywords"
-    content="[github, github actions, ci/cd, openid connect, aws, cloud, sidath, munasinghe]"
+    content="[github actions, oidc, openid connect, aws iam, ci/cd, keyless deployment, devops security, sidath, munasinghe]"
   />
 
   
@@ -25,8 +25,8 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://www.sidathm.online/2023/03/04/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/" />
-  <meta property="og:title" content="Secure Deployments to AWS with GitHub Actions via OpenID Connect" />
-  <meta property="og:description" content="Learn to deploy securely on AWS with GitHub Actions using OpenID Connect. This approach removes the need to manage AWS credentials, bolstering your deployment security." />
+  <meta property="og:title" content="Keyless AWS Deployments from GitHub Actions: A Practical Guide to OIDC Federation" />
+  <meta property="og:description" content="Stop storing AWS access keys in GitHub. Set up OpenID Connect so GitHub Actions workflows assume a scoped IAM role and get short-lived credentials." />
   <meta property="og:site_name" content="Sidath Munasinghe" />
   
   <meta property="og:image" content="https://www.sidathm.online/images/posts/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/main-logo.png" />
@@ -35,8 +35,8 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:url" content="https://www.sidathm.online/2023/03/04/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/" />
-  <meta name="twitter:title" content="Secure Deployments to AWS with GitHub Actions via OpenID Connect" />
-  <meta name="twitter:description" content="Learn to deploy securely on AWS with GitHub Actions using OpenID Connect. This approach removes the need to manage AWS credentials, bolstering your deployment security." />
+  <meta name="twitter:title" content="Keyless AWS Deployments from GitHub Actions: A Practical Guide to OIDC Federation" />
+  <meta name="twitter:description" content="Stop storing AWS access keys in GitHub. Set up OpenID Connect so GitHub Actions workflows assume a scoped IAM role and get short-lived credentials." />
   
   <meta name="twitter:image" content="https://www.sidathm.online/images/posts/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/main-logo.png" />
   
@@ -225,27 +225,29 @@
 
 
   <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
-    <h1>Secure Deployments to AWS with GitHub Actions via OpenID Connect</h1>
+    <h1>Keyless AWS Deployments from GitHub Actions: A Practical Guide to OIDC Federation</h1>
     <span class="date">Posted on: 3/4/2023</span>
-    <img src="https://www.sidathm.online/images/posts/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/main-logo.png" alt="Secure Deployments to AWS with GitHub Actions via OpenID Connect" />
+    <img src="https://www.sidathm.online/images/posts/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/main-logo.png" alt="Keyless AWS Deployments from GitHub Actions: A Practical Guide to OIDC Federation" />
     <div class="body">
-      <p>GitHub Actions is a platform to perform automated tasks upon triggering an event in GitHub. This is being used extensively to govern continuous integration and continuous delivery (CI/CD) workflows once code changes are pushed to a repository. But GitHub Actions has capabilities beyond that to automate a lot of stuff such as tagging releases, sending notifications when creating issues, repository migrations, etc.</p>
-<h2 id="why-github-actions-for-cicd">Why GitHub Actions for CI/CD?</h2>
-<p>There are several benefits to using GitHub Actions for Continuous Integration and Continuous Deployment (CI/CD):</p>
+      <p>If your pipeline deploys to AWS with an access key ID and secret saved in GitHub secrets, you&rsquo;re carrying around a long-lived credential. Someone has to rotate it, and if it ever leaks, whoever finds it can use it. There&rsquo;s a cleaner option: let GitHub prove who it is to AWS with OpenID Connect (OIDC), and let AWS give back credentials that expire when the job finishes. In this post I&rsquo;ll walk through how that trust works and how to set it up on both sides.</p>
+<h2 id="a-quick-word-on-github-actions">A quick word on GitHub Actions</h2>
+<p>GitHub Actions runs automated jobs in response to events in a repository. Its most common use is CI/CD, where it builds, tests and deploys every time code is pushed. It isn&rsquo;t limited to pipelines, though. Teams also use it to tag releases, send notifications when issues are opened, migrate repositories and handle plenty of other chores.</p>
+<p>For CI/CD in particular, I think it has a lot going for it:</p>
+<ul>
+<li><strong>It lives where your code lives.</strong> Workflows sit in the repository and run on repository events, so there&rsquo;s no separate CI service to connect and maintain.</li>
+<li><strong>Workflows are just YAML.</strong> You describe build, test and deploy steps declaratively and trigger them on commits, pull requests or other events. Every run follows the same steps.</li>
+<li><strong>There&rsquo;s a big marketplace.</strong> Ready-made actions cover Docker builds, deployments to the major clouds, notifications and much more. If nothing fits, you can write your own.</li>
+<li><strong>It&rsquo;s cheap to start.</strong> The free allowances for public and private repositories cover a lot of small and medium projects.</li>
+<li><strong>It scales with you.</strong> Self-hosted runners let you run jobs on your own machines or on cloud infrastructure such as AWS or GCP, and you can run workflows in parallel to cut build times.</li>
+</ul>
+<p>Once a workflow is allowed to change things in your cloud account, though, the most important question is how much access it gets. The answer should be only what the deployment needs, and only for as long as the job runs. OIDC makes that easy to achieve.</p>
+<h2 id="how-the-oidc-handshake-between-github-and-aws-works">How the OIDC handshake between GitHub and AWS works</h2>
+<p>The idea is a trust relationship. You tell AWS that it may accept identity tokens issued by GitHub, and you attach conditions to an IAM role that say which GitHub workflows may assume it. Those conditions are checked against claims inside the token. No AWS secret is ever stored in GitHub.</p>
+<p>Here&rsquo;s the flow for each job run:</p>
 <ol>
-<li><strong>Seamless integration with GitHub:</strong> Since GitHub Actions is a native feature of GitHub, it integrates seamlessly with your code repository. This means you can trigger automated workflows and deployments directly from your repository, without needing to use third-party tools.</li>
-<li><strong>Easy automation:</strong> GitHub Actions provides an easy way to automate your CI/CD workflows, allowing you to easily build, test, and deploy your code in a consistent and repeatable way. You can define your workflows using a YAML syntax, and you can trigger them based on various events, such as code commits or pull requests.</li>
-<li><strong>Large ecosystem of actions:</strong> GitHub Actions has a large ecosystem of pre-built actions that you can use to build your workflows. These actions can perform tasks like building Docker images, deploying to various cloud platforms, or sending notifications. You can also create your own custom actions if needed.</li>
-<li><strong>Cost-effective:</strong> GitHub Actions offers generous free tiers for public and private repositories, making it a cost-effective solution for CI/CD, especially for small and medium-sized projects.</li>
-<li><strong>Scalability:</strong> GitHub Actions can scale with your project as it grows. You can use distributed runners to run your workflows on your own infrastructure or on cloud providers like AWS or GCP, allowing you to run multiple workflows in parallel and reduce build times.</li>
-</ol>
-<p><em>When using GitHub Actions to deploy changes to a cloud provider, the most crucial requirement is providing only the necessary and least access to GitHub to access the cloud provider and execute the deployment successfully. This can be accomplished comfortably by using the OpenID Connect protocol to request access from the cloud provider.</em></p>
-<h2 id="how-does-it-work">How Does It Work?</h2>
-<p>This approach works principally by building a trust relationship between AWS and GitHub and granting GitHub to assume an IAM role with the necessary permissions. This can be fulfilled by defining some rules in AWS to run against the claims included in the OIDC token sent by GitHub. Below are the high-level steps of how this procedure.</p>
-<ol>
-<li>When the GitHub actions job runs, GitHub’s OIDC Provider generates an OIDC token including a set of claims (ex. repository, repository_owner, job_workflow_ref) and sends it to AWS.</li>
-<li>AWS verifies whether the received token is valid or not using the pre-exchanged private/public key pairs between AWS and GitHub.</li>
-<li>If the token is valid, AWS executes the predefined rules against the claims extracted from the token. This is the step where AWS evaluates the trust relationship. The below trust relationship allows any branch, pull request merge branch, or environment from the octo-org/octo-repo organization and repository to assume a role in AWS and no one else.</li>
+<li><strong>GitHub issues a token.</strong> When the job starts, GitHub&rsquo;s OIDC provider mints a signed token. It contains claims that describe the run, such as <code>repository</code>, <code>repository_owner</code> and <code>job_workflow_ref</code>, and it&rsquo;s presented to AWS.</li>
+<li><strong>AWS checks the signature.</strong> AWS confirms that the token really came from GitHub by validating it against GitHub&rsquo;s published signing keys.</li>
+<li><strong>AWS evaluates the trust policy.</strong> If the token is genuine, AWS compares its claims with the conditions on the role. For example, the condition below allows any branch, pull request merge ref or environment in the <code>octo-org/octo-repo</code> repository to assume the role, and nobody else:</li>
 </ol>
 <pre tabindex="0"><code>&#34;Condition&#34;:
    &#34;StringLike&#34;: {
@@ -253,60 +255,96 @@
  }
 }
 </code></pre><ol start="4">
-<li>If the rules are satisfied, AWS issues a short-lived cloud access token that is available only for the duration of the job.</li>
+<li><strong>AWS returns temporary credentials.</strong> If every condition matches, AWS issues short-lived credentials that only last for the job.</li>
 </ol>
-<p><img src="https://www.sidathm.online/images/posts/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/overall_diagram.png" alt="Image description"></p>
-<h2 id="integrating-to-aws">Integrating to AWS</h2>
-<p><em>This approach works not only with AWS but also with almost any cloud provider like Azure, Google Cloud, and platforms like Hashicorp Vault as well.</em></p>
-<p>Let’s do the configurations that need to be done from AWS end first.</p>
-<ol>
-<li>
-<p>Add GitHub OIDC provider to IAM with the correct provider (<a href="https://token.actions.githubusercontent.com">https://token.actions.githubusercontent.com</a>) and audience (sts.amazonaws.com)
-<img src="https://www.sidathm.online/images/posts/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/identity_provider.png" alt="Image description"></p>
-</li>
-<li>
-<p>Create an IAM role, as usual, to be assumed by GitHub with the appropriate permissions. In order to make sure that this role can be assumed only by allowed entities in GitHub, the trust relationship rules should be defined under the trust relationship section of the IAM role. All available claims that can be used to define these rules can be found <a href="https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect#understanding-the-oidc-token">here</a>.
-<img src="https://www.sidathm.online/images/posts/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/github_role.png" alt="Image description"></p>
-</li>
-</ol>
-<p>With the above changes, AWS is now ready to allow the created role when a valid token is received from GitHub that fulfills the defined trust relationship.</p>
-<p>Now let’s do the changes from the GitHub end. This <a href="https://github.com/aws-actions/configure-aws-credentials">configure-aws-credentials</a> action has been created by AWS to simplify this process to exchange the OIDC token for a cloud access token. The following code snippet shows a simple example workflow that copies a file to a S3 bucket upon a push event to the git repository. Notice how configure-aws-credentials action is configured with role name, role session name and the was region.</p>
-<pre tabindex="0"><code>name: AWS example workflow
-on:
- push
-env:
- BUCKET_NAME : “example-bucket-name”
- AWS_REGION : “us-east-1”
-# permission can be added at job level or workflow level
-permissions:
- id-token: write # This is required for requesting the JWT
- contents: read # This is required for actions/checkout
-jobs:
- S3PackageUpload:
- runs-on: ubuntu-latest
- steps:
- — name: Git clone the repository
-   uses: actions/checkout@v3
- — name: configure aws credentials
-   uses: aws-actions/configure-aws-credentials@v1
-   with:
-     role-to-assume: arn:aws:iam::1234567890:role/example-role
-     role-session-name: samplerolesession
-     aws-region: ${{ env.AWS_REGION }}
- # Upload a file to AWS s3
- — name: Copy index.html to s3
-   run: aws s3 cp ./index.html s3://${{ env.BUCKET_NAME }}/
-</code></pre><p>Now whenever the workflow is triggered, configure-aws-credentials action will send the generated OIDC token to AWS to get the short-lived access token that grants the permission included in the requested IAM role.</p>
-<h2 id="advantages-of-using-openid-connect">Advantages of Using OpenID Connect</h2>
-<ol>
-<li>No need to create AWS users and expose their AWS security credentials</li>
-<li>No need to manually rotate credentials to enhance security</li>
-<li>Provide granular-level access for authentication and authorization management</li>
-<li>Centralized authentication and authorization</li>
-</ol>
-<h2 id="conclusion">Conclusion</h2>
-<p>In this article, we discussed how to use GitHub Actions to securely deploy your applications to AWS using OpenID Connect. You can find the below links to find more details.</p>
-<h2 id="learn-more">Learn More</h2>
+<p><img src="https://www.sidathm.online/images/posts/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/overall_diagram.png" alt="Sequence diagram of a GitHub Actions job exchanging a GitHub OIDC token with AWS for temporary role credentials"></p>
+<p>The pattern isn&rsquo;t specific to AWS. Azure, Google Cloud and tools such as HashiCorp Vault accept GitHub&rsquo;s OIDC tokens in the same way.</p>
+<h2 id="setting-up-the-aws-side">Setting up the AWS side</h2>
+<p>AWS needs two things: to know about GitHub as an identity provider, and a role that GitHub is allowed to assume.</p>
+<p><strong>1. Register GitHub as an OIDC identity provider in IAM.</strong> Use <code>https://token.actions.githubusercontent.com</code> as the provider URL and <code>sts.amazonaws.com</code> as the audience.</p>
+<p><img src="https://www.sidathm.online/images/posts/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/identity_provider.png" alt="AWS IAM console adding an OpenID Connect identity provider for token.actions.githubusercontent.com with audience sts.amazonaws.com"></p>
+<p><strong>2. Create the deployment role.</strong> Give it the permissions your deployment needs, as you would for any role. What&rsquo;s different here is the trust relationship. That&rsquo;s where you add conditions on the token&rsquo;s claims so that only the repositories, branches or environments you choose can assume it. GitHub documents every claim you can use <a href="https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect#understanding-the-oidc-token">here</a>.</p>
+<p><img src="https://www.sidathm.online/images/posts/Secure-Cloud-Deployments-to-AWS-with-GitHub-Actions-using-OpenID-Connect/github_role.png" alt="IAM role trust relationship with the GitHub OIDC provider as a federated principal and conditions on the token&rsquo;s claims"></p>
+<p>From now on, AWS will let a workflow assume this role, but only if it presents a valid GitHub token whose claims satisfy the trust policy.</p>
+<h2 id="setting-up-the-github-side">Setting up the GitHub side</h2>
+<p>Over in the workflow, AWS&rsquo;s own <a href="https://github.com/aws-actions/configure-aws-credentials">configure-aws-credentials</a> action takes care of swapping the OIDC token for AWS credentials. You tell it which role to assume, give the session a name and pick a region, and the steps after it can call AWS as usual.</p>
+<p>The example below copies a file into an S3 bucket on every push. Two details matter. The <code>id-token: write</code> permission is what lets the job ask GitHub for a token at all. The <code>configure-aws-credentials</code> step is where the role ARN, session name and region are set:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">name</span>: <span style="color:#ae81ff">AWS example workflow</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">on</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">push</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">env</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">BUCKET_NAME</span>: <span style="color:#e6db74">&#34;example-bucket-name&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">AWS_REGION</span>: <span style="color:#e6db74">&#34;us-east-1&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># permission can be added at job level or workflow level</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">permissions</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">id-token</span>: <span style="color:#ae81ff">write</span> <span style="color:#75715e"># This is required for requesting the JWT</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">contents</span>: <span style="color:#ae81ff">read</span> <span style="color:#75715e"># This is required for actions/checkout</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">jobs</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">S3PackageUpload</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">runs-on</span>: <span style="color:#ae81ff">ubuntu-latest</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">steps</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Git clone the repository</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">actions/checkout@v3</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">configure aws credentials</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">aws-actions/configure-aws-credentials@v1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">with</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">role-to-assume</span>: <span style="color:#ae81ff">arn:aws:iam::1234567890:role/example-role</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">role-session-name</span>: <span style="color:#ae81ff">samplerolesession</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">aws-region</span>: <span style="color:#ae81ff">${{ env.AWS_REGION }}</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># Upload a file to AWS s3</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Copy index.html to s3</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">run</span>: <span style="color:#ae81ff">aws s3 cp ./index.html s3://${{ env.BUCKET_NAME }}/</span>
+</span></span></code></pre></div><p>Each time this workflow runs, the action presents GitHub&rsquo;s OIDC token to AWS and gets back temporary credentials. Those credentials carry exactly the permissions of the requested role and nothing more.</p>
+<h2 id="what-you-gain-over-static-access-keys">What you gain over static access keys</h2>
+<table>
+  <thead>
+      <tr>
+          <th></th>
+          <th>Static IAM user keys</th>
+          <th>OIDC federation</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Secret stored in GitHub</td>
+          <td>Yes, a long-lived key pair</td>
+          <td>None</td>
+      </tr>
+      <tr>
+          <td>Rotation</td>
+          <td>Manual and easy to forget</td>
+          <td>Not needed, because credentials expire with the job</td>
+      </tr>
+      <tr>
+          <td>Scope of access</td>
+          <td>Whatever the IAM user can do</td>
+          <td>A role you can limit to specific repos, branches or environments</td>
+      </tr>
+      <tr>
+          <td>Where access is managed</td>
+          <td>Spread across IAM users and repo secrets</td>
+          <td>In one place, through IAM roles and trust policies</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="common-pitfalls">Common pitfalls</h2>
+<ul>
+<li><strong>Forgetting <code>id-token: write</code>.</strong> Without it the job can&rsquo;t request an OIDC token, and the credentials step fails. If you set <code>permissions</code> explicitly, remember that any permission you don&rsquo;t list is set to none.</li>
+<li><strong>A trust policy that&rsquo;s too broad.</strong> A condition like <code>repo:my-org/*</code> or a missing <code>sub</code> condition can let any repository in the org, or worse, assume your production role. Scope <code>sub</code> to specific repositories, and ideally to a branch (<code>repo:org/repo:ref:refs/heads/main</code>) or an environment (<code>repo:org/repo:environment:prod</code>).</li>
+<li><strong>Wrong audience.</strong> The <code>aud</code> claim must match the audience you registered, <code>sts.amazonaws.com</code> for the official action. Check it in the trust policy too.</li>
+<li><strong>Pull requests from forks.</strong> For security, workflows triggered by pull requests from forked repositories don&rsquo;t get a usable OIDC token by default. Plan your deploy triggers with that in mind.</li>
+<li><strong>Outdated action versions.</strong> The snippet above uses <code>@v1</code> as originally written. Newer major versions of <code>configure-aws-credentials</code> run on current Node.js runtimes and are worth upgrading to.</li>
+</ul>
+<h2 id="quick-faq">Quick FAQ</h2>
+<p><strong>Do I still need any AWS secrets in GitHub?</strong>
+No. The only thing the workflow needs is the role ARN, and that isn&rsquo;t sensitive.</p>
+<p><strong>How long do the credentials last?</strong>
+They last for the role session. By default that&rsquo;s one hour, and you can change it with the action&rsquo;s <code>role-duration-seconds</code> input, up to the role&rsquo;s maximum session duration.</p>
+<p><strong>Can I use different roles for staging and production?</strong>
+Yes, and you should. Create one role per environment and limit each trust policy to the matching GitHub environment or branch.</p>
+<h2 id="wrapping-up">Wrapping up</h2>
+<p>Using OIDC between GitHub Actions and AWS means no long-lived keys to leak or rotate. Each job gets credentials that are scoped by an IAM trust policy and expire when the job ends. Setup takes one identity provider and one role in AWS, plus a single action in your workflow. If you&rsquo;re still deploying with stored access keys, this is one of the easiest security wins available.</p>
+<h2 id="learn-more">Learn more</h2>
 <ul>
 <li><a href="https://docs.github.com/en/actions/quickstart">Quick Start Guide for GitHub Actions</a></li>
 <li><a href="https://github.com/marketplace?type=actions">GitHub Actions Market Place</a></li>
