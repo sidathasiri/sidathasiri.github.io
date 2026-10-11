@@ -65,6 +65,7 @@
   <link rel="stylesheet" href="https://www.sidathm.online/css/style.min.css" media="screen" />
 
   <link rel="stylesheet" href="https://www.sidathm.online/css/customizations.css" media="screen" />
+  <link rel="stylesheet" href="https://www.sidathm.online/css/glass.css" media="screen" />
 
   <!--Favicon-->
 
@@ -227,11 +228,11 @@
     
     <img
       class="d-none d-md-block"
-      src="https://www.sidathm.online/images/background.jpg"
+      src="https://www.sidathm.online/images/hero-bg-mesh.jpg"
       alt="background"
     /><img
       class="d-md-none"
-      src="https://www.sidathm.online/images/background.jpg"
+      src="https://www.sidathm.online/images/hero-bg-mesh.jpg"
       alt="background"
     />
   </div>
@@ -956,9 +957,11 @@ window.toggleProject = toggleProject;
       
       <div class="col-lg-10 col-md-12 col-12 mb-4">
         <div class="accomplishment-card">
-          <div class="accomplishment-icon">
-            <i class="fas fa-users"></i>
+          
+          <div class="accomplishment-icon accomplishment-icon--logo">
+            <img src="https://www.sidathm.online/images/logos/99x.png" alt="99x Annual Awards Ceremony" loading="lazy" />
           </div>
+          
           <div class="accomplishment-content">
             <h3 class="accomplishment-name">Outstanding Team Award - Top Nominees</h3>
             <div class="accomplishment-meta">
@@ -974,9 +977,11 @@ window.toggleProject = toggleProject;
       
       <div class="col-lg-10 col-md-12 col-12 mb-4">
         <div class="accomplishment-card">
-          <div class="accomplishment-icon">
-            <i class="fas fa-globe-americas"></i>
+          
+          <div class="accomplishment-icon accomplishment-icon--logo">
+            <img src="https://www.sidathm.online/images/logos/99x.png" alt="99x Annual Awards Ceremony" loading="lazy" />
           </div>
+          
           <div class="accomplishment-content">
             <h3 class="accomplishment-name">Global Citizenship Award</h3>
             <div class="accomplishment-meta">
@@ -992,9 +997,11 @@ window.toggleProject = toggleProject;
       
       <div class="col-lg-10 col-md-12 col-12 mb-4">
         <div class="accomplishment-card">
-          <div class="accomplishment-icon">
-            <i class="fas fa-users"></i>
+          
+          <div class="accomplishment-icon accomplishment-icon--logo">
+            <img src="https://www.sidathm.online/images/logos/99x.png" alt="99x Annual Awards Ceremony" loading="lazy" />
           </div>
+          
           <div class="accomplishment-content">
             <h3 class="accomplishment-name">Outstanding Team Award</h3>
             <div class="accomplishment-meta">
@@ -1010,9 +1017,11 @@ window.toggleProject = toggleProject;
       
       <div class="col-lg-10 col-md-12 col-12 mb-4">
         <div class="accomplishment-card">
-          <div class="accomplishment-icon">
-            <i class="fas fa-medal"></i>
+          
+          <div class="accomplishment-icon accomplishment-icon--logo accomplishment-icon--logo-light">
+            <img src="https://www.sidathm.online/images/logos/uom.png" alt="University" loading="lazy" />
           </div>
+          
           <div class="accomplishment-content">
             <h3 class="accomplishment-name">Gold Medal, Master of Science in Computer Science</h3>
             <div class="accomplishment-meta">
@@ -1288,13 +1297,12 @@ window.toggleProject = toggleProject;
       var heights = measureHeights();
       var start = page * perView;
       var remaining = slides.length - start;
-      var h = 0;
-      for (var i = start; i < start + perView && i < slides.length; i++) {
-        if (heights[i] > h) h = heights[i];
-      }
+      
+      
+      var h = Math.max.apply(null, heights);
       
       var centerOffset = (remaining < perView) ? ((perView - remaining) * slideW) / 2 : 0;
-      track.style.transition = animate ? 'transform 0.5s cubic-bezier(0.4,0,0.2,1), height 0.4s ease' : 'none';
+      track.style.transition = animate ? 'transform 0.5s cubic-bezier(0.4,0,0.2,1)' : 'none';
       track.style.height = h + 'px';
       track.style.transform = 'translateX(' + (-page * vw + centerOffset) + 'px)';
 
