@@ -6,8 +6,15 @@
     <description>Recent content on Sidath Munasinghe</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 11 Oct 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 18 Oct 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://www.sidathm.online/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Your Express App, No Adapter: Getting Started with AWS Lambda Web Functions</title>
+      <link>https://www.sidathm.online/2026/10/18/Your-Express-App-No-Adapter-Getting-Started-with-AWS-Lambda-Web-Functions/</link>
+      <pubDate>Sun, 18 Oct 2026 00:00:00 +0000</pubDate>
+      <guid>https://www.sidathm.online/2026/10/18/Your-Express-App-No-Adapter-Getting-Started-with-AWS-Lambda-Web-Functions/</guid>
+      <description>&lt;p&gt;If you&amp;rsquo;ve ever put an Express app on Lambda, you know the ritual. You write the app the normal way, and then you wrap it. Maybe in &lt;code&gt;serverless-http&lt;/code&gt;, maybe in &lt;code&gt;aws-serverless-express&lt;/code&gt;, maybe you bolt on the Lambda Web Adapter so your container can keep speaking HTTP. Either way, something in the middle translates an API Gateway event into a request object your framework recognises, and translates the response back out again.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>SQS, SNS, EventBridge, or MSK? Building the Same Event-Driven System Four Ways</title>
       <link>https://www.sidathm.online/2026/10/11/SQS-SNS-EventBridge-or-MSK-Building-the-Same-Event-Driven-System-Four-Ways/</link>

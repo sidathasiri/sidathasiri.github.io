@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <title>Your Express App, No Adapter: Getting Started with AWS Lambda Web Functions | Sidath Munasinghe</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Run Express, Hono or Next.js on Lambda with no adapters: the HTTP-server model, revisions and endpoints, canary deploys, active-CPU billing and the launch gotchas."
+  />
+
+  <meta
+    name="keywords"
+    content="[aws lambda web functions, serverless http server, express on lambda, lambda web adapter alternative, server-side rendering aws, active cpu billing, aws, sidath, munasinghe]"
+  />
+
+  
+    <meta name="author" content="Sidath Munasinghe" />
+  
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://www.sidathm.online/2026/10/18/Your-Express-App-No-Adapter-Getting-Started-with-AWS-Lambda-Web-Functions/" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://www.sidathm.online/2026/10/18/Your-Express-App-No-Adapter-Getting-Started-with-AWS-Lambda-Web-Functions/" />
+  <meta property="og:title" content="Your Express App, No Adapter: Getting Started with AWS Lambda Web Functions" />
+  <meta property="og:description" content="Run Express, Hono or Next.js on Lambda with no adapters: the HTTP-server model, revisions and endpoints, canary deploys, active-CPU billing and the launch gotchas." />
+  <meta property="og:site_name" content="Sidath Munasinghe" />
+  
+  <meta property="og:image" content="https://www.sidathm.online/images/posts/Your-Express-App-No-Adapter-Getting-Started-with-AWS-Lambda-Web-Functions/main-cover-image.jpg" />
+  
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://www.sidathm.online/2026/10/18/Your-Express-App-No-Adapter-Getting-Started-with-AWS-Lambda-Web-Functions/" />
+  <meta name="twitter:title" content="Your Express App, No Adapter: Getting Started with AWS Lambda Web Functions" />
+  <meta name="twitter:description" content="Run Express, Hono or Next.js on Lambda with no adapters: the HTTP-server model, revisions and endpoints, canary deploys, active-CPU billing and the launch gotchas." />
+  
+  <meta name="twitter:image" content="https://www.sidathm.online/images/posts/Your-Express-App-No-Adapter-Getting-Started-with-AWS-Lambda-Web-Functions/main-cover-image.jpg" />
+  
+
+  <meta name="google-site-verification" content="Os0XiJ_IsnKUGbMIAetAT8jRKYr8ty87olW3V1P0ia4" />
+
+  <!-- plugins -->
+  
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.1.0/css/hover-min.css" />
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900&amp;display=swap" />
+  
+    <link rel="stylesheet" href="https://www.sidathm.online/plugins/text-animation/text-animation.css" />
+  
+    <link rel="stylesheet" href="https://www.sidathm.online/plugins/hugrid/hugrid.css" />
+  
+
+  <!-- Main Stylesheet -->
+
+  
+  <link rel="stylesheet" href="https://www.sidathm.online/css/style.min.css" media="screen" />
+
+  <link rel="stylesheet" href="https://www.sidathm.online/css/customizations.css" media="screen" />
+  <link rel="stylesheet" href="https://www.sidathm.online/css/glass.css" media="screen" />
+
+  <!--Favicon-->
+
+  <link rel="icon" type="image/png" href="https://www.sidathm.online/images/favicon.ico" />
+
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-ABCDEFG123');
+    </script>
+  
+</head>
+<body> <!-- preloader start -->
+<div class="preloader">
+  
+  <img src="https://www.sidathm.online/images/preloader.gif" alt="preloader" />
+  
+</div>
+<!-- preloader end --> 
+
+  <section class="menu menu-fix" id="menu">
+  <nav>
+    
+    <div class="menu-container">
+      <div class="desktop-menu-logo">
+        <a href="https://www.sidathm.online/"
+          ><img
+            class="img-fluid"
+            src="https://www.sidathm.online/images/S_logo_white.png"
+            alt="Sidath Munasinghe"
+            id="desktop-logo"
+        /></a>
+      </div>
+      <ul class="desktop-menu list-inline mb-0" id="desktop-menu">
+        
+        <li class="menu-item hvr-underline-from-left 1">
+          <a href="https://www.sidathm.online/">Home</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 2">
+          <a href="https://www.sidathm.online/#about">About me</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 3">
+          <a href="https://www.sidathm.online/projects">Projects</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 4">
+          <a href="https://www.sidathm.online/#certifications">Certifications</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 5">
+          <a href="https://www.sidathm.online/#accomplishments">Accomplishments</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 6">
+          <a href="https://www.sidathm.online/#testimonials">Testimonials</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 7">
+          <a href="https://www.sidathm.online/post">Blog</a>
+        </li>
+        
+      </ul>
+      
+      <div class="mobile-menu">
+        <div class="mobile-menu-nav">
+          <a class="menu-link">
+            <span></span>
+            <span></span>
+            <span></span>
+          </a>
+        </div>
+        <div class="mobile-menu-logo">
+          <a href="https://www.sidathm.online/"
+            ><img
+              class="img-fluid"
+              src="https://www.sidathm.online/images/S_logo_dark.png"
+              alt="Sidath Munasinghe"
+          /></a>
+        </div>
+        <div class="menu-slider">
+          <nav>
+            <ul class="mobile-menu-list">
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="https://www.sidathm.online/">Home</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="https://www.sidathm.online/#about">About me</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="https://www.sidathm.online/projects">Projects</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="https://www.sidathm.online/#certifications">Certifications</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="https://www.sidathm.online/#accomplishments">Accomplishments</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="https://www.sidathm.online/#testimonials">Testimonials</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="https://www.sidathm.online/post">Blog</a>
+              </li>
+              
+            </ul>
+            <ul class="mobile-menu-icons list-inline mx-auto">
+              
+              <li>
+                <a href="https://github.com/sidathasiri"
+                  ><i class="fab fab fa-github fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://www.linkedin.com/in/sidath-asiri/"
+                  ><i class="fab fab fa-linkedin fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="mailto:sidathasiri@gmail.com"
+                  ><i class="fab fas fa-envelope fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://medium.com/@sidathasiri"
+                  ><i class="fab fab fa-medium fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://dev.to/sidathasiri"
+                  ><i class="fab fab fa-dev fa-2x"></i
+                ></a>
+              </li>
+              
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </nav>
+</section>
+
+
+  <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
+    <h1>Your Express App, No Adapter: Getting Started with AWS Lambda Web Functions</h1>
+    <span class="date">Posted on: 10/18/2026</span>
+    <img src="https://www.sidathm.online/images/posts/Your-Express-App-No-Adapter-Getting-Started-with-AWS-Lambda-Web-Functions/main-cover-image.jpg" alt="Your Express App, No Adapter: Getting Started with AWS Lambda Web Functions" />
+    <div class="body">
+      <p>If you&rsquo;ve ever put an Express app on Lambda, you know the ritual. You write the app the normal way, and then you wrap it. Maybe in <code>serverless-http</code>, maybe in <code>aws-serverless-express</code>, maybe you bolt on the Lambda Web Adapter so your container can keep speaking HTTP. Either way, something in the middle translates an API Gateway event into a request object your framework recognises, and translates the response back out again.</p>
+<p>That translation layer was never the real problem, though. The real problem was what sat underneath it.</p>
+<table>
+  <thead>
+      <tr>
+          <th></th>
+          <th>Lambda before Web Functions</th>
+          <th>What it cost you</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Programming model</strong></td>
+          <td>Event handler. An adapter fakes an HTTP request from event JSON</td>
+          <td>Your framework&rsquo;s own server never runs. Local development needs emulation</td>
+      </tr>
+      <tr>
+          <td><strong>Concurrency</strong></td>
+          <td>One request per execution environment</td>
+          <td>100 concurrent users means up to 100 environments, each a cold start candidate</td>
+      </tr>
+      <tr>
+          <td><strong>Billing</strong></td>
+          <td>Wall-clock duration × configured memory</td>
+          <td>A handler waiting 400ms on Postgres is billed exactly like one burning 400ms of CPU</td>
+      </tr>
+  </tbody>
+</table>
+<p>Look at that third row for a second, because it&rsquo;s the one that quietly shaped a decade of serverless advice. A typical API request spends most of its life waiting: on a database, on an internal service, on a third-party API. Under duration-based billing you pay full price for all of that waiting, and because each environment handles exactly one request at a time, you also pay for an entire environment to sit there doing nothing but waiting.</p>
+<p><strong>AWS Lambda Web Functions</strong>, which went GA on 12 October 2026, changes both halves of that. Your code starts an HTTP server and listens on a port, exactly as it would on a container or an EC2 box. One environment serves up to 64 concurrent requests. And you pay for the CPU your code actually consumes, not the clock time it spends blocked on I/O.</p>
+<p>Those are two separate changes that happened to ship on the same day, and it&rsquo;s worth keeping them apart in your head. The programming model change is what makes your Express app work unmodified. The billing model change is what makes it affordable.</p>
+<h2 id="the-resource-model-revisions-and-endpoints">The Resource Model: Revisions and Endpoints</h2>
+<p>Before any code, you need the vocabulary, because Web Functions don&rsquo;t reuse the versions-and-aliases model you know from regular Lambda. There are three resources:</p>
+<ul>
+<li><strong>Web Function</strong> — the top-level container. It holds revisions and endpoints, and on its own it does nothing.</li>
+<li><strong>Revision</strong> — an immutable snapshot of your code <em>and</em> configuration. Change your code, change the request timeout, change an environment variable: each one produces a new revision. You can&rsquo;t edit a revision after it exists.</li>
+<li><strong>Endpoint</strong> — a network entry point with its own HTTPS domain and TLS. It routes traffic to one or two revisions, with weights.</li>
+</ul>
+<p>The analogy that holds up well: a revision is a <strong>container image tag</strong>, built once and never mutated, and an endpoint is a <strong>load balancer listener</strong> that decides which tag gets traffic and in what proportion. That framing also explains rollback. You don&rsquo;t rebuild anything. You point the endpoint back at an older revision.</p>
+<p>Endpoints come in three flavours, fixed at creation time:</p>
+<ul>
+<li><code>HomeRegion</code> — one Region. The simple default.</li>
+<li><code>MultiRegion</code> — several Regions behind a single global domain, with latency-based routing per request.</li>
+<li><code>PerRegion</code> — several Regions, each with its own domain, and you control how clients reach them.</li>
+</ul>
+<p>You can&rsquo;t change an endpoint&rsquo;s type or Region set after you create it. To change either, you create a new endpoint and migrate clients to the new domain name.</p>
+<h3 id="the-one-thing-that-will-bite-you-first">The one thing that will bite you first</h3>
+<p><code>Active</code> does not mean healthy.</p>
+<p>A revision goes <code>Pending</code> → <code>Active</code> once Lambda has downloaded your code and validated the config. An endpoint goes <code>Pending</code> → <code>Active</code> once it has a domain and TLS. Neither of those checks that your HTTP server actually started listening. From the AWS documentation:</p>
+<blockquote>
+<p>An <strong>Active</strong> revision, an <strong>Active</strong> endpoint, or a <strong>Successful</strong> endpoint update doesn&rsquo;t confirm that your server starts. Lambda doesn&rsquo;t check that your server listens when it creates or updates an endpoint to use a revision.</p>
+</blockquote>
+<p>So a deploy that is completely broken — wrong entry file, crash on startup, listening on the wrong port — will still show you a wall of green. Send a real request after every deploy and check your logs. Don&rsquo;t trust the state fields alone.</p>
+<h2 id="hands-on-an-express-api-on-lambda">Hands On: An Express API on Lambda</h2>
+<p>Let&rsquo;s deploy something. You&rsquo;ll need AWS CLI v2 recent enough to include the <code>aws lambda-web</code> commands; check with <code>aws lambda-web help</code>.</p>
+<h3 id="step-1-the-starter">Step 1: The starter</h3>
+<p>The fastest way to see the thing work is the generated starter:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws lambda-web deploy --name my-web-app --hello-world
+</span></span></code></pre></div><p>This writes <code>server.ts</code>, <code>package.json</code>, <code>README.md</code> and <code>AGENTS.md</code> into <code>./my-web-app</code>, then deploys it. On a first run it also creates or reuses a versioned S3 bucket for deployment packages, creates or reuses an IAM execution role with CloudWatch Logs permissions, creates the Web Function and its first revision, and creates a <code>HomeRegion</code> endpoint named <code>dev</code>.</p>
+<p>The endpoint URL comes back looking like this:</p>
+<pre tabindex="0"><code>https://bcdfghjklmnpqrst.b7t.lambda-web.us-east-1.on.aws
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl https://bcdfghjklmnpqrst.b7t.lambda-web.us-east-1.on.aws
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span><span style="color:#e6db74">&#34;message&#34;</span>:<span style="color:#e6db74">&#34;Hello from Lambda Web!&#34;</span>,<span style="color:#e6db74">&#34;path&#34;</span>:<span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>Note what you didn&rsquo;t do: no API Gateway, no route definitions, no integration configuration, no CORS wizard, no adapter dependency.</p>
+<h3 id="step-2-a-real-express-app">Step 2: A real Express app</h3>
+<p>Now replace the starter with something recognisable. It ships with no dependencies, so add Express first:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm install express
+</span></span></code></pre></div><p>With that in place, the entire Lambda-specific surface area is one line:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">express</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;express&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">app</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">express</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Lambda tells you where to listen. Locally, fall back to port 3000.
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">host</span>, <span style="color:#a6e22e">port</span>] <span style="color:#f92672">=</span> (<span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">AWS_LAMBDA_HTTP_ENDPOINT</span> <span style="color:#f92672">||</span> <span style="color:#e6db74">&#39;localhost:3000&#39;</span>).<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#39;:&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/&#39;</span>, (<span style="color:#a6e22e">request</span>, <span style="color:#a6e22e">response</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">send</span>(<span style="color:#e6db74">&#39;Hello from Lambda Web Functions!&#39;</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Lambda stamps every forwarded request with an ID you can log and return
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/whoami&#39;</span>, (<span style="color:#a6e22e">request</span>, <span style="color:#a6e22e">response</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">json</span>({
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">region</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">AWS_REGION</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">requestId</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;lambda-web-request-id&#39;</span>)
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">listen</span>(<span style="color:#a6e22e">port</span>, <span style="color:#a6e22e">host</span>);
+</span></span></code></pre></div><p>That <code>AWS_LAMBDA_HTTP_ENDPOINT</code> variable is the whole contract. Lambda picks a host and port, hands them to you in <code>host:port</code> format, and routes requests there. If your server listens anywhere else, requests never arrive.</p>
+<p>The code uses ESM <code>import</code> because the starter&rsquo;s <code>package.json</code> sets <code>&quot;type&quot;: &quot;module&quot;</code>. Worth noting because the AWS documentation&rsquo;s Express sample uses <code>require</code>, which only works in a project that isn&rsquo;t ESM.</p>
+<p>The <code>|| 'localhost:3000'</code> fallback deserves more attention than it usually gets. Lambda doesn&rsquo;t set that variable on your laptop, so <code>node index.js</code> just runs your app. No SAM local, no Docker, no event JSON fixtures, no emulation layer that behaves subtly differently from production. For anyone who has spent an afternoon debugging why a request works locally and 502s in the cloud, this is the real headline feature.</p>
+<p>By default the runtime loads <code>index.js</code> from the root of your package. Point <code>AWS_LAMBDA_NODEJS_ENTRYPOINT</code> somewhere else if you need to. Frameworks that read their own listen address — Next.js in standalone mode, for instance — need a small <code>index.js</code> wrapper that copies <code>AWS_LAMBDA_HTTP_ENDPOINT</code> into the variables they expect before starting the server.</p>
+<h3 id="step-3-package-and-ship">Step 3: Package and ship</h3>
+<p>Your dependencies ship inside the package, so install them and point <code>deploy</code> at the directory:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm install --omit<span style="color:#f92672">=</span>dev
+</span></span><span style="display:flex;"><span>aws lambda-web deploy --name my-web-app --code .
+</span></span></code></pre></div><p><code>--code</code> takes a directory, not an archive — <code>deploy</code> packages the code, uploads it and creates the revision for you. You only build a .zip yourself when something needs it in S3, which is the Infrastructure as Code path below.</p>
+<p>Each deploy creates a new revision and waits for it to become <code>Active</code>. Because the <code>dev</code> endpoint was created with <code>autoDeploymentMode</code> set to <code>LatestRevision</code>, it picks up the new revision automatically and the URL never changes.</p>
+<p>Two traps on the way in. The runtime loads <code>index.js</code> from the package root unless <code>AWS_LAMBDA_NODEJS_ENTRYPOINT</code> points elsewhere, and the starter sets it to <code>server.ts</code> — so edit the file it gave you rather than renaming. And <strong>Web Functions run on Arm64 only</strong>: a native module built for x86_64 won&rsquo;t run. Both failures surface the same way, at startup, in an environment that still reports <code>Active</code>.</p>
+<h3 id="step-4-stream-something">Step 4: Stream something</h3>
+<p>Streaming is where the HTTP-server model earns its keep. Under the old model, response streaming needed a specific invoke mode and a special handler wrapper. Here you just&hellip; write to the response:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/events&#39;</span>, (<span style="color:#a6e22e">request</span>, <span style="color:#a6e22e">response</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">setHeader</span>(<span style="color:#e6db74">&#39;Content-Type&#39;</span>, <span style="color:#e6db74">&#39;text/event-stream&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">setHeader</span>(<span style="color:#e6db74">&#39;Cache-Control&#39;</span>, <span style="color:#e6db74">&#39;no-cache&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">flushHeaders</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">interval</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">setInterval</span>(() =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">write</span>(<span style="color:#e6db74">`data: </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">stringify</span>({ <span style="color:#a6e22e">time</span><span style="color:#f92672">:</span> Date.<span style="color:#a6e22e">now</span>() <span style="color:#e6db74">}</span><span style="color:#e6db74">)}\n\n`</span>);
+</span></span><span style="display:flex;"><span>  }, <span style="color:#ae81ff">1000</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Stop working the moment the client goes away
+</span></span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;close&#39;</span>, () =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">clearInterval</span>(<span style="color:#a6e22e">interval</span>);
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>No configuration. The request stays open until your app ends the response or the client disconnects, bounded by the revision&rsquo;s <code>timeoutSeconds</code>. If you&rsquo;re proxying an LLM, this is the shape you want, and that <code>response.on('close')</code> cleanup is not optional — without it you keep burning CPU for a client that hung up.</p>
+<p>Two protocol constraints to know before you design around this. The request path is <strong>half-duplex</strong>: Lambda forwards the entire request body before it delivers your response, so read the body fully before you start writing. And <strong>WebSocket upgrades are not supported</strong> — Lambda strips the upgrade headers. Server-sent events are the supported way to push to a client.</p>
+<h3 id="step-5-clean-up">Step 5: Clean up</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws lambda-web delete-web-function --function-name my-web-app
+</span></span></code></pre></div><p>This removes the function, its revisions and its endpoints. It deliberately leaves behind the IAM execution role, the S3 deployment packages (including noncurrent versions) and the CloudWatch log groups. Delete those yourself if you&rsquo;re done, and note that the managed bucket may be shared with other Web Functions in the same account and Region.</p>
+<h2 id="infrastructure-as-code">Infrastructure as Code</h2>
+<p>The CLI is fine for exploring. For anything you intend to keep, you want a template. All three resource types exist in CloudFormation from day one:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">MyWebFunction</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Type</span>: <span style="color:#ae81ff">AWS::Lambda::WebFunction</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Properties</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">FunctionName</span>: <span style="color:#ae81ff">my-web-function</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">MyRevision</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Type</span>: <span style="color:#ae81ff">AWS::Lambda::WebFunctionRevision</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Properties</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">FunctionName</span>: !<span style="color:#ae81ff">Ref MyWebFunction</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Description</span>: <span style="color:#ae81ff">First revision</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">BuildConfig</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">CodeConfig</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">S3Object</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">Bucket</span>: <span style="color:#ae81ff">amzn-s3-demo-bucket</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">Key</span>: <span style="color:#ae81ff">app.zip</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">RuntimeConfig</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">Runtime</span>: <span style="color:#ae81ff">nodejs24.x</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ServiceConfig</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">ExecutionRoleArn</span>: !<span style="color:#ae81ff">GetAtt MyExecutionRole.Arn</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">TimeoutSeconds</span>: <span style="color:#ae81ff">30</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">MyEndpoint</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Type</span>: <span style="color:#ae81ff">AWS::Lambda::WebFunctionEndpoint</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Properties</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">FunctionName</span>: !<span style="color:#ae81ff">Ref MyWebFunction</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">EndpointName</span>: <span style="color:#ae81ff">my-endpoint</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">EndpointType</span>: <span style="color:#ae81ff">HomeRegion</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">AuthType</span>: <span style="color:#ae81ff">IamAuth</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">RevisionWeights</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">RevisionId</span>: !<span style="color:#ae81ff">GetAtt MyRevision.RevisionId</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">Weight</span>: <span style="color:#ae81ff">100</span>
+</span></span></code></pre></div><p><code>AWS::Lambda::WebFunction</code> is almost empty — it accepts only <code>FunctionName</code> and <code>Tags</code>. All the substance lives in the revision and the endpoint.</p>
+<p>Now here&rsquo;s the part worth understanding properly, because it explains an awkwardness people complain about without naming the cause. <strong>There is no <code>AutoDeploymentMode</code> property in CloudFormation.</strong> You wire traffic by naming an explicit <code>RevisionId</code> in <code>RevisionWeights</code>. And every single property on <code>AWS::Lambda::WebFunctionRevision</code> is marked <em>Update requires: Replacement</em>.</p>
+<p>Put those two facts together. When you change your code, CloudFormation doesn&rsquo;t add a revision alongside the old one — it <strong>replaces</strong> the revision resource. By the time the stack update finishes, the revision you&rsquo;d want to roll back to is gone. The weighted-revision mechanism that makes canary deploys possible is built on two coexisting revisions, and a declarative template that owns exactly one revision resource can&rsquo;t express that naturally.</p>
+<p>The workarounds are all a bit ugly: keep the previous revision alive on a separate test endpoint, declare two revision resources and alternate between them, or drive traffic shifting from a pipeline outside the stack. It&rsquo;s the roughest edge on the service right now.</p>
+<p>CDK users get L1 constructs only — <code>CfnWebFunction</code>, <code>CfnWebFunctionRevision</code>, <code>CfnWebFunctionEndpoint</code>. No L2, which means you hand-roll the versioned code bucket, the <code>BucketDeployment</code>, and the log groups. Create the log groups yourself, incidentally: if you don&rsquo;t, the service creates them with no retention policy and never cleans them up. Community L2 constructs are starting to appear.</p>
+<h2 id="tuning-scale-three-knobs">Tuning Scale: Three Knobs</h2>
+<p>Three settings control capacity. The useful way to think about them is not &ldquo;how big&rdquo; but <strong>what each one protects</strong>:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Setting</th>
+          <th>Set on</th>
+          <th>Range</th>
+          <th>Default</th>
+          <th>Protects</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>maxConcurrencyPerEnvironment</code></td>
+          <td>Revision</td>
+          <td>1–128</td>
+          <td>64</td>
+          <td>Your event loop</td>
+      </tr>
+      <tr>
+          <td><code>maxEnvironments</code></td>
+          <td>Endpoint</td>
+          <td>2–10,000</td>
+          <td>unset</td>
+          <td>Your bill</td>
+      </tr>
+      <tr>
+          <td><code>rateLimit</code></td>
+          <td>Endpoint</td>
+          <td>0–10,000 RPS</td>
+          <td>unset</td>
+          <td>Your database</td>
+      </tr>
+  </tbody>
+</table>
+<p><code>maxConcurrencyPerEnvironment</code> is an <em>upper bound</em> on a limit Lambda manages dynamically, not a target. Lambda watches your resource usage and sets its own per-environment concurrency, never exceeding your bound. Most applications should leave it at 64. Lower it if you&rsquo;re memory-bound or CPU-bound; raise it only if you&rsquo;re I/O-bound and genuinely utilisation-limited.</p>
+<p><code>maxEnvironments</code> caps horizontal scale per Region. Leaving it unset means you scale until you hit the account vCPU quota — which, for a hobby project with a bug in a retry loop, is an uncomfortable amount of headroom. Setting it low is a legitimate cost control.</p>
+<p><code>rateLimit</code> caps requests per second, independently of concurrency. Valid values are 0, 100–1,000 in steps of 100, and 2,000–10,000 in steps of 1,000. A value of 0 blocks all traffic and returns 503.</p>
+<p>A worked example makes the interaction concrete. Say <code>maxEnvironments</code> is 10 and <code>maxConcurrencyPerEnvironment</code> is 64, so at most ~640 requests in flight. If each request takes 200ms waiting on a query, you top out around 3,200 RPS (640 ÷ 0.2) — so an 8,000 RPS <code>rateLimit</code> never binds, and you&rsquo;d raise <code>maxEnvironments</code> to grow. Flip it around: if each request takes 10ms, you&rsquo;d only have ~80 in flight at 8,000 RPS, so the rate limit binds long before concurrency does. <strong>Which limit you hit depends entirely on how long your requests take</strong>, and guessing wrong means tuning the setting that isn&rsquo;t the constraint.</p>
+<p>The account quotas sit above all three, per Region: 10,000 RPS per endpoint, 100,000 RPS per account, and 2,000 Arm64 vCPUs. Each environment consumes 2 vCPUs, so that last one caps you around 1,000 environments per Region.</p>
+<h3 id="reaching-private-resources">Reaching private resources</h3>
+<p>A revision with no egress network connector gets direct public IPv4 egress from Lambda-managed infrastructure. No route to anything private in your VPC.</p>
+<p>For private access you create an <strong>egress network connector</strong>, a reusable Lambda resource, and reference a <em>version-qualified</em> ARN from the revision:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws lambda-core create-network-connector <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  --name my-connector <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  --configuration <span style="color:#e6db74">&#39;{
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;VpcEgressConfiguration&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;SubnetIds&#34;: [&#34;subnet-0ab1c2d3e4f5a6b78&#34;, &#34;subnet-1bc2d3e4f5a6b7c89&#34;],
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;SecurityGroupIds&#34;: [&#34;sg-0123456789abcdef0&#34;],
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;NetworkProtocol&#34;: &#34;IPv4&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;AssociatedComputeResourceTypes&#34;: [&#34;WebFunction&#34;]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  }&#39;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  --operator-role arn:aws:iam::123456789012:role/NetworkConnectorOperatorRole
+</span></span></code></pre></div><p>Then set <code>serviceConfig.egressNetworkConnectorArn</code> on the revision. The constraints are specific and worth reading twice:</p>
+<ul>
+<li>A revision references zero or one connector, and <strong>you can&rsquo;t change it</strong> — that takes a new revision.</li>
+<li>Only <code>HomeRegion</code> endpoints support revisions with a connector. Lambda rejects <code>MultiRegion</code> and <code>PerRegion</code>.</li>
+<li>The connector needs its own <strong>operator role</strong> (so Lambda can manage network interfaces), separate from your execution role.</li>
+<li>A connector gives you your VPC&rsquo;s routing, not internet access. Public IPv4 still needs a NAT gateway route; public IPv6 needs an egress-only internet gateway and a <code>DualStack</code> connector.</li>
+</ul>
+<p>Your function still runs on Lambda-owned infrastructure, not inside your VPC. The connector changes outbound routing only — it does nothing to who can call your endpoint.</p>
+<h2 id="when-to-reach-for-it">When to Reach for It</h2>
+<p><strong>Good fits.</strong> Anything already written as an HTTP server. SSR frameworks where you want the framework&rsquo;s own production server rather than a hosting shim. REST and GraphQL backends. LLM proxies that stream. Spiky or bursty traffic where scale-to-zero actually saves money. Microservices you want to scale independently.</p>
+<p><strong>Reach for something else when:</strong></p>
+<ul>
+<li><strong>You&rsquo;re not on Node.</strong> <code>nodejs24.x</code> is the only runtime. Python, Java, Go and .NET aren&rsquo;t supported yet.</li>
+<li><strong>The work is event-driven.</strong> Queue messages, S3 uploads, scheduled jobs — those are Event Functions. Web Functions only speak HTTP.</li>
+<li><strong>You need WebSockets.</strong> Not supported. API Gateway WebSocket APIs still own that job.</li>
+<li><strong>One instance needs more than 2 vCPU or 2 GB.</strong> Those numbers are fixed. There is no memory slider.</li>
+<li><strong>Your traffic is high and flat.</strong> Scale-to-zero is worth nothing to a service that never idles, and Fargate with reserved capacity will likely win on price.</li>
+<li><strong>Your deployment story depends on mature IaC.</strong> See above.</li>
+</ul>
+<h2 id="the-honest-tradeoffs">The Honest Tradeoffs</h2>
+<p>Things I&rsquo;d want to know before putting this in front of real users.</p>
+<p><strong>The concurrency limit has to learn your app first.</strong> Lambda&rsquo;s dynamic per-environment limit starts deliberately conservative on a new Web Function and ramps up as it observes your resource usage. The practical consequence is that your <em>first</em> load test will throw 429s while capacity sits idle. <a href="https://awsteele.com/blog/2026/10/12/some-notes-on-lambda-web-functions.html">Aidan Steele measured roughly 30 of 40 requests rejected</a> on a first burst, improving across later runs. AWS documents the behaviour and recommends running your load test more than once and trusting the later numbers. Worth knowing before you draw conclusions from a benchmark — or before a launch day doubles as your first real traffic.</p>
+<p><strong>You pay for memory while nothing is happening.</strong> Active-CPU billing is genuinely good, but memory accrues over the whole lifetime of an execution environment, including idle gaps between requests. Environments linger for a few minutes after traffic stops before Lambda reaps them, and you&rsquo;re billed for that window. Low, trickling traffic keeps environments alive without doing much work — the one load shape where the billing model works against you.</p>
+<p><strong>No Extensions API.</strong> Observability vendors that ship telemetry via Lambda extensions have nothing to hook into, so agents have to run inside your application process.</p>
+<p><strong>Application-managed auth means wide open.</strong> Every endpoint is reachable from the public internet regardless of auth type. With <code>ApplicationManaged</code>, Lambda authenticates nothing — any client that knows the domain reaches your code. There&rsquo;s also no custom domain support and no direct AWS WAF association. The production front door is CloudFront with an <code>IamAuth</code> endpoint and origin access control, plus a resource policy scoped to your distribution ARN.</p>
+<p>One sharp edge if you go that route: Lambda routes on the <code>Host</code> header and returns 404 if it isn&rsquo;t the endpoint domain, so <strong>don&rsquo;t forward the viewer&rsquo;s <code>Host</code></strong>. Use the <code>AllViewerExceptHostHeader</code> origin request policy.</p>
+<p><strong>CORS is entirely yours.</strong> Lambda adds no CORS headers at all. Handle preflight yourself, return an explicit origin rather than reflecting whatever arrives, and remember CORS was never an authentication control.</p>
+<p><strong>A few numbers that are better than you&rsquo;d expect</strong>, for balance. The deployment package limit is 512 MB unzipped, against 250 MB for Event Functions. Environment variables get 32 KB rather than 4 KB. And the 6 MB invocation payload ceiling that shapes so much Event Function design doesn&rsquo;t appear in the Web Functions quota table at all.</p>
+<p>Finally, if you&rsquo;re load testing on a <strong>new AWS account</strong>, note that new accounts get reduced vCPU and request-rate quotas which AWS raises automatically based on usage. Combined with the concurrency ramp-up, a fresh account is close to the worst possible place to benchmark this service.</p>
+<h2 id="quick-faq">Quick FAQ</h2>
+<ul>
+<li><strong>Do I still need API Gateway?</strong> Not for routing — your framework does that. You&rsquo;d add CloudFront or API Gateway in front for a custom domain, WAF, caching or edge controls.</li>
+<li><strong>Can I run this locally?</strong> Yes, and that&rsquo;s the point. <code>AWS_LAMBDA_HTTP_ENDPOINT</code> is unset on your machine, so the fallback kicks in and <code>node index.js</code> runs your app normally.</li>
+<li><strong>How do I do a canary deploy?</strong> Set the endpoint&rsquo;s <code>autoDeploymentMode</code> to <code>Disabled</code> and split <code>RevisionWeights</code> across two revisions — two is the maximum, with weights from 1 to 100. Use application logs or custom metrics tagged with the revision ID to evaluate it, because the service-vended CloudWatch metrics carry no revision dimension.</li>
+<li><strong>What happens to in-flight requests during scale-down?</strong> Lambda stops routing new requests, lets in-flight ones finish on a best-effort basis, then sends <code>SIGTERM</code>. You get up to <strong>1 second</strong> for cleanup. Don&rsquo;t rely on it for anything that must not be lost.</li>
+<li><strong>Is 2 GB of memory really 2 GB of heap?</strong> No. The environment has 2 GB; the default V8 heap is 1,024 MB of that. Raise it with <code>NODE_OPTIONS=--max-old-space-size=1536</code> if you need to, leaving room for buffers, native modules, the runtime and all your concurrent requests.</li>
+</ul>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ul>
+<li>Web Functions run a <strong>standard Node.js HTTP server</strong> that listens on <code>AWS_LAMBDA_HTTP_ENDPOINT</code>. No adapters, and local development is just <code>node index.js</code>.</li>
+<li>One environment serves <strong>up to 64 concurrent requests</strong>, and you&rsquo;re billed for <strong>active CPU</strong> rather than wall-clock duration — so time spent waiting on I/O is close to free, though memory still accrues while an environment lives.</li>
+<li>Learn the <strong>revision and endpoint</strong> model. Revisions are immutable snapshots; endpoints route weighted traffic to one or two of them. Rollback means re-pointing, not rebuilding.</li>
+<li><code>Active</code> never means healthy. <strong>Send a real request after every deploy.</strong></li>
+<li>Current boundaries: Node.js 24 only, Arm64 only, fixed 2 vCPU / 2 GB, no WebSockets, no Extensions API, and CloudFormation support that makes canary deploys awkward.</li>
+</ul>
+<p>For five years the advice for running a web framework on Lambda was to find a decent adapter and accept the tax. Web Functions remove the adapter, and more importantly they remove the reason it existed: Lambda now has a concurrency model and a billing model that match how web applications actually behave. The constraints at launch are real, and a Node-only, Arm-only, 2 GB box won&rsquo;t suit everything. But if your app is already an HTTP server, the gap between how you develop it and how it runs in production just got much smaller than it has ever been.</p>
+
+    </div>
+  </div>
+
+  <div class="footer container text-center" id="contact">
+  <ul class="footer-icons list-inline">
+    
+      <li>
+        <a href="https://github.com/sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-github footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://www.linkedin.com/in/sidath-asiri/" target="_blank" rel="noreferrer"
+          ><i class="fab fa-linkedin footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="mailto:sidathasiri@gmail.com" target="_blank" rel="noreferrer"
+          ><i class="fas fa-envelope footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://medium.com/@sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-medium footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://dev.to/sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-dev footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+  </ul>
+  <div class="credit">
+    Copyright Sidath Munasinghe ©
+    <span id="current-year"></span>
+  </div>
+</div>
+
+<!-- JS Plugins --> 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
+
+<script src="https://www.sidathm.online/plugins/text-animation/text-animation.js"></script>
+
+<script src="https://www.sidathm.online/plugins/hugrid/hugrid.min.js"></script>
+ <!-- Main Scripts --> 
+<script src="https://www.sidathm.online/js/script.min.js"></script>
+
+<script src="https://www.sidathm.online/js/hugrid.custom.min.js"></script>
+</body>
+</html>
