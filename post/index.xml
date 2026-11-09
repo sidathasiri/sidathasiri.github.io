@@ -6,8 +6,15 @@
     <description>Recent content in Posts on Sidath Munasinghe</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 18 Oct 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 09 Nov 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://www.sidathm.online/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Canary That Never Sleeps: Monitoring User Journeys with CloudWatch Synthetics</title>
+      <link>https://www.sidathm.online/2026/11/09/The-Canary-That-Never-Sleeps-Monitoring-User-Journeys-with-CloudWatch-Synthetics/</link>
+      <pubDate>Mon, 09 Nov 2026 00:00:00 +0000</pubDate>
+      <guid>https://www.sidathm.online/2026/11/09/The-Canary-That-Never-Sleeps-Monitoring-User-Journeys-with-CloudWatch-Synthetics/</guid>
+      <description>&lt;p&gt;For most of the twentieth century, British coal miners took a small yellow bird to work with them. Canaries react to carbon monoxide much faster than people do, so a bird that stopped singing gave miners time to get out before the gas reached them. The practice lasted until 1986, when the British government decided to phase the birds out in favour of electronic detectors (&lt;a href=&#34;https://www.smithsonianmag.com/smart-news/what-happened-canary-coal-mine-story-how-real-life-animal-helper-became-just-metaphor-180961570/&#34;&gt;Smithsonian&lt;/a&gt;).&lt;/p&gt;&#xA;&lt;p&gt;The canaries are retired. The idea behind them isn&amp;rsquo;t. &lt;strong&gt;Send something small and expendable ahead of the people you care about, and watch what happens to it.&lt;/strong&gt; That&amp;rsquo;s exactly what a CloudWatch Synthetics canary does for your application. It just sings in JSON.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Your Express App, No Adapter: Getting Started with AWS Lambda Web Functions</title>
       <link>https://www.sidathm.online/2026/10/18/Your-Express-App-No-Adapter-Getting-Started-with-AWS-Lambda-Web-Functions/</link>

@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <title>The Canary That Never Sleeps: Monitoring User Journeys with CloudWatch Synthetics | Sidath Munasinghe</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Your dashboards are green and your users can&#39;t log in. Learn how CloudWatch Synthetics canaries catch that, then build a Playwright canary with CDK, alarms and email alerts."
+  />
+
+  <meta
+    name="keywords"
+    content="[cloudwatch synthetics, synthetics canary, synthetic monitoring aws, playwright canary, aws cdk synthetics, outside-in monitoring, cloudwatch alarms, aws, sidath, munasinghe]"
+  />
+
+  
+    <meta name="author" content="Sidath Munasinghe" />
+  
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://www.sidathm.online/2026/11/09/The-Canary-That-Never-Sleeps-Monitoring-User-Journeys-with-CloudWatch-Synthetics/" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://www.sidathm.online/2026/11/09/The-Canary-That-Never-Sleeps-Monitoring-User-Journeys-with-CloudWatch-Synthetics/" />
+  <meta property="og:title" content="The Canary That Never Sleeps: Monitoring User Journeys with CloudWatch Synthetics" />
+  <meta property="og:description" content="Your dashboards are green and your users can&#39;t log in. Learn how CloudWatch Synthetics canaries catch that, then build a Playwright canary with CDK, alarms and email alerts." />
+  <meta property="og:site_name" content="Sidath Munasinghe" />
+  
+  <meta property="og:image" content="https://www.sidathm.online/images/posts/The-Canary-That-Never-Sleeps-Monitoring-User-Journeys-with-CloudWatch-Synthetics/main-cover-image.jpg" />
+  
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://www.sidathm.online/2026/11/09/The-Canary-That-Never-Sleeps-Monitoring-User-Journeys-with-CloudWatch-Synthetics/" />
+  <meta name="twitter:title" content="The Canary That Never Sleeps: Monitoring User Journeys with CloudWatch Synthetics" />
+  <meta name="twitter:description" content="Your dashboards are green and your users can&#39;t log in. Learn how CloudWatch Synthetics canaries catch that, then build a Playwright canary with CDK, alarms and email alerts." />
+  
+  <meta name="twitter:image" content="https://www.sidathm.online/images/posts/The-Canary-That-Never-Sleeps-Monitoring-User-Journeys-with-CloudWatch-Synthetics/main-cover-image.jpg" />
+  
+
+  <meta name="google-site-verification" content="Os0XiJ_IsnKUGbMIAetAT8jRKYr8ty87olW3V1P0ia4" />
+
+  <!-- plugins -->
+  
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.1.0/css/hover-min.css" />
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900&amp;display=swap" />
+  
+    <link rel="stylesheet" href="https://www.sidathm.online/plugins/text-animation/text-animation.css" />
+  
+    <link rel="stylesheet" href="https://www.sidathm.online/plugins/hugrid/hugrid.css" />
+  
+
+  <!-- Main Stylesheet -->
+
+  
+  <link rel="stylesheet" href="https://www.sidathm.online/css/style.min.css" media="screen" />
+
+  <link rel="stylesheet" href="https://www.sidathm.online/css/customizations.css" media="screen" />
+  <link rel="stylesheet" href="https://www.sidathm.online/css/glass.css" media="screen" />
+
+  <!--Favicon-->
+
+  <link rel="icon" type="image/png" href="https://www.sidathm.online/images/favicon.ico" />
+
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-ABCDEFG123');
+    </script>
+  
+</head>
+<body> <!-- preloader start -->
+<div class="preloader">
+  
+  <img src="https://www.sidathm.online/images/preloader.gif" alt="preloader" />
+  
+</div>
+<!-- preloader end --> 
+
+  <section class="menu menu-fix" id="menu">
+  <nav>
+    
+    <div class="menu-container">
+      <div class="desktop-menu-logo">
+        <a href="https://www.sidathm.online/"
+          ><img
+            class="img-fluid"
+            src="https://www.sidathm.online/images/S_logo_white.png"
+            alt="Sidath Munasinghe"
+            id="desktop-logo"
+        /></a>
+      </div>
+      <ul class="desktop-menu list-inline mb-0" id="desktop-menu">
+        
+        <li class="menu-item hvr-underline-from-left 1">
+          <a href="https://www.sidathm.online/">Home</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 2">
+          <a href="https://www.sidathm.online/#about">About me</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 3">
+          <a href="https://www.sidathm.online/projects">Projects</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 4">
+          <a href="https://www.sidathm.online/#certifications">Certifications</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 5">
+          <a href="https://www.sidathm.online/#accomplishments">Accomplishments</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 6">
+          <a href="https://www.sidathm.online/#testimonials">Testimonials</a>
+        </li>
+        
+        <li class="menu-item hvr-underline-from-left 7">
+          <a href="https://www.sidathm.online/post">Blog</a>
+        </li>
+        
+      </ul>
+      
+      <div class="mobile-menu">
+        <div class="mobile-menu-nav">
+          <a class="menu-link">
+            <span></span>
+            <span></span>
+            <span></span>
+          </a>
+        </div>
+        <div class="mobile-menu-logo">
+          <a href="https://www.sidathm.online/"
+            ><img
+              class="img-fluid"
+              src="https://www.sidathm.online/images/S_logo_dark.png"
+              alt="Sidath Munasinghe"
+          /></a>
+        </div>
+        <div class="menu-slider">
+          <nav>
+            <ul class="mobile-menu-list">
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="https://www.sidathm.online/">Home</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="https://www.sidathm.online/#about">About me</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="https://www.sidathm.online/projects">Projects</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="https://www.sidathm.online/#certifications">Certifications</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="https://www.sidathm.online/#accomplishments">Accomplishments</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="https://www.sidathm.online/#testimonials">Testimonials</a>
+              </li>
+              
+              <li class="mobile-menu-item 1 mx-auto">
+                <a href="https://www.sidathm.online/post">Blog</a>
+              </li>
+              
+            </ul>
+            <ul class="mobile-menu-icons list-inline mx-auto">
+              
+              <li>
+                <a href="https://github.com/sidathasiri"
+                  ><i class="fab fab fa-github fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://www.linkedin.com/in/sidath-asiri/"
+                  ><i class="fab fab fa-linkedin fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="mailto:sidathasiri@gmail.com"
+                  ><i class="fab fas fa-envelope fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://medium.com/@sidathasiri"
+                  ><i class="fab fab fa-medium fa-2x"></i
+                ></a>
+              </li>
+              
+              <li>
+                <a href="https://dev.to/sidathasiri"
+                  ><i class="fab fab fa-dev fa-2x"></i
+                ></a>
+              </li>
+              
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </nav>
+</section>
+
+
+  <div class="under-menu col-lg-8 col-md-10 col-12 mx-auto post-container">
+    <h1>The Canary That Never Sleeps: Monitoring User Journeys with CloudWatch Synthetics</h1>
+    <span class="date">Posted on: 11/9/2026</span>
+    <img src="https://www.sidathm.online/images/posts/The-Canary-That-Never-Sleeps-Monitoring-User-Journeys-with-CloudWatch-Synthetics/main-cover-image.jpg" alt="The Canary That Never Sleeps: Monitoring User Journeys with CloudWatch Synthetics" />
+    <div class="body">
+      <p>For most of the twentieth century, British coal miners took a small yellow bird to work with them. Canaries react to carbon monoxide much faster than people do, so a bird that stopped singing gave miners time to get out before the gas reached them. The practice lasted until 1986, when the British government decided to phase the birds out in favour of electronic detectors (<a href="https://www.smithsonianmag.com/smart-news/what-happened-canary-coal-mine-story-how-real-life-animal-helper-became-just-metaphor-180961570/">Smithsonian</a>).</p>
+<p>The canaries are retired. The idea behind them isn&rsquo;t. <strong>Send something small and expendable ahead of the people you care about, and watch what happens to it.</strong> That&rsquo;s exactly what a CloudWatch Synthetics canary does for your application. It just sings in JSON.</p>
+<h2 id="the-3-am-problem">The 3 a.m. Problem</h2>
+<p>Here&rsquo;s a scenario you have probably lived through, or will.</p>
+<p>It&rsquo;s Saturday morning. Your CPU graphs are flat and healthy. Lambda error rates are zero. The load balancer reports every target as healthy. Your on-call engineer is asleep, because nothing has paged them.</p>
+<p>Meanwhile, nobody has been able to log in since 3 a.m.</p>
+<p>A front-end deploy on Friday evening shipped a JavaScript bundle that throws an error on the login page, but only after the page loads. The server returned <code>200 OK</code> for every request. As far as your infrastructure is concerned, everything went perfectly. You find out on Monday, from a support ticket that starts with &ldquo;Is anyone there?&rdquo;</p>
+<p>This isn&rsquo;t a failure of monitoring. Every metric you collected was accurate. The problem is <strong>what</strong> you were measuring.</p>
+<table>
+  <thead>
+      <tr>
+          <th>What you monitor</th>
+          <th>What it tells you</th>
+          <th>What it misses</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>CPU, memory, disk</td>
+          <td>Your servers are alive</td>
+          <td>Whether anything useful is happening on them</td>
+      </tr>
+      <tr>
+          <td>Error rates and logs</td>
+          <td>Your code reported a failure</td>
+          <td>Failures your code never noticed: broken JavaScript, a missing button, a third-party script that hangs</td>
+      </tr>
+      <tr>
+          <td>Load balancer health checks</td>
+          <td>One endpoint returns <code>200</code></td>
+          <td>Whether a user can get from the home page to &ldquo;Order confirmed&rdquo;</td>
+      </tr>
+      <tr>
+          <td>Real user monitoring</td>
+          <td>What real users experienced</td>
+          <td>Anything at 3 a.m. when there are no users, and anything before the first user hits it</td>
+      </tr>
+  </tbody>
+</table>
+<p>All four rows describe your system <strong>from the inside</strong>. They depend on traffic, and on your code knowing it failed. What&rsquo;s missing is a view <strong>from the outside</strong>: something that behaves like a customer, on a schedule, whether or not any real customers are around.</p>
+<p>That&rsquo;s synthetic monitoring. &ldquo;Synthetic&rdquo; because the traffic is fake. It&rsquo;s a script pretending to be a user, and that&rsquo;s the point.</p>
+<h2 id="what-a-cloudwatch-synthetics-canary-actually-is">What a CloudWatch Synthetics Canary Actually Is</h2>
+<p>AWS describes canaries as &ldquo;configurable scripts that run on a schedule, to monitor your endpoints and APIs&rdquo; that &ldquo;follow the same routes and perform the same actions as a customer&rdquo; (<a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries.html">AWS docs</a>).</p>
+<p>Underneath, there&rsquo;s less magic than the name suggests:</p>
+<ul>
+<li><strong>A canary is a Lambda function in your own account.</strong> Synthetics creates it for you, named with a <code>cwsyn-</code> prefix, and its logs land in <code>/aws/lambda/cwsyn-&lt;canary-name&gt;-*</code>.</li>
+<li><strong>It can drive a real headless browser.</strong> The Node.js and Python runtimes ship with Playwright, Puppeteer or Selenium WebDriver plus a bundled Chromium (and Firefox for the Node.js runtimes). Java runtimes are also available for non-browser checks.</li>
+<li><strong>It runs on a schedule</strong>, as often as once per minute, using either <code>rate()</code> or <code>cron()</code> expressions. You can also run a canary once on demand.</li>
+<li><strong>Every run leaves evidence.</strong> Logs, screenshots and HAR files are written to an S3 bucket in your account, so a failed run comes with a picture of what the &ldquo;user&rdquo; saw.</li>
+<li><strong>Every run produces metrics</strong> in the <code>CloudWatchSynthetics</code> namespace, which you can alarm on like any other metric.</li>
+</ul>
+<p>That last pair is what turns a script into a monitoring tool. A failing canary doesn&rsquo;t just tell you <em>that</em> the login page broke. It shows you a screenshot of the broken page, the network waterfall that led up to it, and the log line where the script gave up.</p>
+<h3 id="pick-your-runtime">Pick your runtime</h3>
+<p>At the time of writing, the latest runtime in each browser family is (<a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Library.html">runtime versions</a>):</p>
+<table>
+  <thead>
+      <tr>
+          <th>Runtime</th>
+          <th>Language</th>
+          <th>Framework</th>
+          <th>Browsers</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>syn-nodejs-playwright-9.0</code></td>
+          <td>Node.js 22.x</td>
+          <td>Playwright 1.63.0</td>
+          <td>Chromium, Firefox</td>
+      </tr>
+      <tr>
+          <td><code>syn-nodejs-puppeteer-18.0</code></td>
+          <td>Node.js 22.x</td>
+          <td>puppeteer-core 25.11.0</td>
+          <td>Chromium, Firefox</td>
+      </tr>
+      <tr>
+          <td><code>syn-python-selenium-13.0</code></td>
+          <td>Python 3.12</td>
+          <td>Selenium 4.32.0</td>
+          <td>Chromium</td>
+      </tr>
+  </tbody>
+</table>
+<p>AWS recommends always using the most recent runtime, and it deprecates old ones regularly. If you already write Playwright end-to-end tests, the Playwright runtime will feel familiar, and it&rsquo;s what we&rsquo;ll use in the tutorial. Just know that it doesn&rsquo;t support some of the console blueprints (more on that next).</p>
+<h3 id="blueprints-canaries-you-dont-have-to-write">Blueprints: canaries you don&rsquo;t have to write</h3>
+<p>If you create a canary in the console, you don&rsquo;t have to start from a blank file. There are seven blueprints (<a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Blueprints.html">AWS docs</a>):</p>
+<table>
+  <thead>
+      <tr>
+          <th>Blueprint</th>
+          <th>What it does</th>
+          <th>Playwright support</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Heartbeat monitoring</strong></td>
+          <td>Loads one or more URLs, stores a screenshot and a HAR file</td>
+          <td>Yes</td>
+      </tr>
+      <tr>
+          <td><strong>API canary</strong></td>
+          <td>Tests the read and write functions of a REST API, with multi-step HTTP calls</td>
+          <td>No</td>
+      </tr>
+      <tr>
+          <td><strong>Broken link checker</strong></td>
+          <td>Collects the links on a page and checks them for 404s, timeouts, bad hosts and more</td>
+          <td>No</td>
+      </tr>
+      <tr>
+          <td><strong>Visual monitoring</strong></td>
+          <td>Compares screenshots against a baseline run and fails if they differ beyond a threshold</td>
+          <td>No (Puppeteer only)</td>
+      </tr>
+      <tr>
+          <td><strong>Canary recorder</strong></td>
+          <td>A Chrome extension that records your clicks and typing and generates a script</td>
+          <td>No</td>
+      </tr>
+      <tr>
+          <td><strong>GUI workflow builder</strong></td>
+          <td>Builds a UI flow from actions like <em>Click</em>, <em>Input text</em> and <em>Verify text</em></td>
+          <td>Yes</td>
+      </tr>
+      <tr>
+          <td><strong>Multi checks</strong></td>
+          <td>Up to 10 HTTP, DNS, SSL and TCP checks from a JSON config, with auth via Secrets Manager</td>
+          <td>Yes</td>
+      </tr>
+  </tbody>
+</table>
+<p>The blueprints are a great way to get a heartbeat up in five minutes. For anything you plan to keep, you&rsquo;ll want the script in version control and the canary in infrastructure as code. So let&rsquo;s do that.</p>
+<h2 id="tutorial-a-canary-that-uses-your-app-like-a-human">Tutorial: A Canary That Uses Your App Like a Human</h2>
+<h3 id="the-scenario">The scenario</h3>
+<p>We&rsquo;ll monitor a real, public web app: the <a href="https://demo.playwright.dev/todomvc/">TodoMVC demo</a> that the Playwright team hosts for exactly this kind of testing. It&rsquo;s a small app, but it has a proper user journey, and that&rsquo;s what we care about:</p>
+<ol>
+<li>Open the app.</li>
+<li>Add two todos.</li>
+<li>Mark one of them as done.</li>
+<li>Check that the counter says <strong>1 item left</strong>.</li>
+</ol>
+<p>Notice what this catches that a health check never could. If the JavaScript bundle fails to load, step 2 fails. If a CSS change hides the checkbox, step 3 fails. If someone breaks the counter logic, step 4 fails. In every case the server would still happily return <code>200</code>.</p>
+<p>We&rsquo;ll run the journey every five minutes, alarm when it fails, and send an email when the alarm fires.</p>
+<h3 id="what-youll-need">What you&rsquo;ll need</h3>
+<ul>
+<li>An AWS account and credentials for the AWS CLI</li>
+<li>Node.js and the AWS CDK CLI (<code>npm install -g aws-cdk</code>)</li>
+<li>An environment that has been <a href="https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html">bootstrapped for CDK</a> (<code>cdk bootstrap</code>)</li>
+</ul>
+<h3 id="step-1-create-the-project">Step 1: Create the project</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir todo-canary <span style="color:#f92672">&amp;&amp;</span> cd todo-canary
+</span></span><span style="display:flex;"><span>cdk init app --language typescript
+</span></span><span style="display:flex;"><span>mkdir canary
+</span></span></code></pre></div><p>The <code>canary</code> folder holds the script that Synthetics will run. Everything else is the CDK app that deploys it.</p>
+<h3 id="step-2-write-the-canary-script">Step 2: Write the canary script</h3>
+<p>Create <code>canary/todo.mjs</code>. The structure follows the multi-step Playwright sample from the <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Samples.html">AWS canary samples</a>: launch a browser through the <code>synthetics</code> helper, wrap each part of the journey in <code>executeStep</code>, and always close the browser at the end.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">synthetics</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;@aws/synthetics-playwright&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">APP_URL</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;https://demo.playwright.dev/todomvc/&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">handler</span>(<span style="color:#a6e22e">event</span>, <span style="color:#a6e22e">context</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">browser</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">synthetics</span>.<span style="color:#a6e22e">launch</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">browserContext</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">browser</span>.<span style="color:#a6e22e">newContext</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">page</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">synthetics</span>.<span style="color:#a6e22e">getPage</span>(<span style="color:#a6e22e">browserContext</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Step 1: the app loads at all
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">synthetics</span>.<span style="color:#a6e22e">executeStep</span>(<span style="color:#e6db74">&#39;open-app&#39;</span>, <span style="color:#66d9ef">async</span> () =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">page</span>.<span style="color:#66d9ef">goto</span>(<span style="color:#a6e22e">APP_URL</span>, { <span style="color:#a6e22e">waitUntil</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;load&#39;</span> });
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Step 2: a user can add todos
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">synthetics</span>.<span style="color:#a6e22e">executeStep</span>(<span style="color:#e6db74">&#39;add-todos&#39;</span>, <span style="color:#66d9ef">async</span> () =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">input</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">page</span>.<span style="color:#a6e22e">getByPlaceholder</span>(<span style="color:#e6db74">&#39;What needs to be done?&#39;</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">input</span>.<span style="color:#a6e22e">fill</span>(<span style="color:#e6db74">&#39;Feed the canary&#39;</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">input</span>.<span style="color:#a6e22e">press</span>(<span style="color:#e6db74">&#39;Enter&#39;</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">input</span>.<span style="color:#a6e22e">fill</span>(<span style="color:#e6db74">&#39;Check the alarms&#39;</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">input</span>.<span style="color:#a6e22e">press</span>(<span style="color:#e6db74">&#39;Enter&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">count</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">page</span>.<span style="color:#a6e22e">getByTestId</span>(<span style="color:#e6db74">&#39;todo-item&#39;</span>).<span style="color:#a6e22e">count</span>();
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">count</span> <span style="color:#f92672">!==</span> <span style="color:#ae81ff">2</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">`Expected 2 todos, found </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">count</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Step 3: a user can complete a todo
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">synthetics</span>.<span style="color:#a6e22e">executeStep</span>(<span style="color:#e6db74">&#39;complete-todo&#39;</span>, <span style="color:#66d9ef">async</span> () =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">page</span>
+</span></span><span style="display:flex;"><span>        .<span style="color:#a6e22e">getByTestId</span>(<span style="color:#e6db74">&#39;todo-item&#39;</span>)
+</span></span><span style="display:flex;"><span>        .<span style="color:#a6e22e">first</span>()
+</span></span><span style="display:flex;"><span>        .<span style="color:#a6e22e">getByRole</span>(<span style="color:#e6db74">&#39;checkbox&#39;</span>, { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Toggle Todo&#39;</span> })
+</span></span><span style="display:flex;"><span>        .<span style="color:#a6e22e">check</span>();
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Step 4: the app shows the right state back
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">synthetics</span>.<span style="color:#a6e22e">executeStep</span>(<span style="color:#e6db74">&#39;verify-counter&#39;</span>, <span style="color:#66d9ef">async</span> () =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">counter</span> <span style="color:#f92672">=</span> (<span style="color:#66d9ef">await</span> <span style="color:#a6e22e">page</span>.<span style="color:#a6e22e">getByTestId</span>(<span style="color:#e6db74">&#39;todo-count&#39;</span>).<span style="color:#a6e22e">innerText</span>()).<span style="color:#a6e22e">trim</span>();
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">counter</span> <span style="color:#f92672">!==</span> <span style="color:#e6db74">&#39;1 item left&#39;</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">`Expected &#34;1 item left&#34;, got &#34;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">counter</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;`</span>);
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">finally</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">synthetics</span>.<span style="color:#a6e22e">close</span>();
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>A few details worth calling out:</p>
+<ul>
+<li><strong>The function must be called <code>handler</code>.</strong> Synthetics looks it up by name, and the handler string you give CDK is <code>&lt;filename&gt;.handler</code>, so this one is <code>todo.handler</code>.</li>
+<li><strong>The <code>.mjs</code> extension</strong> makes this an ES module, which is why <code>import</code> works without a <code>package.json</code>. The Playwright runtime accepts <code>.js</code>, <code>.mjs</code> and <code>.cjs</code> files (<a href="https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_synthetics-readme.html">CDK docs</a>).</li>
+<li><strong>The import is <code>@aws/synthetics-playwright</code>.</strong> Older blog posts use <code>@amzn/synthetics-playwright</code>. AWS moved to the new namespace in <code>syn-nodejs-playwright-5.1</code>, and the old one is scheduled for deprecation.</li>
+<li><strong>Throwing an error fails the run.</strong> That&rsquo;s the whole assertion model. Any exception inside a step marks the step and the run as failed.</li>
+<li><strong>Each run gets a fresh browser context</strong>, so the todo list starts empty every time. That&rsquo;s what makes the &ldquo;expect exactly 2&rdquo; check safe.</li>
+<li><strong>Steps aren&rsquo;t just tidy code.</strong> Every step publishes its own <code>SuccessPercent</code> and <code>Duration</code> metrics with a <code>StepName</code> dimension. When the canary fails, you&rsquo;ll know <em>which part</em> of the journey broke without opening a single log.</li>
+</ul>
+<p>I picked the selectors by looking at the live app: the input&rsquo;s placeholder is <code>What needs to be done?</code>, each todo is a <code>data-testid=&quot;todo-item&quot;</code>, the checkbox has the accessible name <code>Toggle Todo</code>, and the counter is <code>data-testid=&quot;todo-count&quot;</code>. Prefer selectors like these, test IDs and accessible roles, over CSS classes. They change far less often, and a canary that fails because someone renamed a class is a canary people learn to ignore.</p>
+<h3 id="step-3-define-the-canary-the-alarm-and-the-email">Step 3: Define the canary, the alarm and the email</h3>
+<p>Replace the contents of <code>lib/todo-canary-stack.ts</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">path</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;path&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">Duration</span>, <span style="color:#a6e22e">Stack</span>, <span style="color:#a6e22e">StackProps</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;aws-cdk-lib&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">Construct</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;constructs&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">synthetics</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;aws-cdk-lib/aws-synthetics&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">cloudwatch</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;aws-cdk-lib/aws-cloudwatch&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">actions</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;aws-cdk-lib/aws-cloudwatch-actions&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">sns</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;aws-cdk-lib/aws-sns&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">subscriptions</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;aws-cdk-lib/aws-sns-subscriptions&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TodoCanaryStack</span> <span style="color:#66d9ef">extends</span> <span style="color:#a6e22e">Stack</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">constructor</span>(<span style="color:#a6e22e">scope</span>: <span style="color:#66d9ef">Construct</span>, <span style="color:#a6e22e">id</span>: <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">props?</span>: <span style="color:#66d9ef">StackProps</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">super</span>(<span style="color:#a6e22e">scope</span>, <span style="color:#a6e22e">id</span>, <span style="color:#a6e22e">props</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">canary</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">synthetics</span>.<span style="color:#a6e22e">Canary</span>(<span style="color:#66d9ef">this</span>, <span style="color:#e6db74">&#39;TodoJourney&#39;</span>, {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">canaryName</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;todo-journey&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">runtime</span>: <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">synthetics</span>.<span style="color:#a6e22e">Runtime</span>(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;syn-nodejs-playwright-9.0&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">synthetics</span>.<span style="color:#a6e22e">RuntimeFamily</span>.<span style="color:#a6e22e">NODEJS</span>
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">test</span>: <span style="color:#66d9ef">synthetics.Test.custom</span>({
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">code</span>: <span style="color:#66d9ef">synthetics.Code.fromAsset</span>(<span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">join</span>(<span style="color:#a6e22e">__dirname</span>, <span style="color:#e6db74">&#39;..&#39;</span>, <span style="color:#e6db74">&#39;canary&#39;</span>)),
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">handler</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;todo.handler&#39;</span>,
+</span></span><span style="display:flex;"><span>      }),
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">schedule</span>: <span style="color:#66d9ef">synthetics.Schedule.rate</span>(<span style="color:#a6e22e">Duration</span>.<span style="color:#a6e22e">minutes</span>(<span style="color:#ae81ff">5</span>)),
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">timeout</span>: <span style="color:#66d9ef">Duration.minutes</span>(<span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">maxRetries</span>: <span style="color:#66d9ef">1</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">provisionedResourceCleanup</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">topic</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">sns</span>.<span style="color:#a6e22e">Topic</span>(<span style="color:#66d9ef">this</span>, <span style="color:#e6db74">&#39;CanaryAlerts&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">topic</span>.<span style="color:#a6e22e">addSubscription</span>(
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">subscriptions</span>.<span style="color:#a6e22e">EmailSubscription</span>(<span style="color:#e6db74">&#39;you@example.com&#39;</span>)
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">alarm</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">cloudwatch</span>.<span style="color:#a6e22e">Alarm</span>(<span style="color:#66d9ef">this</span>, <span style="color:#e6db74">&#39;TodoJourneyFailing&#39;</span>, {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">metric</span>: <span style="color:#66d9ef">canary.metricSuccessPercent</span>({ <span style="color:#a6e22e">period</span>: <span style="color:#66d9ef">Duration.minutes</span>(<span style="color:#ae81ff">5</span>) }),
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">evaluationPeriods</span>: <span style="color:#66d9ef">2</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">threshold</span>: <span style="color:#66d9ef">90</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">comparisonOperator</span>: <span style="color:#66d9ef">cloudwatch.ComparisonOperator.LESS_THAN_THRESHOLD</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">treatMissingData</span>: <span style="color:#66d9ef">cloudwatch.TreatMissingData.BREACHING</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">alarmDescription</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Users may not be able to add or complete todos&#39;</span>,
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">alarm</span>.<span style="color:#a6e22e">addAlarmAction</span>(<span style="color:#66d9ef">new</span> <span style="color:#a6e22e">actions</span>.<span style="color:#a6e22e">SnsAction</span>(<span style="color:#a6e22e">topic</span>));
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Replace <code>you@example.com</code> with your own address. Here&rsquo;s what each piece is doing:</p>
+<ul>
+<li><strong><code>new synthetics.Runtime(...)</code> instead of a constant.</strong> CDK ships constants like <code>Runtime.SYNTHETICS_NODEJS_PLAYWRIGHT_6_0</code>, but they lag behind what AWS releases. When I checked, the newest Playwright constant in the CDK docs was 6.0 while the service was already on 9.0. The <code>Runtime</code> constructor takes any version name and a <code>RuntimeFamily</code>, so you&rsquo;re never stuck waiting for a CDK release.</li>
+<li><strong><code>schedule</code></strong>: every five minutes. <code>Schedule.rate</code> accepts anything from one minute up to an hour, and there&rsquo;s also <code>Schedule.cron(...)</code> and <code>Schedule.once()</code>.</li>
+<li><strong><code>timeout</code></strong>: how long a single run may take. It can&rsquo;t be longer than the schedule interval, and it caps out at 14 minutes. Don&rsquo;t go below 15 seconds, because the Lambda cold start and browser launch need that much on their own (<a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Library_nodejs_puppeteer.html">AWS docs</a>).</li>
+<li><strong><code>maxRetries: 1</code></strong>: if a scheduled run fails, Synthetics automatically makes one more attempt. Valid values are 0 to 2 (<a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_autoretry.html">auto-retry docs</a>). More on why this matters below.</li>
+<li><strong><code>provisionedResourceCleanup: true</code></strong>: deletes the underlying Lambda function and layers when you delete the canary, instead of leaving them behind.</li>
+<li><strong>The alarm</strong> fires when the success rate drops below 90% for two consecutive 5-minute periods. With one run per period, that&rsquo;s &ldquo;two failures in a row&rdquo;, which filters out one-off blips.</li>
+<li><strong><code>treatMissingData: BREACHING</code></strong> is the line most people forget. If the canary itself stops running (a bad deploy, a deleted role, an expired runtime), it stops publishing metrics. With the default setting, the alarm just sits in <code>INSUFFICIENT_DATA</code> and says nothing. A silent canary is precisely what you need to hear about, so treat silence as failure.</li>
+</ul>
+<p>You didn&rsquo;t have to create an S3 bucket or an IAM role. The <code>Canary</code> construct creates an artifacts bucket and an execution role for you. If you bring your own role, it needs a trust policy for <code>lambda.amazonaws.com</code> and permissions for <code>s3:PutObject</code>, <code>s3:GetBucketLocation</code>, <code>s3:ListAllMyBuckets</code>, <code>cloudwatch:PutMetricData</code> and the CloudWatch Logs actions (<a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_CanaryPermissions.html">required permissions</a>).</p>
+<h3 id="step-4-deploy">Step 4: Deploy</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npx cdk deploy
+</span></span></code></pre></div><p>Two things happen after it finishes:</p>
+<ol>
+<li><strong>Check your inbox.</strong> SNS sends a subscription confirmation email, and you won&rsquo;t get alerts until you click the link in it. Do it now, not during an incident.</li>
+<li><strong>Open the Synthetics Canaries page in the CloudWatch console</strong> and find <code>todo-journey</code>. Within a few minutes the first run shows up.</li>
+</ol>
+<p>Click into a run and you&rsquo;ll see the four steps with a status and duration for each, the screenshots, the HAR file and the logs. This page is the best part of Synthetics, so take a look around while it&rsquo;s green and boring.</p>
+<h3 id="step-5-break-it-on-purpose">Step 5: Break it on purpose</h3>
+<p>A monitor you&rsquo;ve never seen fail is a monitor you don&rsquo;t trust yet. So let&rsquo;s break the &ldquo;app&rdquo;.</p>
+<p>We can&rsquo;t break the TodoMVC demo, but we can change what we expect from it. In <code>canary/todo.mjs</code>, change the expected counter text:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">counter</span> <span style="color:#f92672">!==</span> <span style="color:#e6db74">&#39;2 items left&#39;</span>) {
+</span></span></code></pre></div><p>Deploy again with <code>npx cdk deploy</code> and wait. Here&rsquo;s what you should see:</p>
+<ul>
+<li>The next runs fail at the <strong><code>verify-counter</code></strong> step, while <code>open-app</code>, <code>add-todos</code> and <code>complete-todo</code> still pass. The step metrics tell you exactly where the journey broke.</li>
+<li>The run&rsquo;s logs contain your error message: <code>Expected &quot;2 items left&quot;, got &quot;1 item left&quot;</code>.</li>
+<li>Because of <code>maxRetries: 1</code>, Synthetics makes one extra attempt after each failed scheduled run. This failure is permanent, so the retry fails too, and the <code>RetryCount</code> metric starts climbing.</li>
+<li>After two failed periods, roughly ten minutes, the alarm goes into <code>ALARM</code> and the email arrives.</li>
+</ul>
+<p>Now put the check back to <code>'1 item left'</code> and deploy. The canary goes green and the alarm returns to <code>OK</code>. You&rsquo;ve just tested your alerting from end to end, which is more than a lot of production systems can say.</p>
+<h3 id="step-6-clean-up">Step 6: Clean up</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npx cdk destroy
+</span></span></code></pre></div><p>Because we set <code>provisionedResourceCleanup</code>, the canary&rsquo;s Lambda function and layers go with it. Check the S3 console for the artifacts bucket and the CloudWatch Logs console for <code>/aws/lambda/cwsyn-todo-journey-*</code> log groups, and delete anything you don&rsquo;t want to keep.</p>
+<h2 id="what-it-costs">What It Costs</h2>
+<p>The <a href="https://aws.amazon.com/cloudwatch/pricing/">CloudWatch pricing page</a> lists <strong>$0.0012 per canary run</strong> in its US East examples, with <strong>100 canary runs per month</strong> in the free tier. Since you pay per run, the schedule is your main cost lever:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Schedule</th>
+          <th>Runs per canary (31-day month)</th>
+          <th>Canary run charges</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Every hour</td>
+          <td>744</td>
+          <td>about $0.77</td>
+      </tr>
+      <tr>
+          <td>Every 5 minutes (our tutorial)</td>
+          <td>8,928</td>
+          <td>about $10.59</td>
+      </tr>
+      <tr>
+          <td>Every minute</td>
+          <td>44,640</td>
+          <td>about $53.57</td>
+      </tr>
+  </tbody>
+</table>
+<p>The first two rows subtract the 100 free runs. The free tier is per account, so it only applies once no matter how many canaries you have.</p>
+<p>That&rsquo;s only the Synthetics part of the bill. Every run is also a Lambda invocation, writes logs, and puts objects in S3. AWS&rsquo;s own worked example, five canaries running every five minutes with 20-second runs at 1 GB, adds about $14.89 of Lambda, $3.55 of CloudWatch Logs and $1.25 of S3 per month on top of the run charges. Long runs cost more, so a lean script is also a cheaper script.</p>
+<p>Each retry is another Lambda invocation that writes more logs and artifacts, so a flaky canary that retries constantly costs more too. The honest guidance: run your most important journeys every one to five minutes, and everything else every 15 to 60 minutes.</p>
+<h2 id="gotchas-and-good-habits">Gotchas and Good Habits</h2>
+<h3 id="1-flaky-canaries-are-worse-than-no-canaries">1. Flaky canaries are worse than no canaries</h3>
+<p>If an alarm fires every Tuesday for no reason, your team learns to ignore it, and then it gets ignored on the day it matters.</p>
+<p><strong>Keep it stable:</strong></p>
+<ul>
+<li>Select elements by <strong>test ID or accessible role</strong>, not CSS classes.</li>
+<li>Rely on <strong>Playwright&rsquo;s built-in waiting</strong> instead of fixed <code>setTimeout</code> sleeps.</li>
+<li>Turn on <strong>retries</strong> (<code>maxRetries</code>).</li>
+</ul>
+<p><strong>Watch the retry metrics.</strong> When retries are on, Synthetics also publishes two extra metrics (<a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_metrics.html">metrics docs</a>):</p>
+<table>
+  <thead>
+      <tr>
+          <th>Metric</th>
+          <th>What it tells you</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>RetryCount</code></td>
+          <td>How many times the canary retried</td>
+      </tr>
+      <tr>
+          <td><code>SuccessPercentWithRetries</code></td>
+          <td>The percentage of runs that succeed after all attempts</td>
+      </tr>
+  </tbody>
+</table>
+<p>Put both on a dashboard. A rising retry count is an early warning that something is getting slower or less reliable, even while the journey still passes in the end. Once you&rsquo;ve seen how they behave for your canary, decide which success metric your alarm should use.</p>
+<h3 id="2-your-canary-is-a-real-user-with-real-side-effects">2. Your canary is a real user, with real side effects</h3>
+<p>A canary that signs up, places an order or sends an email does it <strong>every five minutes, forever</strong>. So:</p>
+<ul>
+<li>Point it at a <strong>dedicated test account</strong>.</li>
+<li>Make its data <strong>easy to identify and clean up</strong>.</li>
+<li>Keep it away from anything that <strong>costs money or emails a real customer</strong>.</li>
+</ul>
+<h3 id="3-never-hard-code-credentials">3. Never hard-code credentials</h3>
+<p>If the journey needs to log in, keep the credentials in <strong>AWS Secrets Manager</strong> and fetch them at runtime. The Multi checks blueprint does this for you, with Basic, API key, OAuth and SigV4 auth through Secrets Manager.</p>
+<h3 id="4-private-endpoints-need-networking">4. Private endpoints need networking</h3>
+<p>Canaries can run inside your VPC to test internal apps. To make that work (<a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html">VPC docs</a>):</p>
+<ul>
+<li><strong>Enable DNS resolution and DNS hostnames</strong> on the VPC.</li>
+<li><strong>Give the canary a path to CloudWatch and S3.</strong> Use either a NAT gateway, or a VPC endpoint for <code>com.amazonaws.&lt;region&gt;.monitoring</code> plus an S3 gateway endpoint.</li>
+<li><strong>Grant the EC2 network interface permissions</strong> (<code>ec2:CreateNetworkInterface</code>, <code>ec2:DescribeNetworkInterfaces</code>, <code>ec2:DeleteNetworkInterface</code>) to the execution role.</li>
+</ul>
+<h3 id="5-runtimes-expire">5. Runtimes expire</h3>
+<p>AWS regularly deprecates old runtime versions.</p>
+<ul>
+<li>Put &ldquo;upgrade canary runtimes&rdquo; on the <strong>same calendar as your Lambda runtime upgrades</strong>.</li>
+<li>CDK&rsquo;s runtime constants lag behind, so <strong>pass the version name explicitly</strong>, as we did in the tutorial.</li>
+</ul>
+<h3 id="6-the-small-print">6. The small print</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Setting</th>
+          <th>Default</th>
+          <th>Tip</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Artifact retention</td>
+          <td>31 days for both successful and failed runs</td>
+          <td>Tune <code>successRetentionPeriod</code> and <code>failureRetentionPeriod</code> separately. Keeping failures longer than successes is a sensible default</td>
+      </tr>
+      <tr>
+          <td>Your own artifacts bucket</td>
+          <td>n/a</td>
+          <td>The bucket name can&rsquo;t contain a period (<code>.</code>)</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="synthetics-vs-rum-do-you-need-both">Synthetics vs. RUM: Do You Need Both?</h2>
+<p>CloudWatch also has <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM.html">Real User Monitoring</a> (RUM), which collects performance and error data from real users&rsquo; browsers. They answer different questions:</p>
+<ul>
+<li><strong>RUM</strong> tells you what your actual users experienced, across every browser, device and network you never thought to test.</li>
+<li><strong>Synthetics</strong> tells you whether your critical journeys work right now, including at 3 a.m. when there are no users to report anything.</li>
+</ul>
+<p>RUM can only tell you something broke after real people have hit it. A canary can tell you before they do. Mature teams use both: canaries as the smoke detector, RUM as the full picture.</p>
+<h2 id="quick-faq">Quick FAQ</h2>
+<ul>
+<li><strong>How often can a canary run?</strong> As often as once per minute, or once on demand. Rate expressions go from <code>rate(1 minute)</code> to <code>rate(1 hour)</code>, and cron expressions cover everything else.</li>
+<li><strong>Can I monitor an API instead of a web page?</strong> Yes. Use the Multi checks blueprint for HTTP, DNS, SSL and TCP checks, the API canary blueprint on the Puppeteer or Selenium runtimes, or plain HTTP calls in your own script.</li>
+<li><strong>Can one canary run from multiple Regions?</strong> Yes, with <strong>multilocation canaries</strong>. You manage the canary in a primary Region, and Synthetics replicates it to up to 50 replica Regions with the same script and schedule. Metrics get a <code>Location</code> dimension per Region, plus an aggregate <code>SuccessPercent</code>. This needs <code>syn-nodejs-puppeteer-16.0</code> or <code>syn-nodejs-playwright-7.0</code> or later. It isn&rsquo;t available in GovCloud or China, and each replica costs the same as a standalone canary (<a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_MultiLocation.html">multilocation docs</a>).</li>
+<li><strong>Can I use my existing Playwright tests?</strong> The Playwright runtime runs Playwright code, so moving journeys over is mostly mechanical. You wrap them in a <code>handler</code>, use <code>synthetics.launch()</code> and <code>executeStep</code>, and swap test-runner assertions for checks that throw.</li>
+<li><strong>Can I see traces behind a failed run?</strong> Yes. Turn on active X-Ray tracing (<code>activeTracing: true</code> in CDK) and the run&rsquo;s requests show up in your traces. AWS documents it for <code>syn-nodejs-2.0</code> and later runtimes, but not for Firefox canaries. It adds 2.5% to 7% to run time, and traces have their own charges (<a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_tracing.html">tracing docs</a>).</li>
+</ul>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ul>
+<li>Infrastructure metrics tell you your system is <strong>running</strong>. A canary tells you your system is <strong>working</strong>, from the outside, the way a customer experiences it.</li>
+<li>A CloudWatch Synthetics canary is a <strong>scheduled Lambda function in your account</strong> that drives a real browser with Playwright, Puppeteer or Selenium, and stores screenshots, HAR files and logs for every run.</li>
+<li>Wrap your journey in <strong><code>executeStep</code> calls</strong> so you get per-step metrics and know exactly where it broke.</li>
+<li>Alarm on <strong><code>SuccessPercent</code></strong>, set <strong><code>treatMissingData</code> to breaching</strong> so a dead canary pages you, and use <strong>retries</strong> to keep flakiness out of your pager.</li>
+<li>In CDK, use <strong><code>new synthetics.Runtime('&lt;version&gt;', RuntimeFamily.NODEJS)</code></strong> so you&rsquo;re not stuck on whatever runtime constants your CDK version knows about.</li>
+<li>At <strong>$0.0012 per run</strong>, your schedule is your budget. Check critical journeys often and everything else less often.</li>
+</ul>
+<p>The miners didn&rsquo;t keep a canary because they expected gas every day. They kept one because the day it mattered, they wanted to know before anyone got hurt. Your canary will spend most of its life passing, quietly, every five minutes. That&rsquo;s not wasted money. That&rsquo;s the sound of it singing.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries.html">Amazon CloudWatch Synthetics: Synthetic monitoring (canaries)</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Library.html">Synthetics runtime versions</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Library_nodejs_playwright.html">Runtime versions using Node.js and Playwright</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Blueprints.html">Using canary blueprints</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Samples.html">Canary samples (including the multi-step Playwright sample)</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_metrics.html">CloudWatch metrics published by canaries</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_autoretry.html">Configuring canary auto-retry</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_CanaryPermissions.html">Required roles and permissions for canaries</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_MultiLocation.html">Multilocation canaries</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_tracing.html">Canaries and X-Ray tracing</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM.html">CloudWatch RUM</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html">Running a canary in a VPC</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_CreateCanary.html">CreateCanary API reference</a></li>
+<li><a href="https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_synthetics-readme.html">AWS CDK: aws-synthetics module</a></li>
+<li><a href="https://aws.amazon.com/cloudwatch/pricing/">Amazon CloudWatch pricing</a></li>
+<li><a href="https://demo.playwright.dev/todomvc/">TodoMVC demo app hosted by the Playwright team</a></li>
+<li><a href="https://www.smithsonianmag.com/smart-news/what-happened-canary-coal-mine-story-how-real-life-animal-helper-became-just-metaphor-180961570/">Smithsonian Magazine: What happened to the canary in the coal mine?</a></li>
+</ul>
+
+    </div>
+  </div>
+
+  <div class="footer container text-center" id="contact">
+  <ul class="footer-icons list-inline">
+    
+      <li>
+        <a href="https://github.com/sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-github footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://www.linkedin.com/in/sidath-asiri/" target="_blank" rel="noreferrer"
+          ><i class="fab fa-linkedin footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="mailto:sidathasiri@gmail.com" target="_blank" rel="noreferrer"
+          ><i class="fas fa-envelope footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://medium.com/@sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-medium footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+      <li>
+        <a href="https://dev.to/sidathasiri" target="_blank" rel="noreferrer"
+          ><i class="fab fa-dev footer-icon fa-3x" aria-label=""></i
+        ></a>
+      </li>
+    
+  </ul>
+  <div class="credit">
+    Copyright Sidath Munasinghe ©
+    <span id="current-year"></span>
+  </div>
+</div>
+
+<!-- JS Plugins --> 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
+
+<script src="https://www.sidathm.online/plugins/text-animation/text-animation.js"></script>
+
+<script src="https://www.sidathm.online/plugins/hugrid/hugrid.min.js"></script>
+ <!-- Main Scripts --> 
+<script src="https://www.sidathm.online/js/script.min.js"></script>
+
+<script src="https://www.sidathm.online/js/hugrid.custom.min.js"></script>
+</body>
+</html>
